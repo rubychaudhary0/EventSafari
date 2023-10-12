@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Home</title>
+    {% load bootstrap5 %}
+    {% bootstrap_css %}
+    {% bootstrap_javascript %}
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg bg-light">
+        <div class="container-fluid">
+            <a class="navbar-brand mx-5 text-success" href="#">EventSafari</a>
+            <a class="nav-link active text-success" aria-current="page" href="#">Explore Events</a>
+            <a class="btn btn-outline-success" href="'#" role="button">Buy Ticket</a>
+            <a class="btn btn-success" href="'#" role="button">Create Event</a>
+            <a class="btn btn-success" href="/signup" role="button">Signup</a>
+        </div>
+    </nav>
+    <div class="container-fluid p-5 bg-success text-white ">
+       <h1 class="display-1">Discover events and sell tickets with EventSafari</h1>
+       <h6>For all kinds of events, we stand behind you.</h6>
+       <a class="btn btn-light my-5 text-success" href="'#" role="button">Create Event</a>
+       <a class="btn btn-light my-5 mx-5 text-success" href="'#" role="button">Buy Tickets</a>
+    </div>
+    <div class="row">
+        <div class="col m-5"><p>Our mission is to build great features and provide excellent customer service while keeping pricing as low as possible for you and your attendees.</p></div>
+        <div class="col m-5"><p>When you run a free event, there are no fees of any kind for you, event organiser, and your ticket buyer.</p></div>
+        <div class="col m-5"><p>More than a million people visit our ticket pages every month. Put your event in the spotlight for free.</p></div>
+    </div>
+</body>
+</html>
