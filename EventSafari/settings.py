@@ -37,7 +37,8 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'EventSafari',
+    'account',
+    'event',
     'bootstrap5',
 ]
 
@@ -130,5 +131,9 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 
 AUTH_USER_MODEL = 'EventSafari.Audience'
+
+AUTH_USER_MODEL = 'EventSafari.Organizer'
+    
+
 
 

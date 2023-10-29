@@ -1,60 +1,26 @@
 import uuid
 
-from django.conf import settings
-from django.contrib.auth.models import AbstractUser
 from django.db import models
 from django.utils import timezone
-from django.utils.translation import gettext_lazy as _
-
-from .manager import AudienceManager
-
+from account.models import Organizer, Audience
 
 # Create your models here.
-class Audience(AbstractUser):
-    username = None 
-    audience_id = models.UUIDField(primary_key=True, editable=False, default=uuid.uuid4)
-    email = models.EmailField(_('email address'), unique=True)
-    created_at = models.DateTimeField(auto_now_add=True)
-    updated_at = models.DateTimeField(auto_now=True)
-    
-    USERNAME_FIELD = "email"
-    REQUIRED_FIELDS = []
-    
-    objects = AudienceManager()
-    
-    def __str__(self):
-        return self.email 
-    
-
-
-class Organizer(models.Model):
-    organizer_id = models.UUIDField(primary_key=True, editable=False, default=uuid.uuid4)
-    user = models.OneToOneField(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
-    org_name = models.CharField(max_length=50)
-    org_description = models.TextField(max_length=500, blank=True)
-    website_url = models.URLField(max_length=200, blank=True)
-    phone_number = models.CharField(max_length=20, blank=True)
-    email = models.EmailField(_('email address'), unique=True)
-    address = models.CharField(max_length=200, blank=True)
-    city = models.CharField(max_length=100, blank=True)
-    state = models.CharField(max_length=100, blank=True)
-    country = models.CharField(max_length=100, blank=True)
-    zip_code = models.CharField(max_length=20, blank=True)
-    facebook = models.URLField(max_length=100, blank=True)
-    instagram = models.URLField(max_length=100, blank=True)
-
-    def __str__(self):
-      return self.user.email
-  
-
 class Event(models.Model):
+    EVENT_CATEGORY = (
+        ("Music and Dance","Music and Dance"),
+        ("Sports","Sports"),
+        ("Religious","Religious"),
+        ("Yoga and Meditation","Yoga and Meditation"),
+        ("Other","Other")
+    )
     event_id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     event_name = models.CharField(max_length=150)
     event_description = models.TextField(max_length=500, blank=True)  
     event_date = models.DateTimeField(default=timezone.now)
     event_location = models.CharField(max_length=255, default='Default Location')
     event_capacity = models.IntegerField()
-    event_price = models.FloatField()
+    event_category = models.CharField(max_length=100, choices=EVENT_CATEGORY, unique=True)
+    event_price = models.DecimalField(max_digits=10, decimal_places=2)
     event_image = models.ImageField()
     organizer_id = models.ForeignKey(Organizer, on_delete=models.CASCADE)
     created_at = models.DateTimeField(auto_now_add=True)

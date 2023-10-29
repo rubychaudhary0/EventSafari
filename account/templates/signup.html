@@ -1,0 +1,17 @@
+{% extends "master.html" %}
+
+{% block title %}
+Signup
+{% endblock %}
+
+{% block content %}
+
+<div class="container p-5 m-5 border">
+<form method="post">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit" class="btn btn-success">Sign up</button>
+</form>
+</div>
+
+{% endblock %}
