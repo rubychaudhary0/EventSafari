@@ -1,7 +1,7 @@
 from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin, UserAdmin as BaseUserAdmin
 from .forms import AudienceSignupForm, AudienceChangeForm, UserChangeForm, UserCreationForm
-from .models import Audience, Organizer, Event, EventReview, Booking
+from .models import Audience, Organizer
 
 
 class AudienceAdmin(UserAdmin):
@@ -34,18 +34,18 @@ class OrganizerAdmin(BaseUserAdmin):
     form = UserChangeForm
     add_form = UserCreationForm
 
-    list_display = ('email', 'name', 'phone', 'date_of_birth', 'is_staff',  'is_superuser')
+    list_display = ('email', 'name', 'phone', 'location', 'is_staff',  'is_superuser')
     list_filter = ('is_superuser',)
 
     fieldsets = (
         (None, {'fields': ('email', 'is_staff', 'is_superuser', 'password')}),
-        ('Personal info', {'fields': ('name', 'phone', 'date_of_birth', 'picture')}),
+        ('Personal info', {'fields': ('name', 'phone', 'location')}),
         ('Groups', {'fields': ('groups',)}),
         ('Permissions', {'fields': ('user_permissions',)}),
     )
     add_fieldsets = (
         (None, {'fields': ('email', 'is_staff', 'is_superuser', 'password1', 'password2')}),
-        ('Personal info', {'fields': ('name', 'phone', 'date_of_birth', 'picture')}),
+        ('Personal info', {'fields': ('name', 'phone', 'location')}),
         ('Groups', {'fields': ('groups',)}),
         ('Permissions', {'fields': ('user_permissions',)}),
     )
@@ -57,7 +57,6 @@ class OrganizerAdmin(BaseUserAdmin):
     # Register your models here.
 admin.site.register(Audience, AudienceAdmin)
 admin.site.register(Organizer, OrganizerAdmin)
-admin.site.register(Event)
-admin.site.register(EventReview)
-admin.site.register(Booking)
+
+
 

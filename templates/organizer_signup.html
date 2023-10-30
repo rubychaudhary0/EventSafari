@@ -15,8 +15,8 @@ Sign Up
                 {% endfor %}  
         </ul>   
     {% endif %}  
-      
-    <h1>Register Here - JavaTpoint Blog</h1>  
+    <div class="container p-5 m-5 border">
+    <h1>Register Here </h1>  
   
          <form method="post" >  
              {% csrf_token %}  
@@ -28,6 +28,7 @@ Sign Up
                 </tr>  
              </table>  
          </form>  
+        </div>       
      </div>  
   
 {% endblock %}  

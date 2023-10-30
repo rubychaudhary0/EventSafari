@@ -1,5 +1,5 @@
 """
-URL configuration for Project project.
+URL configuration for EventSafari project.
 
 The `urlpatterns` list routes URLs to views. For more information please see:
     https://docs.djangoproject.com/en/4.2/topics/http/urls/
@@ -22,3 +22,4 @@ urlpatterns = [
     path('', include('account.urls')),
     path('', include('event.urls')),
 ]
+

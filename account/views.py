@@ -3,7 +3,7 @@ from django.shortcuts import render, redirect
 from django.contrib.auth import authenticate, login, login as auth_login, logout
 from django.contrib import messages
 from django.contrib.auth.forms import AuthenticationForm
-from .forms import AudienceSignupForm, OrganizerSignupForm, EventFilterForm
+from .forms import AudienceSignupForm, OrganizerSignupForm
 
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.views.generic import ListView
@@ -33,7 +33,7 @@ def signup(request):
 
 
 class RegistrationView(CreateView):
-    template_name = 'registration/register.html'
+    template_name = 'organizer_signup.html'
     form_class = OrganizerSignupForm
 
     def get_context_data(self, *args, **kwargs):
@@ -51,7 +51,7 @@ class RegistrationView(CreateView):
     
 class ProfileView(UpdateView):
     model = Organizer
-    fields = ['name', 'phone', 'date_of_birth', 'picture']
+    fields = ['name', 'phone', 'description', 'picture']
     template_name = 'registration/profile.html'
 
     def get_success_url(self):
@@ -59,44 +59,3 @@ class ProfileView(UpdateView):
 
     def get_object(self):
         return self.request.user    
-
-"""
-#signup for organizer
-def organizer_signup(request):
-     if request.POST == 'POST':  
-        form = OrganizerSignupForm()  
-        if form.is_valid():  
-            form.save()  
-     else:  
-        form = OrganizerSignupForm()  
-     context = {  
-        'form':form  
-    }  
-     return render(request, 'organizer_signup.html', context)  
-"""     
-
-#for events page
-def event(request):
-    if request.path.startswith('/event/'):
-        return redirect('event')
-    else:
-        return render(request, 'event.html')
-
-
-def event_search(request):
-    if request.method == 'POST':
-        form = EventFilterForm(request.POST)
-        if form.is_valid():
-            # Filter events based on form data
-            events = event.objects.filter(
-                location__icontains=form.cleaned_data['location'],
-                price__lte=form.cleaned_data['price'],
-                date__gte=form.cleaned_data['date'],
-                category__icontains=form.cleaned_data['category'],
-                # Add other filters...
-            )
-    else:
-        form = EventFilterForm()
-        events = event.objects.all()
-
-    return render(request, 'event.html', {'form': form, 'events': events})
