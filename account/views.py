@@ -28,12 +28,18 @@ def signup(request):
             return redirect('home')
     else:
         form = AudienceSignupForm()
-    return render(request, 'signup.html', {'form': form})
+    return render(request, 'audience/signup.html', {'form': form})
+
+
+def audience_logout(request):
+    logout(request)
+    messages.info(request, "Logged out successfully!")
+    return redirect('home')
 
 
 
 class RegistrationView(CreateView):
-    template_name = 'organizer_signup.html'
+    template_name = 'organizer/organizer_signup.html'
     form_class = OrganizerSignupForm
 
     def get_context_data(self, *args, **kwargs):
