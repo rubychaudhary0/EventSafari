@@ -36,10 +36,55 @@ def audience_logout(request):
     messages.info(request, "Logged out successfully!")
     return redirect('home')
 
+def organizer_logout(request):
+    logout(request)
+    messages.info(request, "Logged out successfully!")
+    return redirect('home')
+
+def audience_login(request):
+    if request.method == 'POST':
+        form = AuthenticationForm(request=request, data=request.POST)
+        if form.is_valid():
+            username = form.cleaned_data.get('username')
+            password = form.cleaned_data.get('password')
+            user = authenticate(username=username, password=password)
+            if user is not None:
+                login(request, user)
+                messages.info(request, f"You are now logged in as {username}")
+                return redirect('/')
+            else:
+                messages.error(request, "Invalid username or password.")
+        else:
+            messages.error(request, "Invalid username or password.")
+    form = AuthenticationForm()
+    return render(request = request,
+                    template_name = "audience/login.html",
+                    context={"form":form})
+
+def organizer_login(request):
+    if request.method == 'POST':
+        form = AuthenticationForm(request=request, data=request.POST)
+        if form.is_valid():
+            username = form.cleaned_data.get('username')
+            password = form.cleaned_data.get('password')
+            user = authenticate(username=username, password=password)
+            if user is not None:
+                login(request, user)
+                messages.info(request, f"You are now logged in as {username}")
+                return redirect('/')
+            else:
+                messages.error(request, "Invalid username or password.")
+        else:
+            messages.error(request, "Invalid username or password.")
+    form = AuthenticationForm()
+    return render(request = request,
+                    template_name = "organizer/login.html",
+                    context={"form":form})
+
 
 
 class RegistrationView(CreateView):
-    template_name = 'organizer/organizer_signup.html'
+    template_name = 'organizer/signup.html'
     form_class = OrganizerSignupForm
 
     def get_context_data(self, *args, **kwargs):
