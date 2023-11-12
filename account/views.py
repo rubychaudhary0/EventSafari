@@ -36,6 +36,7 @@ def audience_logout(request):
     messages.info(request, "Logged out successfully!")
     return redirect('home')
 
+
 def organizer_logout(request):
     logout(request)
     messages.info(request, "Logged out successfully!")
@@ -103,7 +104,7 @@ class RegistrationView(CreateView):
 class ProfileView(UpdateView):
     model = Organizer
     fields = ['name', 'phone', 'description', 'picture']
-    template_name = 'registration/profile.html'
+    template_name = 'organizer/profile.html'
 
     def get_success_url(self):
         return reverse('index')
