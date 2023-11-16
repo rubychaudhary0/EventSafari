@@ -13,19 +13,61 @@ Home
             <a class="nav-link active text-success" aria-current="page" href="#">Pricing</a>
             <a class="btn btn-outline-success" href="{% url 'event' %}" role="button">Buy Tickets</a>
             <a class="btn btn-success" href="#" role="button">Create Event</a>
-            <a class="btn btn-success" href="/audience/signup" role="button">Signup</a>
+
+            {% if user.is_authenticated %}
+                <!-- Display logout button and user profile icon -->
+                <a class="btn btn-success" href="{% url 'logout' %}" role="button">Logout</a>
+                <a class="btn btn-success" href="/audience/profile" role="button">Profile</a>
+            {% else %}
+                <!-- Display signup button for non-authenticated users -->
+                <a class="btn btn-success" href="{% url 'audience_login' %}" role="button">Login</a>
+                <a class="btn btn-success" href="/audience/signup" role="button">Sign Up</a>
+            {% endif %}
+
+            
         </div>
     </nav>
+   
     <div class="container-fluid p-5 bg-success text-white ">
        <h1 class="display-1">Discover events and sell tickets with EventSafari</h1>
        <h6>For all kinds of events, we stand behind you.</h6>
        <a class="btn btn-light my-5 text-success" href="#" role="button">Create Event</a>
        <a class="btn btn-light my-5 mx-5 text-success" href="/event" role="button">Explore Events</a>
     </div>
+    <div class="container-fluid p-5">
+        <h4>Featured Events</h4>
+    </div>
     <div class="row">
-        <div class="col m-5"><p>Our mission is to build great features and provide excellent customer service while keeping pricing as low as possible for you and your attendees.</p></div>
-        <div class="col m-5"><p>When you run a free event, there are no fees of any kind for you, event organiser, and your ticket buyer.</p></div>
-        <div class="col m-5"><p>More than a million people visit our ticket pages every month. Put your event in the spotlight for free.</p></div>
+        <div class="col m-5">
+            <div class="card" style="width: 18rem;">
+                <img src="..." class="card-img-top" alt="...">
+                <div class="card-body">
+                  <h5 class="card-title">Card title</h5>
+                  <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+                  <a href="#" class="btn btn-success">Book Ticket</a>
+                </div>
+              </div>
+        </div>
+        <div class="col m-5">
+            <div class="card" style="width: 18rem;">
+                <img src="..." class="card-img-top" alt="...">
+                <div class="card-body">
+                  <h5 class="card-title">Card title</h5>
+                  <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+                  <a href="#" class="btn btn-success">Book Ticket</a>
+                </div>
+              </div>
+        </div>
+        <div class="col m-5">
+            <div class="card" style="width: 18rem;">
+                <img src="..." class="card-img-top" alt="...">
+                <div class="card-body">
+                  <h5 class="card-title">Card title</h5>
+                  <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+                  <a href="#" class="btn btn-success">Book Ticket</a>
+                </div>
+              </div>
+        </div>
     </div>
 
 {% endblock %}    

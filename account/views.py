@@ -31,16 +31,6 @@ def signup(request):
     return render(request, 'audience/signup.html', {'form': form})
 
 
-def audience_logout(request):
-    logout(request)
-    messages.info(request, "Logged out successfully!")
-    return redirect('home')
-
-
-def organizer_logout(request):
-    logout(request)
-    messages.info(request, "Logged out successfully!")
-    return redirect('home')
 
 def audience_login(request):
     if request.method == 'POST':
@@ -61,6 +51,14 @@ def audience_login(request):
     return render(request = request,
                     template_name = "audience/login.html",
                     context={"form":form})
+
+
+def logout(request):
+    logout(request)
+    messages.info(request, "Logged out successfully!")
+    return redirect('home')
+
+
 
 def organizer_login(request):
     if request.method == 'POST':
