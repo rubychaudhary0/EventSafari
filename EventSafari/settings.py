@@ -136,4 +136,8 @@ AUTH_USER_MODEL = 'account.Organizer'
 CRISPY_ALLOWED_TEMPLATE_PACKS = 'bootstrap5'
 
 CRISPY_TEMPLATE_PACK = 'bootstrap5'
-    
+
+AUTHENTICATION_BACKENDS = [
+    'path.to.UserTypeBackend',
+    'django.contrib.auth.backends.ModelBackend',
+]

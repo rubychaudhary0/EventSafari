@@ -6,3 +6,6 @@ def event(request):
         return redirect('event')
     else:
         return render(request, 'event.html')
+
+def create_event(request):
+    return render(request, 'event/create_event.html')
