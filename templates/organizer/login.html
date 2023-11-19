@@ -2,12 +2,14 @@
 
 {% block content %}
 
-    <div class="container">
+    <div class="container p-5 m-5 border">
         <form method="POST">
         {% csrf_token %}
         {{form.as_p}}
-            <button style="background-color:#fcfacc; color:blue" class="btn btn-outline-info" type="submit">Login</button>
+            <br>
+            <button type="submit" class="btn btn-success">Login</button>
         </form>
-        Don't have an account? <a href="/organizer/signup" target="blank"><strong>register here</strong></a>!
+        <br>
+        Don't have an account? <a href="/organizer/signup" target="blank"><strong>Register here</strong></a>!
     </div>
 {% endblock %}

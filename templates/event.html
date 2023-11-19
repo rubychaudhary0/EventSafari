@@ -9,28 +9,72 @@ Explore Events
     <nav class="navbar navbar-expand-lg bg-light">
         <div class="container-fluid">
             <a class="navbar-brand mx-5 text-success" href="#">EventSafari</a>
-            <a class="btn btn-success" href="#" role="button">Create Event</a>
+            <a class="btn btn-success" href="/organizer/signup" role="button">Create Event</a>
             <a class="btn btn-success" href="/audience/signup" role="button">Signup</a>
         </div>
     </nav>
     <div class="container-fluid p-5 bg-success text-white ">
        <h1 class="display-3">Discover Events of your choice</h1>
+       <br>
 
-       <form method="post" action="{% url 'event' %}">
-        {% csrf_token %}
-        {{ form.as_p }}
-        <button type="submit">Search</button>
-    </form>
+       <div class="row">
+        <div class="col">
+          <label for="exampleInputEmail1" class="form-label">Event Location</label>
+          <input type="text" class="form-control" placeholder="First name" aria-label="First name">
+        </div>
+        <div class="col">
+          <label for="exampleInputEmail1" class="form-label">Date</label>
+          <input type="text" class="form-control" placeholder="Last name" aria-label="Last name">
+        </div>
+        <div class="col">
+            <label for="exampleInputEmail1" class="form-label">Event Category</label>
+            <input type="text" class="form-control" placeholder="Last name" aria-label="Last name">
+          </div>
+      </div>
     
-    <ul>
-        {% for event in events %}
-            <li>{{ event.title }} - {{ event.date }} - {{ event.location }}</li>
-        {% endfor %}
-    </ul>
+      <a class="btn btn-light my-5 text-success" href="#" role="button">Search</a>
+      <a class="btn btn-light my-5 mx-5 text-success" href="#" role="button">Clear</a>
+      <br>
 
-       <a class="btn btn-light my-5 text-success" href="/organizer/signup" role="button">Create Event</a>
-       <a class="btn btn-light my-5 mx-5 text-success" href="/event" role="button">Buy Tickets</a>
+       
     </div>
+
+    <div class="container-fluid p-5">
+        <h4>Featured Events</h4>
+    </div>
+    <div class="row">
+        <div class="col m-5">
+            <div class="card" style="width: 18rem;">
+                <img src="..." class="card-img-top" alt="...">
+                <div class="card-body">
+                  <h5 class="card-title">Event 1</h5>
+                  <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+                  <a href="#" class="btn btn-success">Book Ticket</a>
+                </div>
+              </div>
+        </div>
+        <div class="col m-5">
+            <div class="card" style="width: 18rem;">
+                <img src="..." class="card-img-top" alt="...">
+                <div class="card-body">
+                  <h5 class="card-title">Event 2</h5>
+                  <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+                  <a href="#" class="btn btn-success">Book Ticket</a>
+                </div>
+              </div>
+        </div>
+        <div class="col m-5">
+            <div class="card" style="width: 18rem;">
+                <img src="..." class="card-img-top" alt="...">
+                <div class="card-body">
+                  <h5 class="card-title">Event 3</h5>
+                  <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+                  <a href="#" class="btn btn-success">Book Ticket</a>
+                </div>
+              </div>
+        </div>
+    </div>
+
     
 
 {% endblock %}    

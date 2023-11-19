@@ -1,4 +1,5 @@
 from django.contrib.auth.backends import ModelBackend
+from EventSafari.account.admin import AudienceAdmin, OrganizerAdmin
 from account.models import Audience, Organizer
 
 class UserTypeBackend(ModelBackend):
@@ -17,9 +18,9 @@ class UserTypeBackend(ModelBackend):
 
     def get_user(self, user_id):
         try:
-            return Audience.objects.get(pk=user_id)
+            return Audience.objects.get(pk=AudienceAdmin)
         except Audience.DoesNotExist:
             try:
-                return Organizer.objects.get(pk=user_id)
+                return Organizer.objects.get(pk=OrganizerAdmin)
             except Organizer.DoesNotExist:
                 return None
