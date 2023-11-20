@@ -9,6 +9,6 @@ def event(request):
         return render(request, 'event.html')
     
 
-@login_required
+
 def create_event(request):
     return render(request, 'event/create_event.html')

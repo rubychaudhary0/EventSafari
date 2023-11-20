@@ -8,7 +8,7 @@ Home
 
     <nav class="navbar navbar-expand-lg bg-light">
         <div class="container-fluid">
-            <a class="navbar-brand mx-5 text-success" href="#">EventSafari</a>
+            <a class="navbar-brand mx-5 text-success" href="{% url 'home' %}">EventSafari</a>
             
             <div class="dropdown">
                 <button class="btn btn-success dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
@@ -30,7 +30,7 @@ Home
                 <a class="btn btn-success" href="/audience/profile" role="button">Profile</a>
             {% else %}
                 <!-- Display signup button for non-authenticated users -->
-                <a class="btn btn-success" href="{% url 'audience_login' %}" role="button">Login</a>
+
                 <a class="btn btn-success" href="/audience/signup" role="button">Sign Up</a>
             {% endif %}
 
