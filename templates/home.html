@@ -26,7 +26,7 @@ Home
 
             {% if user.is_authenticated %}
                 <!-- Display logout button and user profile icon -->
-                <a class="btn btn-success" href="{% url 'logout' %}" role="button">Logout</a>
+                <a class="btn btn-success" href="{% url 'audience_logout' %}" role="button">Logout</a>
                 <a class="btn btn-success" href="/audience/profile" role="button">Profile</a>
             {% else %}
                 <!-- Display signup button for non-authenticated users -->
@@ -41,7 +41,7 @@ Home
     <div class="container-fluid p-5 bg-success text-white ">
        <h1 class="display-1">Discover events and sell tickets with EventSafari</h1>
        <h6>For all kinds of events, we stand behind you.</h6>
-       <a class="btn btn-light my-5 text-success" href="#" role="button">Create Event</a>
+       <a class="btn btn-light my-5 text-success" href="/events/create_event" role="button">Create Event</a>
        <a class="btn btn-light my-5 mx-5 text-success" href="/event" role="button">Explore Events</a>
     </div>
     <div class="container-fluid p-5">

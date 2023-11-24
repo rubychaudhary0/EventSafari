@@ -11,4 +11,4 @@ def event(request):
 
 
 def create_event(request):
-    return render(request, 'event/create_event.html')
+    return render(request, 'events/create_event.html')

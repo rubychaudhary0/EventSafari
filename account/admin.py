@@ -4,13 +4,14 @@ from .forms import AudienceSignupForm, AudienceChangeForm, UserChangeForm, UserC
 from .models import Audience, Organizer
 
 
+
 class AudienceAdmin(UserAdmin):
     add_form = AudienceSignupForm
     form = AudienceChangeForm
 
     model = Audience
 
-    list_display = ('username', 'email', 'is_active',
+    list_display = ('username', 'email', 'password', 'is_active',
                     'is_staff', 'is_superuser', 'last_login',)
     list_filter = ('is_active', 'is_staff', 'is_superuser')
     fieldsets = (
@@ -38,13 +39,13 @@ class OrganizerAdmin(BaseUserAdmin):
     list_filter = ('is_superuser',)
 
     fieldsets = (
-        (None, {'fields': ('email', 'is_staff', 'is_superuser', 'password')}),
+        (None, {'fields': ('email', 'is_staff', 'is_superuser', 'password',)}),
         ('Personal info', {'fields': ('name', 'phone', 'location')}),
         ('Groups', {'fields': ('groups',)}),
         ('Permissions', {'fields': ('user_permissions',)}),
     )
     add_fieldsets = (
-        (None, {'fields': ('email', 'is_staff', 'is_superuser', 'password1', 'password2')}),
+        (None, {'fields': ('email', 'is_staff', 'is_superuser', 'password1', 'password2',)}),
         ('Personal info', {'fields': ('name', 'phone', 'location')}),
         ('Groups', {'fields': ('groups',)}),
         ('Permissions', {'fields': ('user_permissions',)}),
@@ -57,6 +58,7 @@ class OrganizerAdmin(BaseUserAdmin):
     # Register your models here.
 admin.site.register(Audience, AudienceAdmin)
 admin.site.register(Organizer, OrganizerAdmin)
+
 
 
 

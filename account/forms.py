@@ -2,6 +2,14 @@ from django import forms
 from django.contrib.auth.forms import UserCreationForm, UserChangeForm, ReadOnlyPasswordHashField
 from .models import Audience, Organizer
 from django.core.exceptions import ValidationError  
+from django.contrib.auth.models import User
+
+
+
+
+
+
+
 
 
 
@@ -72,3 +80,4 @@ class UserChangeForm(forms.ModelForm):
         # field does not have access to the initial value
         return self.initial["password"]     
       
+        

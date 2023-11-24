@@ -1,5 +1,5 @@
 from django.contrib.auth.backends import ModelBackend
-from EventSafari.account.admin import AudienceAdmin, OrganizerAdmin
+from account.admin import AudienceAdmin, OrganizerAdmin
 from account.models import Audience, Organizer
 
 class UserTypeBackend(ModelBackend):
@@ -9,7 +9,7 @@ class UserTypeBackend(ModelBackend):
                 user = Audience.objects.get(email=email)
             elif kwargs['user_type'] == 'organizer':
                 user = Organizer.objects.get(email=email)
-        except Audience.DoesNotExist, Organizer.DoesNotExist:
+        except Audience.DoesNotExist and Organizer.DoesNotExist:
             return None
 
         if user.check_password(password) and self.user_can_authenticate(user):
