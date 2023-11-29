@@ -1,6 +1,6 @@
 from django import forms
 from django.contrib.auth.forms import UserCreationForm, UserChangeForm, ReadOnlyPasswordHashField
-from .models import Audience, Organizer
+from .models import CustomUser
 from django.core.exceptions import ValidationError  
 from django.contrib.auth.models import User
 
@@ -8,76 +8,43 @@ from django.contrib.auth.models import User
 
 
 
-
-
-
-
-
-# Registration form for Audience
-class AudienceSignupForm(UserCreationForm):
-    email = forms.EmailField(max_length=200)
+class CustomUserChangeForm(forms.ModelForm):
+    password = ReadOnlyPasswordHashField(label=("Password"),
+                                         help_text=("Djang does not stores password in readable form, So you cannot see"
+                                                    " this user's password, but you can change the password "
+                                                    "using <a href=\"../password/\">this form</a>."))
 
     class Meta:
-        model = Audience
-        fields = ('email', 'password1', 'password2')
+        model = CustomUser
+        fields = ("email", 'username')
 
-class AudienceChangeForm(UserChangeForm):
-
-    class Meta:
-        model = Audience
-        fields = ('email',) 
+    def clean_password(self):
+        return self.initial['password']
 
 
+class CustomUserAddForm(forms.ModelForm):
+    password = forms.CharField(label="Password", widget=forms.PasswordInput)
+    confirm_password = forms.CharField(label="Confirm Password", widget=forms.PasswordInput)
 
-class OrganizerSignupForm(forms.ModelForm):
-    password = forms.CharField(label='Password', widget=forms.PasswordInput)
-    class Meta:
-        model = Organizer
-        fields = ('email', 'name', 'phone', 'location', 'password')
+    def clean(self):
+        super(CustomUserAddForm, self).clean()
+        password = self.cleaned_data['password']
+        confirm_password = self.cleaned_data['confirm_password']
+
+        if password and confirm_password and password != confirm_password:
+            raise forms.ValidationError({"password": "Passwords didn't match, Please enter again."})
+        else:
+            pass
 
     def save(self, commit=True):
-        # Save the provided password in hashed format
         user = super().save(commit=False)
         user.set_password(self.cleaned_data["password"])
         if commit:
             user.save()
+        else:
+            pass
         return user
-    
-class UserCreationForm(forms.ModelForm):
-    password1 = forms.CharField(label='Password', widget=forms.PasswordInput)
-    password2 = forms.CharField(label='Password confirmation', widget=forms.PasswordInput)
 
     class Meta:
-        model = Organizer
-        fields = ('email', 'name', 'phone', 'location', 'is_staff', 'is_superuser')
-
-    def clean_password2(self):
-        # Check that the two password entries match
-        password1 = self.cleaned_data.get("password1")
-        password2 = self.cleaned_data.get("password2")
-        if password1 and password2 and password1 != password2:
-            raise forms.ValidationError("Passwords don't match")
-        return password2
-
-    def save(self, commit=True):
-        # Save the provided password in hashed format
-        user = super().save(commit=False)
-        user.set_password(self.cleaned_data["password1"])
-        if commit:
-            user.save()
-        return user   
-
-class UserChangeForm(forms.ModelForm):
-    password = ReadOnlyPasswordHashField()
-
-    class Meta:
-        model = Organizer
-        fields = ('email', 'name', 'phone',  'password', 'is_active', 'is_superuser')
-
-    def clean_password(self):
-        # Regardless of what the user provides, return the initial value.
-        # This is done here, rather than on the field, because the
-        # field does not have access to the initial value
-        return self.initial["password"]     
-      
-        
+        model = CustomUser
+        fields = "__all__"

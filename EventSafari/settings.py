@@ -132,17 +132,10 @@ MEDIA_URL = '/media/' # Public URL at the browser
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
-AUTH_USER_MODEL = 'account.Audience'
+AUTH_USER_MODEL = 'account.CustomUser'
 
-AUTH_USER_MODEL = 'account.Organizer'
 
 CRISPY_ALLOWED_TEMPLATE_PACKS = 'bootstrap5'
 
 CRISPY_TEMPLATE_PACK = 'bootstrap5'
 
-"""
-AUTHENTICATION_BACKENDS = [
-    'EventSafari.backends.UserTypeBackend',
-    'django.contrib.auth.backends.ModelBackend',
-]
-"""

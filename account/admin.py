@@ -1,64 +1,33 @@
 from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin, UserAdmin as BaseUserAdmin
-from .forms import AudienceSignupForm, AudienceChangeForm, UserChangeForm, UserCreationForm
-from .models import Audience, Organizer
+from .forms import CustomUserAddForm, CustomUserChangeForm
+from .models import CustomUser
 
 
 
-class AudienceAdmin(UserAdmin):
-    add_form = AudienceSignupForm
-    form = AudienceChangeForm
-
-    model = Audience
-
-    list_display = ('username', 'email', 'password', 'is_active',
-                    'is_staff', 'is_superuser', 'last_login',)
-    list_filter = ('is_active', 'is_staff', 'is_superuser')
+@admin.register(CustomUser)
+class CustomUserAdmin(UserAdmin):
+    add_form = CustomUserAddForm
+    form = CustomUserChangeForm
+    list_display = ('id', 'username', 'email')
+    list_filter = ('is_admin', 'is_active', 'is_superuser', 'is_staff')
+    readonly_fields = ['created_at', 'updated_at', 'last_login', 'created_by', 'uuid']
+    search_fields = ('id', 'uuid', 'username', 'email')
+    ordering = ('id', )
     fieldsets = (
-        (None, {'fields': ('username', 'email', 'password')}),
-        ('Permissions', {'fields': ('is_staff', 'is_active',
-         'is_superuser', 'groups', 'user_permissions')}),
-        ('Dates', {'fields': ('last_login', 'date_joined')})
+        ('User', {'fields': ('uuid', 'username', 'email', 'password', 'created_by')}),
+        ('Permissions', {'fields': ('is_active', 'is_superuser', 'is_admin', 'is_staff')}),
+        ('Dates', {'fields': ('created_at', 'updated_at', 'last_login',)}),
     )
+
     add_fieldsets = (
         (None, {
-            'classes': ('wide',),
-            'fields': ( 'email', 'password1', 'password2', 'is_staff', 'is_active')}
-         ),
-    )
-    search_fields = ('email',)
-    ordering = ('email',)
-
-
-
-class OrganizerAdmin(BaseUserAdmin):
-    form = UserChangeForm
-    add_form = UserCreationForm
-
-    list_display = ('email', 'name', 'phone', 'location', 'is_staff',  'is_superuser')
-    list_filter = ('is_superuser',)
-
-    fieldsets = (
-        (None, {'fields': ('email', 'is_staff', 'is_superuser', 'password',)}),
-        ('Personal info', {'fields': ('name', 'phone', 'location')}),
-        ('Groups', {'fields': ('groups',)}),
-        ('Permissions', {'fields': ('user_permissions',)}),
-    )
-    add_fieldsets = (
-        (None, {'fields': ('email', 'is_staff', 'is_superuser', 'password1', 'password2',)}),
-        ('Personal info', {'fields': ('name', 'phone', 'location')}),
-        ('Groups', {'fields': ('groups',)}),
-        ('Permissions', {'fields': ('user_permissions',)}),
+            "classes": ("wide",),
+            "fields": ("email", "username", "password", "confirm_password"),
+        }),
     )
 
-    search_fields = ('email', 'name', 'phone')
-    ordering = ('email',)
-    filter_horizontal = ()
-
-    # Register your models here.
-admin.site.register(Audience, AudienceAdmin)
-admin.site.register(Organizer, OrganizerAdmin)
-
-
-
-
+    def save_model(self, request, obj, form, change):
+        if not change:
+            obj.created_by = request.user
+        super().save_model(request, obj, form, change)
