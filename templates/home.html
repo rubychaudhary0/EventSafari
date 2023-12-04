@@ -26,12 +26,12 @@ Home
 
             {% if user.is_authenticated %}
                 <!-- Display logout button and user profile icon -->
-                <a class="btn btn-success" href="{% url 'audience_logout' %}" role="button">Logout</a>
-                <a class="btn btn-success" href="/audience/profile" role="button">Profile</a>
+                <a class="btn btn-success" href="#" role="button">Logout</a>
+                <a class="btn btn-success" href="#" role="button">Profile</a>
             {% else %}
                 <!-- Display signup button for non-authenticated users -->
 
-                <a class="btn btn-success" href="/audience/signup" role="button">Sign Up</a>
+                <a class="btn btn-success" href="/account/register" role="button">Sign Up</a>
             {% endif %}
 
             

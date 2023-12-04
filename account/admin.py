@@ -1,33 +1,34 @@
 from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin, UserAdmin as BaseUserAdmin
-from .forms import CustomUserAddForm, CustomUserChangeForm
-from .models import CustomUser
+from .forms import CustomUserChangeForm, CustomUserCreationForm
+from .models import CustomUser, OrganizerAdditional
 
+class OrganizerAdditionalInline(admin.TabularInline):
+    model = OrganizerAdditional
 
-
-@admin.register(CustomUser)
 class CustomUserAdmin(UserAdmin):
-    add_form = CustomUserAddForm
+    add_form = CustomUserCreationForm
     form = CustomUserChangeForm
-    list_display = ('id', 'username', 'email')
-    list_filter = ('is_admin', 'is_active', 'is_superuser', 'is_staff')
-    readonly_fields = ['created_at', 'updated_at', 'last_login', 'created_by', 'uuid']
-    search_fields = ('id', 'uuid', 'username', 'email')
-    ordering = ('id', )
+    model = CustomUser
+    list_display = ('email', 'is_staff', 'is_active',)
+    list_filter = ('email', 'is_staff', 'is_active',)
     fieldsets = (
-        ('User', {'fields': ('uuid', 'username', 'email', 'password', 'created_by')}),
-        ('Permissions', {'fields': ('is_active', 'is_superuser', 'is_admin', 'is_staff')}),
-        ('Dates', {'fields': ('created_at', 'updated_at', 'last_login',)}),
+        (None, {'fields': ('email', 'phone', 'name','type', 'password')}),
+        ('Permissions', {'fields': ('is_staff', 'is_active', 'is_superuser', 'groups', 'user_permissions',)}),   #'is_customer' , 'is_seller'
     )
-
     add_fieldsets = (
         (None, {
-            "classes": ("wide",),
-            "fields": ("email", "username", "password", "confirm_password"),
-        }),
+            'classes': ('wide',),
+            'fields': ('email', 'phone', 'name', 'type', 'password1', 'password2', 'is_staff', 'is_active')}
+        ),
+    )
+    search_fields = ('email',)
+    ordering = ('email',)
+
+
+class OrganizerAdmin(admin.ModelAdmin):
+    inlines = (
+        OrganizerAdditionalInline,
     )
 
-    def save_model(self, request, obj, form, change):
-        if not change:
-            obj.created_by = request.user
-        super().save_model(request, obj, form, change)
+admin.site.register(CustomUser, CustomUserAdmin)    
