@@ -1,0 +1,66 @@
+.background-custom {
+    background-color: #006241;
+}
+.navbar-brand {
+    color: #006241 !important;
+    font-family: Acme !important;
+    font-size: xx-large;
+}
+
+.nav-item{
+    color: black !important;
+    font-family: Rubik;
+    font-size: large;
+    font-weight: bold;
+}
+
+
+
+.custom-btn-1 {
+    border: 2px solid black;
+    border-radius: 30px;
+    font-family: Rubik !important;
+    color: black;
+    font-weight: 500;
+}
+
+.custom-btn-2 {
+    border: 2px solid #006241;
+    border-radius: 30px;
+    font-family: Rubik !important;
+    color: #006241;
+    font-weight: 500;
+}
+
+.custom-btn-3 {
+    background-color: #006241;
+    border-radius: 30px;
+    font-family: Rubik !important;
+    color: white;
+    font-weight: 500;
+}
+.custom-text{
+    color: #006241 !important;
+    font-family: Rubik !important;
+}
+.custom-text-2{
+    color: black !important;
+    font-family: Rubik !important;
+}
+.custom-text-3{
+    font-family: Rubik !important;
+}
+
+.banner{
+    background-color: #70ae6e;
+    background: linear-gradient(to right,
+    #ffffff,
+    #c4dbc0,
+    #ffffff);
+}
+
+
+  
+  
+  
+  

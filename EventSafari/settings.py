@@ -11,12 +11,19 @@ https://docs.djangoproject.com/en/4.2/ref/settings/
 """
 
 import os
+import environ
 
 from pathlib import Path
 
-# Build paths inside the project like this: BASE_DIR / 'subdir'.
-BASE_DIR = Path(__file__).resolve().parent.parent
+env = environ.Env(
+    # set casting, default value,  if DEBUG=True/On in .env then True otherwise False
+    DEBUG=(bool, False)
+)
+# reading .env file
+environ.Env.read_env()
 
+# Build paths inside the project like this: BASE_DIR / 'subdir'.
+BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/4.2/howto/deployment/checklist/
@@ -27,7 +34,7 @@ SECRET_KEY = 'django-insecure-l-920k(cazb!bhp5^j$p6fz^1b^q5f@o*z3pg_n%h42sfj02_9
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['www.eventsafari.com','services.eventsafari.com','127.0.0.1','admin.eventsafari.com']
 
 
 # Application definition
@@ -39,14 +46,17 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'account',
-    'event',
+    'main',
+    'organizer',
     'bootstrap5',
-    'crispy_forms',
-    'crispy_bootstrap5',
+    'django_sass',
+    'six',
+    'django_hosts',
+    'channels',
 ]
 
 MIDDLEWARE = [
+    'django_hosts.middleware.HostsRequestMiddleware',
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
@@ -54,9 +64,17 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'django_hosts.middleware.HostsResponseMiddleware'
 ]
 
 ROOT_URLCONF = 'EventSafari.urls'
+
+
+ROOT_HOSTCONF = 'EventSafari.hosts'
+DEFAULT_HOST = 'www'
+PARENT_HOST = 'eventsafari.com'
+HOST_PORT = "8000"
+
 
 TEMPLATES = [
     {
@@ -76,6 +94,9 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'EventSafari.wsgi.application'
 
+ASGI_APPLICATION = 'EventSafari.asgi.application'
+
+
 
 # Database
 # https://docs.djangoproject.com/en/4.2/ref/settings/#databases
@@ -83,7 +104,7 @@ WSGI_APPLICATION = 'EventSafari.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
     }
 }
 
@@ -116,6 +137,8 @@ TIME_ZONE = 'UTC'
 
 USE_I18N = True
 
+USE_L10N = True
+
 USE_TZ = True
 
 
@@ -123,19 +146,39 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/4.2/howto/static-files/
 
 STATIC_URL = 'static/'
+STATIC_ROOT = os.path.join(BASE_DIR , 'static_cdn')
 
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media') # Directory where uploaded media is saved.
 MEDIA_URL = '/media/' # Public URL at the browser
+
+STATICFILES_DIRS = [
+    os.path.join(BASE_DIR, "static"),                # mention folders in saticfiles_dirs where django has to look for static files except static folder inside apps during development 
+]    
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
-AUTH_USER_MODEL = 'account.CustomUser'
+AUTH_USER_MODEL = 'main.CustomUser'
 
 
-CRISPY_ALLOWED_TEMPLATE_PACKS = 'bootstrap5'
 
-CRISPY_TEMPLATE_PACK = 'bootstrap5'
+LOGIN_URL = 'login'
+LOGIN_REDIRECT_URL = 'index'
+LOGOUT_REDIRECT_URL = 'index'
+
+from django.contrib.messages import constants as messages
+MESSAGE_TAGS = {
+    messages.ERROR : 'danger'   # here we can override tags meaning in place of there actual color replace by another
+}
+
+#SMTP SETTINGS
+EMAIL_BACKEND = "django.core.mail.backends.smtp.EmailBackend"
+EMAIL_USE_TLS = True
+EMAIL_HOST = "smtp.gmail.com"
+EMAIL_PORT = 587
+EMAIL_HOST_USER ='eventsafari0@gmail.com'
+EMAIL_HOST_PASSWORD = 'yqweqwifbnrmfxcw'
+DEFAULT_FROM_EMAIL = 'Testing <eventsafari@gmail.com>'
 

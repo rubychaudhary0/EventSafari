@@ -1,0 +1,112 @@
+<!doctype html>
+<html lang="en">
+{% load hosts %}
+{% load static %}
+
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <!-- Bootstrap package -->
+    <title>{% block title %}{% endblock %}</title>
+    {% load bootstrap5 %}
+    {% bootstrap_css %}
+    {% bootstrap_javascript %}
+
+    <!-- Bootstrap Font Icon CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css">
+
+    <!-- Font Awesome -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet" />
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css?family=Roboto|Acme|Rubik" rel="stylesheet" />
+
+    <!-- MDB -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/mdb-ui-kit/7.1.0/mdb.min.css" rel="stylesheet" />
+
+    <!-- Custom CSS -->
+    <link href="{% static 'organizer/css/organizer.css' %}" rel="stylesheet">
+
+
+
+    {% block css %}{% endblock %}
+</head>
+
+<body>
+    <!--
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <div class="container-fluid">
+            <a class="navbar-brand text-success" href="#">EventSafari</a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+                aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                <ul class="navbar-nav mr-auto mb-2 mb-lg-0">
+                    <li class="nav-item">
+                        <a class="nav-link active" aria-current="page" href="/">Home</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link active" aria-current="page" href="/">Pricing</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link active" aria-current="page" href="/">About Us</a>
+                    </li>
+
+
+                </ul>
+                
+                <form class="d-flex">
+                    <input class="form-control mr-2" type="search" placeholder="Search" aria-label="Search">
+                    <button class="btn btn-outline-success" type="submit">Search</button>
+                </form>
+                
+                <div class="dropdown">
+                    <button class="btn btn-success dropdown-toggle dropdownMenuButton" type="button"
+                        id="dropdownMenuButton1" data-toggle="dropdown" aria-expanded="false">
+                        Account
+                    </button>
+                    <ul class="dropdown-menu dropdown-menu-left dropdown-menu-lg-right"
+                        aria-labelledby="dropdownMenuButton">
+
+
+
+                        <li><a class="dropdown-item" href="{% host_url 'signupseller' host 'services' %}">Singup As
+                                Organizer</a></li>
+                        <li><a class="dropdown-item" href="{% host_url 'signup' host 'services' %}">Singup</a></li>
+
+                        <li><a class="dropdown-item" href="{% host_url 'login' host 'services' %}">Login</a></li>
+                        <li><a class="dropdown-item" href="{% host_url 'logout' host 'services' %}">Logout</a></li>
+
+                    </ul>
+                </div>
+            </div>
+    </nav>
+-->
+    {% block body %}
+    {% endblock %}
+
+
+
+    <!-- Option 1: Bootstrap Bundle with Popper.js -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-alpha3/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-popRpmFF9JQgExhfw5tZT4I9/CI5e2QcuUZPOVXb1m7qUmeR2b50u+YFEYe1wgzy"
+        crossorigin="anonymous"></script>
+
+
+    <!-- MDB -->
+    <script type="text/javascript"
+        src="https://cdnjs.cloudflare.com/ajax/libs/mdb-ui-kit/7.1.0/mdb.umd.min.js"></script>
+
+
+
+
+</body>
+{% block js %}
+{% endblock %}
+
+</html>
