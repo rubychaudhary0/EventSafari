@@ -49,7 +49,6 @@ INSTALLED_APPS = [
     'main',
     'organizer',
     'bootstrap5',
-    'django_sass',
     'six',
     'django_hosts',
     'channels',

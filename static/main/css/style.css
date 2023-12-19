@@ -1,0 +1,66 @@
+ .background-custom {
+    background-color: #006241;
+  }
+
+  .background-custom-2{
+    background-color: #7ea45e;
+  }
+
+  .background-custom-3{
+    background-color: #ffdadf;
+  }
+
+  .icon-color{
+    color: #7ea45e !important;
+  }
+  
+  .navbar-brand {
+    color: #006241 !important;
+    font-family: Acme !important;
+    font-size: xx-large;
+  }
+  
+  .custom-btn-1 {
+    background-color: #ffb100;
+    border-radius: 10px;
+    font-family: Rubik !important;
+    color: #000000;
+    font-weight: 500;
+  }
+  
+  .custom-btn-2 {
+    border: 2px solid #006241;
+    border-radius: 30px;
+    font-family: Rubik !important;
+    color: #006241;
+    font-weight: 500;
+  }
+  
+  .custom-btn-3 {
+    background-color: #006241;
+    border-radius: 30px;
+    font-family: Rubik !important;
+    color: #ffffff;
+    font-weight: 500;
+  }
+  
+  .custom-text-1 {
+    color: #006241 !important;
+    font-family: Rubik !important;
+  }
+
+  .custom-text-2 {
+    color: #000000 !important;
+    font-family: Rubik !important;
+  }
+
+  .custom-text-3 {
+    color: #ffc0c0 !important;
+    font-family: Rubik !important;
+  }
+
+  .icon-background{
+    background: #ffc0c0;
+    
+}
+  

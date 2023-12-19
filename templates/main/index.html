@@ -13,6 +13,12 @@
         user-select: none;
     }
 
+    .background-custom {
+        background-color: #006241;
+    }
+
+
+
     @media (min-width: 768px) {
         .bd-placeholder-img-lg {
             font-size: 3.5rem;
@@ -24,45 +30,11 @@
     /* Padding below the footer and lighter body text */
 
     body {
-        padding-bottom: 3rem;
         color: #5a5a5a;
     }
 
-    .background-custom {
-        background-color: #006241;
-    }
-
-    .navbar-brand {
-        color: #006241 !important;
-        font-family: Acme !important;
-        font-size: xx-large;
-    }
 
 
-    .custom-btn-1 {
-        border: 2px solid black;
-        border-radius: 30px;
-        font-family: Roboto !important;
-        color: black;
-        font-weight: 500;
-    }
-
-    .custom-btn-2 {
-        border: 2px solid #006241;
-        border-radius: 30px;
-        font-family: Roboto !important;
-        color: #006241;
-        font-weight: 500;
-    }
-
-    .custom-btn-3 {
-        background-color: #1a3528;
-        border-radius: 30px;
-        font-family: Roboto !important;
-        color: #beee62;
-        font-weight: 500;
-    }
-   
 
     .display-5 {
         font-family: Roboto !important;
@@ -96,7 +68,7 @@
     }
 
 
-    
+
 
 
 
@@ -112,10 +84,14 @@
             line-height: 1.4;
         }
 
-        
+
     }
 
-    
+    @media (min-width: 992px) {
+        .rotate-lg {
+            transform: rotate(6deg);
+        }
+    }
 </style>
 {% endblock %}
 
@@ -123,7 +99,7 @@
 {% block body%}
 <header>
     <!-- Navbar -->
-    <nav class="navbar navbar-expand-lg navbar-light bg-body-tertiary fixed-top navbar-custom">
+    <nav class="navbar navbar-expand-lg navbar-light bg-body-tertiary navbar-custom">
         <!-- Container wrapper -->
         <div class="container">
             <!-- Toggle button -->
@@ -193,7 +169,7 @@
                 {% else %}
                 <a class="nav-link mx-5 text-dark" text-dark href="{% host_url 'login' host 'www' %}"><b>Log In</b></a>
 
-                <a class="btn custom-btn-2" href="{% host_url 'signup' host 'www' %}" role="button"><b>Register</b></a>
+                <a class="btn custom-btn-1" href="{% host_url 'signup' host 'www' %}" role="button"><b>Register</b></a>
                 {% endif %}
             </div>
             <!-- Right elements -->
@@ -204,12 +180,70 @@
 
 
 
+    <!--Banner-->
+    <div class="container-fluid overflow-hidden background-custom mb-5">
+        <div class="row gx-0">
+            <div class="col-md-7 p-lg-5 p-md-10 d-flex flex-column justify-content-center align-items-center">
+                <h1 class="display-3 fw-bold custom-text-3">Discover Events With EventSafari</h1>
+                <p class="lead fw-normal text-start text-white">For all your event ticketing needs, from small
+                    gatherings to the large festivals, our event booking system has you covered.</p>
+                <a class="btn custom-btn-1 btn-lg" href="#">Find Events</a>
+            </div>
+            <div class="col-md-5 p-lg-5 text-center">
+                <img src="media/images/colors.jpg" class="img-fluid rounded-9 rotate-lg" alt="Author image">
+
+            </div>
+        </div>
+    </div>
+    <!--Banner-->
+
 </header>
 
 
 
 <main>
+    <!--Categories-->
+    <div class="container mb-5">
+        <div class="row g-5 ">
+            <div class="col text-center d-flex flex-column justify-content-center align-items-center">
+                <i class="fas fa-guitar fa-3x icon-color"></i>
+                <h6>Music</h6>
+            </div>
+            <div class="col text-center d-flex flex-column justify-content-center align-items-center">
+                <i class="fas fa-gopuram fa-3x icon-color"></i>
+                <p>Religious</p>
+            </div>
+            <div class="col text-center d-flex flex-column justify-content-center align-items-center">
+                <i class="fas fa-basketball fa-3x icon-color"></i>
+                <p>Sports</p>
+            </div>
+            <div class="col text-center d-flex flex-column justify-content-center align-items-center">
+                <i class="fas fa-hands-praying fa-3x icon-color"></i>
+                <p>Yoga and Meditation</p>
+            </div>
+            <div class="col text-center d-flex flex-column justify-content-center align-items-center">
+                <i class="fas fa-briefcase fa-3x icon-color"></i>
+                <p>Business</p>
+            </div>
 
+            <div class="col text-center d-flex flex-column justify-content-center align-items-center">
+                <i class="fas fa-masks-theater fa-3x icon-color"></i>
+                <p>Performing Arts</p>
+            </div>
+            <div class="col text-center d-flex flex-column justify-content-center align-items-center">
+                <i class="fas fa-utensils fa-3x icon-color"></i>
+                <p>Food and Drinks</p>
+            </div>
+            <div class="col text-center d-flex flex-column justify-content-center align-items-center">
+                <i class="fas fa-palette fa-3x icon-color"></i>
+                <p>Hobbies</p>
+            </div>
+        </div>
+    </div>
+    <!--Categories-->
+
+
+    <!--
     <div id="myCarousel" class="carousel slide" data-bs-ride="carousel">
         <ol class="carousel-indicators">
             <li data-bs-target="#myCarousel" data-bs-slide-to="0" class="active"></li>
@@ -266,46 +300,31 @@
             <span class="visually-hidden">Next</span>
         </a>
     </div>
+  -->
 
-    <div class="container">
-        <h4 class="text-center">Featured Events</h4>
-    </div>
+    <hr>
+    <!--Featured Events-->
+    <section class="">
+        <div class="container">
+            <h3 class="text-center custom-text-1"><b>Featured Events</b></h3>
+        </div>
 
-       
-    <div class="row">
-        <div class="col m-5">
-            <div class="card" style="width: 18rem;">
-                <img src="..." class="card-img-top" alt="...">
-                <div class="card-body">
-                    <h5 class="card-title">Event 1</h5>
-                    <p class="card-text">Some quick example text to build on the card title and make up the bulk of the
-                        card's content.</p>
-                    <a href="#" class="btn custom-btn-1">Book Ticket</a>
+        <div class="row">
+            {% for event in event_data %}
+            <div class="col m-5">
+                <div class="card" style="width: 18rem;">
+                    <img src='/media/{{event.image}}' class="card-img-top" alt="...">
+                    <div class="card-body">
+                        <h5 class="card-title">{{event.event_name}}</h5>
+                        <p class="card-text">VENUE : {{event.location}}</p>
+                        <a href="#" class="btn custom-btn-1">Book Ticket</a>
+                    </div>
                 </div>
             </div>
+            {% endfor %}
         </div>
-        <div class="col m-5">
-            <div class="card" style="width: 18rem;">
-                <img src="..." class="card-img-top" alt="...">
-                <div class="card-body">
-                    <h5 class="card-title">Event 2</h5>
-                    <p class="card-text">Some quick example text to build on the card title and make up the bulk of the
-                        card's content.</p>
-                    <a href="#" class="btn custom-btn-1">Book Ticket</a>
-                </div>
-            </div>
-        </div>
-        <div class="col m-5">
-            <div class="card" style="width: 18rem;">
-                <img src="..." class="card-img-top" alt="...">
-                <div class="card-body">
-                    <h5 class="card-title">Event 3</h5>
-                    <p class="card-text">Some quick example text to build on the card title and make up the bulk of the
-                        card's content.</p>
-                    <a href="#" class="btn custom-btn-1">Book Ticket</a>
-                </div>
-            </div>
-        </div>
+    </section>
+    <!--Featured Events-->
 
 </main>
 

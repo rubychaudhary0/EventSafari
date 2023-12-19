@@ -13,7 +13,7 @@ from django.conf.urls.static import static
 urlpatterns = [
    # path('', views.home, name='home'),
     
-    path('', views.Index.as_view(), name="index"),
+    path('', views.Index, name="index"),
     path('search/', views.search.as_view(), name="search"),
     
 

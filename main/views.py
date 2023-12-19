@@ -30,9 +30,25 @@ def home(request):
     return render(request, 'home.html')
 
 '''    
+def Index(request):
+    event_data = Event.objects.all()
+    print(event_data)
+    context = {
+        'event_data':event_data
+    }
+    return render(request, 'main/index.html', context)
 
+'''
 class Index(TemplateView):
     template_name = 'main/index.html'
+
+    def data(self, request, *args, **kwargs):
+        event_data = Event.objects.all()
+        print(event_data)
+        context = {
+           'event_data':event_data
+        }
+'''
 
 class search(TemplateView):
     template_name = 'main/search.html'    

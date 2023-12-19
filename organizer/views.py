@@ -35,3 +35,7 @@ class RegisterView(CreateView):
     template_name = 'organizer/registerbaseuser.html'
     form_class = RegistrationForm
     success_url = reverse_lazy('index')
+
+
+def dashboard(request):
+    return render(request, 'organizer/dashboard.html')
