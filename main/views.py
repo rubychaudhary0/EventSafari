@@ -71,7 +71,6 @@ class RegisterView(CreateView):
     success_url = reverse_lazy('signup')
 
     def post(self, request, *args, **kwargs):
-        #form = RegistrationForm(request.POST)
         user_email = request.POST.get('email')
         try:
             existing_user = CustomUser.objects.get(email = user_email)
@@ -92,9 +91,8 @@ class RegisterView(CreateView):
                 'uid':urlsafe_base64_encode(force_bytes(user.pk)),
                 'token':account_activation_token.make_token(user),
             })
-            #print(message)
-            to_email = user_email   
-            #form = RegistrationForm(request.POST)   # here we are again calling all its validations
+            
+            to_email = user_email 
             form = self.get_form()
             try:
                 send_mail(

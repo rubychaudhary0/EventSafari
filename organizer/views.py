@@ -38,4 +38,7 @@ class RegisterView(CreateView):
 
 
 def dashboard(request):
-    return render(request, 'organizer/dashboard.html')
+    return render(request, 'organizer/dashboard/dashboard.html')
+
+def home(request):
+    return render(request, 'organizer/dashboard/home.html')

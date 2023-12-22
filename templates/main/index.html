@@ -122,7 +122,7 @@
                         <a class="nav-link" href="#">Find Events</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="#">Create Events</a>
+                        <a class="nav-link" href="http://services.eventsafari.com:8000/">Create Events</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="#">Categories</a>
@@ -206,37 +206,53 @@
     <div class="container mb-5">
         <div class="row g-5 ">
             <div class="col text-center d-flex flex-column justify-content-center align-items-center">
-                <i class="fas fa-guitar fa-3x icon-color"></i>
-                <h6>Music</h6>
+                <a href="#">
+                    <i class="fas fa-guitar fa-2x icon-color"></i>
+                    </a>
+                    <p>Music</p>
+                
             </div>
             <div class="col text-center d-flex flex-column justify-content-center align-items-center">
-                <i class="fas fa-gopuram fa-3x icon-color"></i>
-                <p>Religious</p>
+                <a href="#">
+                    <i class="fas fa-gopuram fa-2x icon-color"></i>
+                    <p>Religious</p>
+                </a>
             </div>
             <div class="col text-center d-flex flex-column justify-content-center align-items-center">
-                <i class="fas fa-basketball fa-3x icon-color"></i>
-                <p>Sports</p>
+                <a href="#">
+                    <i class="fas fa-basketball fa-2x icon-color"></i>
+                    <p>Sports</p>
+                </a>
             </div>
             <div class="col text-center d-flex flex-column justify-content-center align-items-center">
-                <i class="fas fa-hands-praying fa-3x icon-color"></i>
-                <p>Yoga and Meditation</p>
+                <a href="#">
+                    <i class="fas fa-hands-praying fa-2x icon-color"></i>
+                    <p>Yoga and Meditation</p>
+                </a>
             </div>
             <div class="col text-center d-flex flex-column justify-content-center align-items-center">
-                <i class="fas fa-briefcase fa-3x icon-color"></i>
-                <p>Business</p>
-            </div>
-
-            <div class="col text-center d-flex flex-column justify-content-center align-items-center">
-                <i class="fas fa-masks-theater fa-3x icon-color"></i>
-                <p>Performing Arts</p>
+                <a href="#">
+                    <i class="fas fa-briefcase fa-2x icon-color"></i>
+                    <p>Business</p>
+                </a>
             </div>
             <div class="col text-center d-flex flex-column justify-content-center align-items-center">
-                <i class="fas fa-utensils fa-3x icon-color"></i>
-                <p>Food and Drinks</p>
+                <a href="#">
+                    <i class="fas fa-masks-theater fa-2x icon-color"></i>
+                    <p>Performing Arts</p>
+                </a>
             </div>
             <div class="col text-center d-flex flex-column justify-content-center align-items-center">
-                <i class="fas fa-palette fa-3x icon-color"></i>
-                <p>Hobbies</p>
+                <a href="#">
+                    <i class="fas fa-utensils fa-2x icon-color"></i>
+                    <p>Food and Drinks</p>
+                </a>
+            </div>
+            <div class="col text-center d-flex flex-column justify-content-center align-items-center">
+                <a href="#">
+                    <i class="fas fa-palette fa-2x icon-color"></i>
+                    <p>Hobbies</p>
+                </a>
             </div>
         </div>
     </div>
@@ -309,13 +325,14 @@
             <h3 class="text-center custom-text-1"><b>Featured Events</b></h3>
         </div>
 
-        <div class="row">
+        <div class="row g-0">
             {% for event in event_data %}
             <div class="col m-5">
                 <div class="card" style="width: 18rem;">
-                    <img src='/media/{{event.image}}' class="card-img-top" alt="...">
-                    <div class="card-body">
+                    <img src='/media/{{event.image}}' class="card-img-top" alt="..." style="width: 18rem; height:15rem;">
+                    <div class="card-body" style="width: 18rem; height:15rem;">
                         <h5 class="card-title">{{event.event_name}}</h5>
+                        <br>
                         <p class="card-text">VENUE : {{event.location}}</p>
                         <a href="#" class="btn custom-btn-1">Book Ticket</a>
                     </div>
