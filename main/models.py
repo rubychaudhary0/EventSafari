@@ -8,6 +8,7 @@ from PIL import Image
 from django.utils.translation import gettext_lazy as _
 from multiselectfield import MultiSelectField
 from django.core.validators import RegexValidator
+from django.urls import reverse
 
 
 from django.db.models import Q
@@ -16,7 +17,7 @@ from datetime import timedelta
 import zoneinfo
 
 from timezone_field import TimeZoneField
-
+from django_countries.fields import CountryField
 
 from .manager import CustomUserManager
 
@@ -36,9 +37,6 @@ class LowercaseEmailField(models.EmailField):
         return value
 
 class CustomUser(AbstractBaseUser, PermissionsMixin):
-    uuid = models.UUIDField(
-        unique=True, default=uuid.uuid4, editable=False
-    )
     email = LowercaseEmailField(_('email address'), unique=True)
     #username = models.CharField(max_length=50, unique=True)
     name = models.CharField(null=True, blank=True, max_length=255)
@@ -130,30 +128,55 @@ class Audience(CustomUser):
     def showAdditional(self):
         return self.customeradditional
 
+class Category(models.Model):
+    cat_id = models.AutoField(primary_key=True)
+    name = models.CharField(max_length=150,db_index=True)
+    
+    def __str__(self):
+        return self.name
+    
 
 class Event(models.Model):
-    EVENT_CATEGORY = (
-        ("Music and Dance","Music and Dance"),
-        ("Sports","Sports"),
-        ("Religious","Religious"),
-        ("Yoga and Meditation","Yoga and Meditation"),
-        ("Other","Other")
-    )
     event_id = models.AutoField(primary_key=True)
-    event_name = models.CharField(max_length=150)
+    title = models.CharField(max_length=150)
     event_description = models.TextField(max_length=500, blank=True)  
-    event_date = models.DateTimeField(default=timezone.now)
-    location = models.CharField(max_length=255, default='Default Location')
+    start_date = models.DateField(default=timezone.now)
+    end_date = models.DateField(default=timezone.now)
+    start_time = models.TimeField(default=timezone.now)
+    category=models.ForeignKey(Category,on_delete=models.CASCADE)
+    location = CountryField()
     capacity = models.IntegerField()
-    category = models.CharField(max_length=100, choices=EVENT_CATEGORY, unique=True)
     image = models.ImageField(default="default_banner.png", upload_to="event_images")
+    price = models.FloatField(default=0)
     creator = models.ForeignKey(Organizer, on_delete=models.CASCADE)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
-
-    def __str__(self):
-	     return f'{self.event_name}'
     
+    def __str__(self):
+	     return self.title
+   
+
+
+
+class CartManager(models.Manager):
+    def create_cart(self, user):
+        cart = self.create(user = user)
+        return cart
+
+class Cart(models.Model):
+    cart_id = models.AutoField(primary_key=True)
+    user = models.OneToOneField(CustomUser, on_delete = models.CASCADE)
+    created_on = models.DateTimeField(default=timezone.now)
+
+    objects = CartManager()
+
+class EventInCart(models.Model):
+    class Meta:
+        unique_together = (('cart', 'event'),)
+    event_in_cart_id = models.AutoField(primary_key=True)
+    cart = models.ForeignKey(Cart, on_delete = models.CASCADE)
+    event = models.ForeignKey(Event, on_delete = models.CASCADE)
+    quantity = models.PositiveIntegerField()
 '''
 class Ticket(models.Model):
     ticket_id = models.AutoField(primary_key=True)

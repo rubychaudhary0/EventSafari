@@ -1,0 +1,13 @@
+{% extends 'main/basic.html' %}
+{% load static %}
+{% block title %}
+{% endblock %}
+{% block css %}
+
+{% endblock %}
+
+{% block body%}
+ {% for i in events %}
+ <a href="">{{i.title}}</a><br>
+ {% endfor %}
+{% endblock %}

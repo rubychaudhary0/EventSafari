@@ -20,21 +20,43 @@
 {% endblock %}
 
 {% block body%}
-<div class="main-area">
-    <div class="product-cards">
-        <div class="row featurette">
-            <div class="col-md-5">
-                <img src="/media/{{event.image}}" class="card-img-top" alt="...">
 
+
+    <div class="container-fluid bg-light">
+        <div class="row">
+            <div class="col-9 text-success p-3">
+                <h4>{{event.event_name}}</h4>
             </div>
-            <div class="col-md-7">
-                <h2 class="featurette-heading">{{event.event_name}}</h2>
-                <p class="lead">Rs. {{product.price}}</p>
-                <a class="btn btn-primary" href="{% url 'addtocart' id=product.product_id %}">Add To Cart</a>
+            <div class="col-3 text-success p-3">
+               <a href="{% url 'addtocart' id=event.event_id %}"> <button type="button" class="btn btn-success">Book Now</button></a>
             </div>
-            
         </div>
     </div>
+    
+    
+    <div class="container-fluid">
+        <img src="/media/{{event.image}}" class="img-fluid mx-auto d-block" alt="...">
+    </div> 
+        <div class="container-fluid p-3">
+        <h6>ABOUT</h6>
+        <p>
+            {{event.event_description}}
+        </p>
 
-</div>
+             <br>
+
+             <h6>DATE</h6>
+        <p>
+            {{event.event_date}}
+        </p>
+
+        <br>
+
+        <h6>LOCATION</h6>
+        <p>
+            {{event.location}}
+        </p>
+     </div>
+     
+ 
 {% endblock %}

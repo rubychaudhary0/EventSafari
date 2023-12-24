@@ -1,73 +1,105 @@
-{% extends 'organizer/basic.html' %}
+{% extends 'main/basic.html' %}
+{% load hosts %}
 {% load static %}
 {% load myfilters %}
 {% block title %}
 {% endblock %}
 {% block css %}
 <style>
-    body{
-        background-color:#f5f5f5;
+    body {
+        background-color: #f5f5f5;
 
     }
-.main-area{
-    display: flex;
-    align-items: center;
-}
-.register-form{
-    width:100%;
-    max-width: 500px;
-    margin:auto;
-    margin-top:40px;
-    padding:20px;
-    background-color: #fff;
-    border-top: 5px solid #ffb100;
-    border-radius: 5px;
-}
-.mainheading{
-    text-align: center;
-}
-.errorlist{
-    color:red;
-}
-.signup-button{
-    background-color: #ffb100;
-    border-color: #ffb100;
-}
-.signup-button:hover{
-    background-color: #ffb100;
-    border-color: #ffb100;
-}
-.signup-button:focus{
-    background-color: #ffb100;
-    border-color: #ffb100;
-}
 
+    #intro {
+        background-image: url("/media/images/signup-bg.jpg");
+        height: 100vh;
+    }
+
+
+    
+
+    .main-area {
+        display: flex;
+        align-items: center;
+    }
+
+    .register-form {
+        width: 100%;
+        max-width: 500px;
+        margin: auto;
+        margin-top: 40px;
+        padding: 20px;
+        background-color: #fff;
+        box-shadow: #f5f5f5;
+        border-radius: 5px;
+    }
+
+    .custom-btn-2 {
+        border: 2px solid #006241;
+        border-radius: 30px;
+        font-family: Acme !important;
+        color: #006241;
+        font-weight: 500;
+    }
+
+    .mainheading {
+        text-align: center;
+    }
+
+    h2 {
+        color: #27592d !important;
+        font-family: Acme !important;
+        font-size: xx-large;
+    }
+
+    .errorlist {
+        color: red;
+    }
+
+    
 </style>
 {% endblock %}
 
 {% block body%}
-<form method="POST">{% csrf_token %}
-<div class="main-area">
-<div class="register-form">
-{{ form.non_field_errors }}
-      <h2 class="mainheading">EventSafari</h2>
-      <h4 class="mainheading">Sign Up</h4>
-      <label for="id_email" class="login-labels">Email Address*</label> 
-      {{ form.email.errors }}
-      {{ form.email|addclass:'form-control'|addplaceholder:'Email Address'}}
-      
-      <label for="id_name" class="login-labels">Name*</label> 
-      {{ form.name.errors }}
-      {{ form.name|addclass:'form-control'|addplaceholder:'Your Name' }}
-      <label for="id_password1" class="login-labels">Password*</label> 
-      {{ form.password1.errors }}
-      {{ form.password1|addclass:'form-control'|addplaceholder:'Your Password' }}
-      <label for="id_password2" class="login-labels">Password Confirmation*</label> 
-      {{ form.password2.errors }}
-      {{ form.password2|addclass:'form-control'|addplaceholder:'Your Password' }}
-      <br>
-<button type="submit" class="btn btn-primary btn-lg signup-button">Signup</button>
-</form>
-</div>
+<div id="intro" class="bg-image shadow-2-strong">
+    <div class="mask d-flex align-items-center" style="background-color: rgba(0, 0, 0, 0.6);">
+        <div class="container">
+            <div class="row justify-content-center">
+                <div class="col-xl-5 col-md-8">
+                    <form method="POST">{% csrf_token %}
+                        <div class="main-area">
+                            <div class="register-form">
+
+                                <h2 class="mainheading custom-text-2">Welcome !</h2>
+                                <h5 class="mainheading custom-text-2">Sign Up</h5>
+                                <p class="errorlist">{{ form.non_field_errors }}</p>
+                                <label for="id_email" class="login-labels">Email Address*</label>
+                                {{ form.email.errors }}
+                                {{ form.email|addclass:'form-control'|addplaceholder:'Email Address'}}
+
+                                <label for="id_name" class="login-labels">Name*</label>
+                                {{ form.name.errors }}
+                                {{ form.name|addclass:'form-control'|addplaceholder:'Your Name' }}
+                                <label for="id_password1" class="login-labels">Password*</label>
+                                {{ form.password1.errors }}
+                                {{ form.password1|addclass:'form-control'|addplaceholder:'Your Password' }}
+                                <label for="id_password2" class="login-labels">Password Confirmation*</label>
+                                {{ form.password2.errors }}
+                                {{ form.password2|addclass:'form-control'|addplaceholder:'Your Password' }}
+                                <br>
+                                <button type="submit" class="btn custom-btn-1"><b>Sign Up</b></button>
+
+                                <br>
+                                <br>
+                                Already have an account? Login <a
+                                    href="{% host_url 'login' host 'services' %}"><strong>here</strong></a> !
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
 {% endblock %}

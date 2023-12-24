@@ -30,147 +30,241 @@
   .utility {
     display: flex;
   }
+
+  /* Sidebar */
+  .sidebar {
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  padding: 58px 0 0; /* Height of navbar */
+  box-shadow: 0 2px 5px 0 rgb(0 0 0 / 5%), 0 2px 10px 0 rgb(0 0 0 / 5%);
+  width: 240px;
+  z-index: 600;
+  }
+  
+  @media (max-width: 991.98px) {
+  .sidebar {
+  width: 100%;
+  }
+  }
+  .sidebar .active {
+  border-radius: 5px;
+  box-shadow: 0 2px 5px 0 rgb(0 0 0 / 16%), 0 2px 10px 0 rgb(0 0 0 / 12%);
+  }
+  
+  .sidebar-sticky {
+  position: relative;
+  top: 0;
+  height: calc(100vh - 48px);
+  padding-top: 0.5rem;
+  overflow-x: hidden;
+  overflow-y: auto; /* Scrollable contents if viewport is shorter than content. */
+  }
 </style>
 {% endblock %}
 
 {% block body%}
-<div class="main-area">
-  <div class="product-cards">
-    <div class="utility">
-      <!-- For Making A Search Bar -->
-      <form method="GET" action="/listevents/" class="d-flex">
-        <input class="form-control me-2" name="search" id="search" type="search" placeholder="Search"
-          aria-label="Search">
-        <button class="btn btn-outline-success" type="submit">Search</button>
-      </form>
+<header>
 
-      <!-- For filtering based on Price -->
-      <select name="price" id="price-list" onchange="location = finalurl2();" style="margin-left: auto;">
-        <option value="" id="price-placeholder" disabled selected hidden>Price</option>
-        <option id="pr500" value="500">less than 500</option>
-        <option id="pr1000" value="1000">less than 1000</option>
-        <option id="pr2000" value="2000">less than 2000</option>
-        <option id="pr10000" value="10000">less than 10000</option>
-      </select>
-
-      <!-- For making sorting functionality -->
-      <select name="sort" id="sort-list" onchange="location = finalurl();" style="margin-left: auto;">
-        <option value="" id="placeholder" disabled selected hidden>Sort</option>
-        <option id="price" value="price">Price: Low To High</option>
-        <option id="-price" value="-price">Price: High To Low</option>
-        <option id="product_name" value="product_name">Product Name</option>
-        <option id="-date_added" value="-date_added">What's New</option>
-      </select>
+  
+  <!-- Navbar -->
+  <nav class="navbar navbar-expand-lg navbar-light bg-body-tertiary navbar-custom">
+    <!-- Container wrapper -->
+    <div class="container">
+      <!-- Toggle button -->
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
+        aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="fas fa-bars"></span>
+      </button>
 
 
+      <!-- Collapsible wrapper -->
+      <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <!-- Navbar brand -->
+        <a class="navbar-brand mt-2 mt-lg-0" href="#">
+          <b>EventSafari</b>
+        </a>
+        <!-- Left links -->
+        <ul class="navbar-nav ms-3 me-auto mb-2 mb-lg-0">
+          <li class="nav-item">
+            <a class="nav-link" href="{% url 'listevents' %}">Find Events</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="http://services.eventsafari.com:8000/">Create Events</a>
+          </li>
 
+        </ul>
+
+        <!-- Left links -->
+      </div>
+      <!-- Collapsible wrapper -->
+
+      <!-- Right elements -->
+      <div class="d-flex align-items-center">
+        <!-- Icon -->
+
+        <a class="nav-link" href="/search">
+          <form class="d-flex mt-0 mb-0">
+            <input class="form-control me-2 rounded-9" type="search" placeholder="Search" aria-label="Search">
+          </form>
+        </a>
+
+
+
+        {% if user.is_authenticated %}
+        <!-- Avatar -->
+        <div class="dropdown ms-5">
+          <a data-mdb-dropdown-init class="dropdown-toggle d-flex align-items-center hidden-arrow" href="#"
+            id="navbarDropdownMenuAvatar" role="button" aria-expanded="false">
+            <img src="https://mdbcdn.b-cdn.net/img/new/avatars/2.webp" class="rounded-circle" height="25"
+              alt="Black and White Portrait of a Man" loading="lazy" />
+          </a>
+          <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdownMenuAvatar">
+            <li>
+              <a class="dropdown-item" href="#">My profile</a>
+            </li>
+            <li>
+              <a class="dropdown-item" href="#">Settings</a>
+            </li>
+            <li>
+              <a class="dropdown-item" href="{% host_url 'logout' host 'www' %}">Logout</a>
+            </li>
+          </ul>
+        </div>
+        {% else %}
+        <a class="nav-link mx-5 text-dark" text-dark href="{% host_url 'login' host 'www' %}"><b>Log In</b></a>
+
+        <a class="btn custom-btn-1" href="{% host_url 'signup' host 'www' %}" role="button"><b>Register</b></a>
+        {% endif %}
+      </div>
+      <!-- Right elements -->
     </div>
+    <!-- Container wrapper -->
+  </nav>
+  <!-- Navbar -->
+
+
+</header>
+
+<main>
+
+  <div class="main-area mx-5">
+    
     <br>
+    <div class="container mb-5">
+      <h3 class="text-center custom-text-1"><b>Featured Events</b></h3>
+    </div>
     <div class="row row-cols-1 row-cols-md-4 g-4">
-      {% for i in product %}
+      {% for i in event %}
       <div class="col">
         <div class="card h-100">
           <img src="/media/{{i.image}}" class="card-img-top" alt="...">
           <div class="card-body">
-            <h5 class="card-title"><a href="{% host_url 'eventdetail' pk=i.event_id host 'www' %}">{{i.event_name}}</a></h5>
-            <p class="card-text">{{i.price}}</p>
+            <h5 class="card-title"><a href="{% host_url 'eventdetail' pk=i.event_id host 'www' %}">{{i.event_name}}</a>
+            </h5>
+            <p class="card-text">{{i.location}}</p>
           </div>
-          <a class="btn btn-primary" href="{% url 'addtocart' id=i.event_id %}">Add To Cart</a>
         </div>
       </div>
       {% endfor %}
     </div>
-    
+  </div>
 
-    
 
-    <br>
+  <!-- Footer -->
+<footer class="text-center text-lg-start bg-light text-muted">
+  <div class="container-fluid text-white background-custom">
+      <!-- Section: Links  -->
+      <section class="">
+          <div class="container text-center text-md-start mt-5 pt-5">
+              <!-- Grid row -->
+              <div class="row mt-3">
+                  <!-- Grid column -->
+                  <div class="col-md-3 col-lg-4 col-xl-3 mx-auto mb-4">
+                      <!-- Content -->
+                      <h6 class="text-uppercase fw-bold mb-4">
+                          <i class="fas fa-gem me-3"></i>EventSafari
+                      </h6>
+                      <p>
 
-    <!-- **Now the pagination section** .... -->
-    {% if is_paginated %}
-    <nav class="pagination">
-      <ul class="pagination">
-        {% if page_obj.has_previous %}
-        <li class="page-item">
-          <a class="page-link" tabindex="-1" aria-disabled="true"
-            href="/listevents/?page={{ page_obj.previous_page_number }}">Previous</a>
-        </li>
-        {% endif %}
-        {% for i in paginator.page_range %}
-        {% if i == page_obj.number%}
-        <li class="page-item active" aria-current="page">
-          <a class="page-link" href="/listevents/?page={{i}}" span class="visually-hidden">{{i}}</span></a>
-        </li>
-        {% else %}
-        <li class="page-item"><a class="page-link" href="/listevents/?page={{i}}">{{i}}</a></li>
-        {% endif %}
-        {% endfor %}
-        {% if page_obj.has_next %}
-        <li class="page-item">
-          <a class="page-link" tabindex="-1" href="/listevents/?page={{ page_obj.next_page_number }}">Next</a>
-        </li>
-        {% endif %}
-      </ul>
-    </nav>
-    {% endif %}
+                      </p>
+                  </div>
+                  <!-- Grid column -->
+
+                  <!-- Grid column -->
+                  <div class="col-md-2 col-lg-2 col-xl-2 mx-auto mb-4">
+                      <!-- Links -->
+                      <h6 class="text-uppercase fw-bold mb-4">
+                          Features
+                      </h6>
+                      <p>
+                          <a href="#!" class="text-reset">Create Events</a>
+                      </p>
+                      <p>
+                          <a href="#!" class="text-reset">Sell Tickets</a>
+                      </p>
+                      <p>
+                          <a href="#!" class="text-reset">Book Events</a>
+                      </p>
+                      <p>
+                          <a href="#!" class="text-reset">Event Payment</a>
+                      </p>
+                  </div>
+                  <!-- Grid column -->
+
+                  <!-- Grid column -->
+                  <div class="col-md-3 col-lg-2 col-xl-2 mx-auto mb-4">
+                      <!-- Links -->
+                      <h6 class="text-uppercase fw-bold mb-4">
+                          Useful links
+                      </h6>
+                      <p>
+                          <a href="#!" class="text-reset">Pricing</a>
+                      </p>
+                      <p>
+                          <a href="#!" class="text-reset">Settings</a>
+                      </p>
+                      <p>
+                          <a href="#!" class="text-reset">Orders</a>
+                      </p>
+                      <p>
+                          <a href="#!" class="text-reset">Help</a>
+                      </p>
+                  </div>
+                  <!-- Grid column -->
+
+                  <!-- Grid column -->
+                  <div class="col-md-4 col-lg-3 col-xl-3 mx-auto mb-md-0 mb-4">
+                      <!-- Links -->
+                      <h6 class="text-uppercase fw-bold mb-4">Contact</h6>
+                      <p><i class="fas fa-home me-3"></i> Bharatpur, Nepal</p>
+                      <p>
+                          <i class="fas fa-envelope me-3"></i>
+                          eventsafari0@gmail.com
+                      </p>
+                      <p><i class="fas fa-phone me-3"></i> + 977 9864523523</p>
+                      <p><i class="fas fa-print me-3"></i> + 977 9862356325</p>
+                  </div>
+                  <!-- Grid column -->
+              </div>
+              <!-- Grid row -->
+          </div>
+      </section>
+      <!-- Section: Links  -->
   </div>
 
 
 
-</div>
-{% endblock %}
-
-{% block js %}
-<script>
-  // for getting the sorting status to be displayed in sorting dropdown placeholder
-  function get(name) {
-    if (name = (new RegExp('[?&]' + encodeURIComponent(name) + '=([^&]*)')).exec(location.search))  //location.search give query sling part
-      return decodeURIComponent(name[1]);
-  }
-
-  if(get('ordering'))
-  document.getElementById('placeholder').innerHTML = "Sort: " + document.getElementById(get('ordering')).innerHTML;
-
-  if(get('price'))
-  document.getElementById('price-placeholder').innerHTML = "Price: " + document.getElementById('pr'+get('price')).innerHTML;
+  <!-- Copyright -->
+  <div class="text-center text-white p-4 background-custom">
+      © 2024 Copyright:
+      <a class="text-reset fw-bold" href="#">eventsafari.com</a>
+  </div>
+  <!-- Copyright -->
+</footer>
+<!-- Footer -->
 
 
-
-  
-  
-
-  // for getting url after applying ordering
-  function finalurl() {
-    var url = new URL(window.location.href);
-    var search_params = url.searchParams;
-    search_params.set('ordering', document.getElementById("sort-list").value);
-    url.search = search_params.toString();
-    var new_url = url.toString();
-    return new_url
-  }
-  
-  // for getting url after applying price filtering
-  function finalurl2() {
-    var url = new URL(window.location.href);
-    var search_params = url.searchParams;
-    search_params.set('price', document.getElementById("price-list").value);
-    url.search = search_params.toString();
-    var new_url = url.toString();
-    return new_url
-  }
-
-</script>
-
-
-<script src="https://code.jquery.com/jquery-1.12.4.js"></script>
-<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
-<script>
-  // for giving suggestions in search box by calling an API
-  $(function () {
-    $("#search").autocomplete({
-      source: "{% url 'suggestionApi' %}",
-      minLength: 2
-    });
-  });
-</script>
-{% endblock %}
+  </main>
+  {% endblock %}

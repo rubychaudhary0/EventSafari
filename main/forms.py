@@ -1,6 +1,6 @@
 from django import forms
 from django.contrib.auth.forms import UserCreationForm, UserChangeForm, ReadOnlyPasswordHashField
-from .models import CustomUser, Organizer, OrganizerAdditional
+from .models import CustomUser, Organizer, OrganizerAdditional, Event, EventInCart
 from django.core.exceptions import ValidationError 
 from django.core.validators import RegexValidator
 import zoneinfo
@@ -59,6 +59,28 @@ class RegistrationFormSeller2(forms.ModelForm):
             'timezone'
         ]
 
+class EventCreation(forms.ModelForm):
+    class Meta:
+        model = Event
+        fields = [
+            'title',
+            'event_description',
+            'start_date',
+            'location',
+            'capacity',
+            'category',
+            'image'
+        ]
+
+
+class CartForm(forms.ModelForm):
+    class Meta:
+        model = EventInCart
+        fields = [
+            'quantity'
+        ]
+
+
 '''
 class SendOtpBasicForm(forms.Form):
     phone_regex = RegexValidator( regex = r'^\d{10}$',message = "phone number should exactly be in 10 digits")
@@ -77,13 +99,6 @@ class VerifyOtpBasicForm(forms.Form):
     #     field
 
 
-
-class CartForm(forms.ModelForm):
-    class Meta:
-        model = ProductInCart
-        fields = [
-            'quantity'
-        ]
 
 
 '''

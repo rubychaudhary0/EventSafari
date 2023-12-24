@@ -1,10 +1,10 @@
-from django.shortcuts import render, HttpResponse, redirect
+from django.shortcuts import render, HttpResponse, redirect, get_object_or_404
 from django.http import JsonResponse
 from django.views.generic import TemplateView, FormView, CreateView, ListView, UpdateView, DeleteView, DetailView, View
 from django.core.exceptions import ValidationError
-from .forms import RegistrationFormSeller, RegistrationForm, RegistrationFormSeller2
+from .forms import RegistrationFormSeller, RegistrationForm, RegistrationFormSeller2, CartForm
 from django.urls import reverse_lazy, reverse
-from .models import CustomUser, Event
+from .models import CustomUser, Event, Cart, EventInCart, Category
 from django.contrib.auth.views import LoginView, LogoutView
 from django.contrib.auth.mixins import LoginRequiredMixin
 
@@ -38,20 +38,12 @@ def Index(request):
     }
     return render(request, 'main/index.html', context)
 
-'''
-class Index(TemplateView):
-    template_name = 'main/index.html'
 
-    def data(self, request, *args, **kwargs):
-        event_data = Event.objects.all()
-        print(event_data)
-        context = {
-           'event_data':event_data
-        }
-'''
 
-class search(TemplateView):
-    template_name = 'main/search.html'    
+def search(request): 
+     return render(request, 'main/search.html')  
+
+
 
 
 def testsessions(request):
@@ -135,14 +127,93 @@ class LogoutViewUser(LogoutView):
     success_url = reverse_lazy('index')
 
 
+
+
 class ListEvents(ListView):
     template_name = "main/listevents.html"
     model = Event
     context_object_name = "event"
-    paginate_by = 2
+  
+
+class EventDetail(DetailView):
+    model = Event
+    template_name = "main/event_detail.html"
+    context_object_name = "event"
 
 
+def eventcategory(request):
+    cat = Category.objects.all()
+    context = {'cat': cat}
+    return render(request, 'main/eventcategory.html', context)
 
+def ReadCat(request, id):
+    cats = Category.objects.all(cat_id = id)
+    events = Event.object.filter(category = cats)
+    context = {'cat': cats, 'events': events}
+    return render(request, 'main/read_cat.html', context)
+
+
+@login_required
+def addToCart(request, id):
+    try:
+        cart = Cart.objects.get(user = request.user)
+        try:
+            event = Event.objects.get(event_id = id)
+            try:
+                eventincart = EventInCart.objects.get(cart = cart, event = event)
+                eventincart.quantity = eventincart.quantity + 1
+                eventincart.save()
+                messages.success(request, "Successfully added to cart")
+                return redirect(reverse_lazy("displaycart"))
+            except:
+                eventincart = EventInCart.objects.create(cart = cart, event = event, quantity=1)
+                messages.success(request, "Successfully added to cart")
+                return redirect(reverse_lazy("displaycart"))
+        except:
+            messages.error(request, "Event can not be found")
+            return redirect(reverse_lazy('listevents'))
+    except:
+        cart = Cart.objects.create(user = request.user)
+        try:
+            event = Event.objects.get(event_id = id)
+            eventincart = EventInCart.objects.create(cart = cart, event = event, quantity = 1)
+            messages.success(request, "Successfully added to cart")
+            return redirect(reverse_lazy("displaycart"))
+        except:
+            messages.error(request, "Error in adding to cart. Please try again")
+            return redirect(reverse_lazy('listevents'))
+
+class DisplayCart(LoginRequiredMixin, ListView):
+    model = EventInCart
+    template_name = "main/displaycart.html"
+    context_object_name = "cart"
+
+    def get_queryset(self):
+        queryset = EventInCart.objects.filter(cart = self.request.user.cart)
+        return queryset
+
+
+class UpdateCart(LoginRequiredMixin, UpdateView):
+    model = EventInCart
+    form_class = CartForm
+    success_url = reverse_lazy("displaycart")
+
+    def post(self, request, *args, **kwargs):
+        response = super().post(request, *args, **kwargs)
+        if response.status_code == 302:
+            if int(request.POST.get("quantity")) == 0:
+                eventincart = self.get_object()
+                eventincart.delete()
+            return response
+        else:
+            messages.error(request, "error in quantity")
+            return redirect(reverse_lazy("displaycart"))
+
+class DeleteFromCart(LoginRequiredMixin, DeleteView):
+    model = EventInCart
+    success_url = reverse_lazy("displaycart")  
+
+'''
 from django.core.paginator import EmptyPage, PageNotAnInteger, Paginator
 import json
 from django.core.serializers.json import DjangoJSONEncoder
@@ -213,69 +284,6 @@ def listEventsApi(request):
 
 
 
-class EventDetail(DetailView):
-    model = Event
-    template_name = "main/event_detail.html"
-    context_object_name = "event"
 
 '''
-@login_required
-def addToCart(request, id):
-    try:
-        cart = Cart.objects.get(user = request.user)
-        try:
-            product = Product.objects.get(product_id = id)
-            try:
-                productincart = ProductInCart.objects.get(cart = cart, product = product)
-                productincart.quantity = productincart.quantity + 1
-                productincart.save()
-                messages.success(request, "Successfully added to cart")
-                return redirect(reverse_lazy("displaycart"))
-            except:
-                productincart = ProductInCart.objects.create(cart = cart, product = product, quantity=1)
-                messages.success(request, "Successfully added to cart")
-                return redirect(reverse_lazy("displaycart"))
-        except:
-            messages.error(request, "Product can not be found")
-            return redirect(reverse_lazy('listproducts'))
-    except:
-        cart = Cart.objects.create(user = request.user)
-        try:
-            product = Product.objects.get(product_id = id)
-            productincart = ProductInCart.objects.create(cart = cart, product = product, quantity = 1)
-            messages.success(request, "Successfully added to cart")
-            return redirect(reverse_lazy("displaycart"))
-        except:
-            messages.error(request, "Error in adding to cart. Please try again")
-            return redirect(reverse_lazy('listproducts'))
 
-
-class DisplayCart(LoginRequiredMixin, ListView):
-    model = ProductInCart
-    template_name = "account/displaycart.html"
-    context_object_name = "cart"
-
-    def get_queryset(self):
-        queryset = ProductInCart.objects.filter(cart = self.request.user.cart)
-        return queryset
-
-class UpdateCart(LoginRequiredMixin, UpdateView):
-    model = ProductInCart
-    form_class = CartForm
-    success_url = reverse_lazy("displaycart")
-
-    def post(self, request, *args, **kwargs):
-        response = super().post(request, *args, **kwargs)
-        if response.status_code == 302:
-            if int(request.POST.get("quantity")) == 0:
-                productincart = self.get_object()
-                productincart.delete()
-            return response
-        else:
-            messages.error(request, "error in quantity")
-            return redirect(reverse_lazy("displaycart"))
-
-class DeleteFromCart(LoginRequiredMixin, DeleteView):
-    model = ProductInCart
-    success_url = reverse_lazy("displaycart")  
-'''

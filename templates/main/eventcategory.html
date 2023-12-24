@@ -1,0 +1,13 @@
+{% extends 'main/basic.html' %}
+{% load static %}
+{% block title %}
+{% endblock %}
+{% block css %}
+
+{% endblock %}
+
+{% block body%}
+ {% for i in cat %}
+ <a href="{% url 'event-cat' i.cat_id %}">{{i.name}}</a><br>
+ {% endfor %}
+{% endblock %}

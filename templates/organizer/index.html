@@ -1,5 +1,6 @@
 {% extends 'organizer/basic.html' %}
 {% load static %}
+{% load hosts %}
 {% block title %}
 {% endblock %}
 {% block css %}
@@ -51,7 +52,7 @@
       <ul class="navbar-nav flex-row">
         <!-- Icons -->
         <li class="nav-item">
-          <a class="btn btn-lg custom-btn-3" href="#" role="button"><b>Create Event</b></a>
+          <a class="btn btn-lg custom-btn-3" href="{% host_url 'login' host 'services' %}" role="button"><b>Create Event</b></a>
         </li>
 
       </ul>
@@ -66,7 +67,7 @@
       <div class="col-md-6 p-lg-5 p-md-10 d-flex flex-column justify-content-center align-items-center">
         <h1 class="display-3 fw-bold custom-text-2">Create Events With EventSafari</h1>
         <p class="lead fw-normal text-start custom-text-3">For all your event ticketing needs, from small gatherings to the large festivals, our event booking system has you covered.</p>
-        <a class="btn custom-btn-3 btn-lg" href="#">Sign Up</a>
+        <a class="btn custom-btn-3 btn-lg" href="{% host_url 'signup' host 'services' %}">Sign Up</a>
       </div>
       <div class="col-md-3 p-lg-5">
         <img src="https://cdn.pixabay.com/photo/2016/07/05/19/59/christening-1499314_640.jpg" class="banner-img" alt="Author image" style="border-radius: 43% 57% 39% 61% / 42% 30% 70% 58%;">

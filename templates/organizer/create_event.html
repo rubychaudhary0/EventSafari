@@ -1,0 +1,17 @@
+{% extends 'organizer/basic.html' %}
+{% load static %}
+{% load myfilters %}
+{% block title %}
+{% endblock %}
+{% block css %}
+{% endblock %}
+
+{% block body%}
+<form method="post" enctype="multipart/form-data">
+    {% csrf_token %}
+    
+    {{ form.as_p }}
+    
+    <button type="submit">Submit</button>
+</form>
+{% endblock %}

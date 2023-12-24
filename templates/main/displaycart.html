@@ -32,17 +32,17 @@
     {% for i in cart %}
     <div class="row featurette">
       <div class="col-md-2">
-        <img src="/media/{{i.product.image}}" class="card-img-top" alt="...">
+        <img src="/media/{{i.event.image}}" class="card-img-top" alt="...">
       </div>
       <div class="col-md-7">
-        <h2 class="featurette-heading">{{i.product.product_name}}</h2>
-        <p class="lead">Rs. {{i.product.price}}</p>
+        <h2 class="featurette-heading">{{i.event.event_name}}</h2>
+        <p class="lead">Rs. {{i.event.price}}</p>
         <p class="lead">Quantity- {{i.quantity}}</p>
-        <form method="POST" action="{% url 'updatecart' pk=i.product_in_cart_id %}">{% csrf_token %}
+        <form method="POST" action="{% url 'updatecart' pk=i.event_in_cart_id %}">{% csrf_token %}
           <input type="text" id="id_quantity" name="quantity">
           <button class="btn btn-primary" type="submit">Update Quantity</button>
         </form>
-        <form method="POST" action="{% url 'deletefromcart' pk=i.product_in_cart_id %}">{% csrf_token %}
+        <form method="POST" action="{% url 'deletefromcart' pk=i.event_in_cart_id %}">{% csrf_token %}
           <button class="btn btn-primary" type="submit">Delete</button>
         </form>
       </div>

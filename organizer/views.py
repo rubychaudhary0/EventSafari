@@ -1,11 +1,12 @@
 from django.shortcuts import render, HttpResponse, redirect
 from django.views.generic import TemplateView, FormView, CreateView
 from django.core.exceptions import ValidationError
-from main.forms import RegistrationForm, RegistrationFormSeller2
+from main.forms import RegistrationForm, RegistrationFormSeller2, EventCreation
 from django.urls import reverse_lazy, reverse
 from main.models import OrganizerAdditional, CustomUser
 from django.contrib.auth.views import LoginView, LogoutView
 from django.contrib.auth.mixins import LoginRequiredMixin
+from django.views import View
 # Create your views here.
 
 def index(request):
@@ -34,7 +35,7 @@ class LogoutViewUser(LogoutView):
 class RegisterView(CreateView):
     template_name = 'organizer/registerbaseuser.html'
     form_class = RegistrationForm
-    success_url = reverse_lazy('index')
+    success_url = reverse_lazy('dashboard')
 
 
 def dashboard(request):
@@ -42,3 +43,21 @@ def dashboard(request):
 
 def home(request):
     return render(request, 'organizer/dashboard/home.html')
+
+def events(request):
+    return render(request, 'organizer/dashboard/events.html')
+
+def create_event(request):
+    if request.method == 'POST':
+        form = EventCreation(request.POST, request.FILES)
+        if form.is_valid():
+            form.save()
+            return redirect('organizer/dashboard/events')
+    else:
+        form = EventCreation()
+
+    return render(request, 'organizer/create_event.html', {'form': form})
+
+
+
+
