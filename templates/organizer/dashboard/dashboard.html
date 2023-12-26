@@ -1,5 +1,6 @@
 {% extends 'organizer/basic.html' %}
 {% load static %}
+{% load hosts %}
 {% block title %}
 {% endblock %}
 
@@ -69,28 +70,27 @@
       <ul class="navbar-nav ms-auto d-flex flex-row">
       
         <li class="nav-item mx-5">
-          <a class="btn btn-lg custom-btn-3" href="{% url 'create_event' %}" role="button"><b><i class="fas fa-plus me-2"></i>Create</b></a>
+          <a class="btn btn-lg custom-btn-3" href="{% url 'event-create' %}" role="button"><b><i class="fas fa-plus me-2"></i>Create</b></a>
         </li>
 
-        <!-- Avatar -->
-        <li class="nav-item dropdown">
-          <a class="nav-link dropdown-toggle hidden-arrow d-flex align-items-center" href="#"
-            id="navbarDropdownMenuLink" role="button" data-mdb-toggle="dropdown" aria-expanded="false">
-            <img src="https://mdbcdn.b-cdn.net/img/Photos/Avatars/img (31).webp" class="rounded-circle"
-              height="35" alt="Avatar" loading="lazy" />
+        <div class="dropdown ms-5">
+          <a data-mdb-dropdown-init class="dropdown-toggle d-flex align-items-center hidden-arrow" href="#"
+              id="navbarDropdownMenuAvatar" role="button" aria-expanded="false">
+              <img src="https://mdbcdn.b-cdn.net/img/new/avatars/2.webp" class="rounded-circle" height="25"
+                  alt="Black and White Portrait of a Man" loading="lazy" />
           </a>
-          <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdownMenuLink">
-            <li>
-              <a class="dropdown-item" href="#">My profile</a>
-            </li>
-            <li>
-              <a class="dropdown-item" href="#">Settings</a>
-            </li>
-            <li>
-              <a class="dropdown-item" href="#">Logout</a>
-            </li>
+          <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdownMenuAvatar">
+              <li>
+                  <a class="dropdown-item" href="#">My profile</a>
+              </li>
+              <li>
+                  <a class="dropdown-item" href="#">Settings</a>
+              </li>
+              <li>
+                  <a class="dropdown-item" href="{% host_url 'logout' host 'services' %}">Logout</a>
+              </li>
           </ul>
-        </li>
+      </div>
       </ul>
     </div>
     <!-- Container wrapper -->

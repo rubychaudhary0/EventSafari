@@ -161,7 +161,7 @@
         <div class="card h-100">
           <img src="/media/{{i.image}}" class="card-img-top" alt="...">
           <div class="card-body">
-            <h5 class="card-title"><a href="{% host_url 'eventdetail' pk=i.event_id host 'www' %}">{{i.event_name}}</a>
+            <h5 class="card-title"><a href="{% host_url 'eventdetail' pk=i.event_id host 'www' %}">{{i.title}}</a>
             </h5>
             <p class="card-text">{{i.location}}</p>
           </div>

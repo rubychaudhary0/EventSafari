@@ -66,10 +66,13 @@ class EventCreation(forms.ModelForm):
             'title',
             'event_description',
             'start_date',
-            'location',
-            'capacity',
+            'end_date',
+            'start_time',
             'category',
-            'image'
+            'venue',
+            'capacity',
+            'image',
+            'price'
         ]
 
 

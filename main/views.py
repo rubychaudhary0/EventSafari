@@ -124,7 +124,7 @@ class LoginViewUser(LoginView):
     template_name = "main/login.html"
 
 class LogoutViewUser(LogoutView):
-    success_url = reverse_lazy('index')
+    success_url = reverse_lazy('login')
 
 
 
@@ -147,8 +147,8 @@ def eventcategory(request):
     return render(request, 'main/eventcategory.html', context)
 
 def ReadCat(request, id):
-    cats = Category.objects.all(cat_id = id)
-    events = Event.object.filter(category = cats)
+    cats = Category.objects.get(cat_id = id)
+    events = Event.objects.filter(category = cats)
     context = {'cat': cats, 'events': events}
     return render(request, 'main/read_cat.html', context)
 
@@ -212,78 +212,4 @@ class UpdateCart(LoginRequiredMixin, UpdateView):
 class DeleteFromCart(LoginRequiredMixin, DeleteView):
     model = EventInCart
     success_url = reverse_lazy("displaycart")  
-
-'''
-from django.core.paginator import EmptyPage, PageNotAnInteger, Paginator
-import json
-from django.core.serializers.json import DjangoJSONEncoder
-from django.db.models import Q
-EVENTS_PER_PAGE = 2
-def listEvents(request):
-    
-    location = request.GET.get('location', "")     # http://www.wondershop.in:8000/listproducts/?page=1&ordering=price
-    search = request.GET.get('search', "")
-    category = request.GET.get('category', "")
-
-    if search:
-        event = Event.objects.filter(Q(event_name__icontains=search) | Q(location__icontains=search)) # SQLite doesn’t support case-sensitive LIKE statements; contains acts like icontains for SQLite
-
-    else:
-        event = Event.objects.all()
-
-    if location:
-        event = event.filter(location__lt = location)
-
-    if category:
-        event = event.filter(category__lt = category)
-    
-
-    # Pagination
-    page = request.GET.get('page',1)
-    event_paginator = Paginator(event, EVENTS_PER_PAGE)
-    try:
-        event = event_paginator.page(page)
-    except EmptyPage:
-        event = event_paginator.page(event_paginator.num_pages)
-    except:
-        event = event_paginator.page(EVENTS_PER_PAGE)
-    return render(request, "main/events.html", {"event":event, 'page_obj':event, 'is_paginated':True, 'paginator':event_paginator})
-
-
-def suggestionApi(request):
-    if 'term' in request.GET:
-        search = request.GET.get('term')
-        qs = Event.objects.filter(Q(event_name__icontains=search))[0:10]
-        # print(list(qs.values()))
-        # print(json.dumps(list(qs.values()), cls = DjangoJSONEncoder))
-        titles = list()
-        for event in qs:
-            titles.append(event.event_name)
-        #print(titles)
-        if len(qs)<10:
-            length = 10 - len(qs)
-            qs2 = Event.objects.filter(Q(brand__icontains=search))[0:length]
-            for event in qs2:
-                titles.append(event.location)
-        return JsonResponse(titles, safe=False)      # [1,2,3,4] ---> "[1,2,3,4]"   queryset ---> serialize into list or dict format ---> json format using json.dumps with a DjangoJSONEncoder(encoder to handle datetime like objects)
-
-
-
-
-def listEventsApi(request):
-    # print(Product.objects.all())
-    # print(Product.objects.values())
-    #result = json.dumps(list(Product.objects.values()), sort_keys=False, indent=0, cls=DjangoJSONEncoder)   # will return error if you have a datetime object as it is not jsonserializable  so thats why use DjangoJSONEncoder, indent to beautify and sort_keys to sort keys
-    #print(type(result))    #str type  
-    #print(result)
-    result = list(Event.objects.values())          # will work like passing queryset as a context data if used by a template
-    #print(result)
-    #return render(request, "firstapp/listproducts.html", {"product":result})
-    return JsonResponse(result, safe=False)
-
-
-
-
-
-'''
 

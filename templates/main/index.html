@@ -51,7 +51,7 @@
     }
 
 
-    
+
 
 
 
@@ -99,17 +99,7 @@
                         <a class="nav-link" href="http://services.eventsafari.com:8000/">Create Events</a>
                     </li>
 
-                    <li class="dropdown">
-                        <button class="btn custom-btn-2 dropdown-toggle" type="button" id="dropdownMenuButton"
-                            data-mdb-toggle="dropdown" aria-expanded="false">
-                            Categories
-                        </button>
-                        <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                            <li><a class="dropdown-item" href="#">Action</a></li>
-                            <li><a class="dropdown-item" href="#">Another action</a></li>
-                            <li><a class="dropdown-item" href="#">Something else here</a></li>
-                        </ul>
-                    </li>
+                    
                 </ul>
 
                 <!-- Left links -->
@@ -161,7 +151,7 @@
     </nav>
     <!-- Navbar -->
 
-
+    <div id="categories"></div>
 
     <!--Banner-->
     <div class="container-fluid overflow-hidden background-custom mb-5">
@@ -172,7 +162,7 @@
                     gatherings to the large festivals, our event booking system has you covered.</p>
                 <a class="btn custom-btn-1 btn-lg" href="#">Find Events</a>
             </div>
-            <div class="col-md-5 p-lg-5 text-center">
+            <div class="col-md-5 p-lg-5 text-center bg-image hover-zoom">
                 <img src="media/images/colors.jpg" class="img-fluid rounded-9 rotate-lg" alt="Author image">
 
             </div>
@@ -258,7 +248,7 @@
                     <img src='/media/{{event.image}}' class="card-img-top" alt="..."
                         style="width: 18rem; height:15rem;">
                     <div class="card-body" style="width: 18rem; height:15rem;">
-                        <h5 class="card-title">{{event.event_name}}</h5>
+                        <h5 class="card-title">{{event.title}}</h5>
                         <br>
                         <p class="card-text">VENUE : {{event.location}}</p>
                         <a href="#" class="btn custom-btn-1">Book Ticket</a>
@@ -274,7 +264,7 @@
 
     <div id="search" class="search-div">
 
-        
+
     </div>
 </main>
 
@@ -380,12 +370,12 @@
 
 {% block js %}
 <script>
-    document.getElementById('search-bar').addEventListener('click', function() {
-        var search = document.getElementById('search');   
-    // Code to show or animate the search bar
-    search.classList.toggle('search');
-    // or any other display property
-});
+    document.getElementById('search-bar').addEventListener('click', function () {
+        var search = document.getElementById('search');
+        // Code to show or animate the search bar
+        search.classList.toggle('search');
+        // or any other display property
+    });
 
 </script>
 {% endblock %}

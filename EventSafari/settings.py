@@ -52,7 +52,7 @@ INSTALLED_APPS = [
     'six',
     'django_hosts',
     'channels',
-    'django_countries',
+    
 ]
 
 MIDDLEWARE = [
@@ -166,7 +166,7 @@ AUTH_USER_MODEL = 'main.CustomUser'
 
 LOGIN_URL = 'login'
 LOGIN_REDIRECT_URL = 'index'
-LOGOUT_REDIRECT_URL = 'index'
+LOGOUT_REDIRECT_URL = 'login'
 
 from django.contrib.messages import constants as messages
 MESSAGE_TAGS = {

@@ -1,17 +1,95 @@
 {% extends 'organizer/basic.html' %}
 {% load static %}
+{% load hosts %}
 {% load myfilters %}
 {% block title %}
 {% endblock %}
+
 {% block css %}
+<style>
+    body{
+        background-color:#f5f5f5;
+
+    }
+.main-area{
+    display: flex;
+    align-items: center;
+}
+.event-form{
+    width:100%;
+    max-width: 800px;
+    margin:auto;
+    margin-top:40px;
+    padding:20px;
+    background-color: #fff;
+    border-top: 5px solid #2BA977;
+    border-radius: 5px;
+}
+.mainheading{
+    text-align: center;
+}
+</style>
 {% endblock %}
 
 {% block body%}
-<form method="post" enctype="multipart/form-data">
-    {% csrf_token %}
-    
-    {{ form.as_p }}
-    
-    <button type="submit">Submit</button>
+
+<form method="POST">{% csrf_token %}
+    <div class="main-area">
+        <div class="event-form">
+            {{ form.non_field_errors }}
+            <h2 class="mainheading custom-text-2">Welcome !</h2>
+            <h4 class="mainheading">Login</h4>
+            <label for="id_title" class="login-labels">Event Title</label>
+            {{ form.title.errors }}
+            {{ form.title|addclass:'form-control'|addplaceholder:'Event Name Or Title'}}
+
+            <label for="id_event_description" class="login-labels">Description</label>
+            {{ form.event_description.errors }}
+            {{ form.event_description|addclass:'form-control'|addplaceholder:'Your Password' }}
+           
+            <label for="id_start_date" class="login-labels">Start Date</label>
+            {{ form.start_date.errors }}
+            {{ form.start_date|addclass:'form-control'|addplaceholder:'start date'}}
+            
+            <label for="id_end_date" class="login-labels">Ending Date</label>
+            {{ form.end_date.errors }}
+            {{ form.end_date|addclass:'form-control'|addplaceholder:'end date'}}
+
+            <label for="id_start_time" class="login-labels">Start time</label>
+            {{ form.start_time.errors }}
+            {{ form.start_time|addclass:'form-control'|addplaceholder:'start time'}}
+
+            <label for="id_category" class="login-labels">Event Category</label>
+            {{ form.category.errors }}
+            {{ form.category|addclass:'form-control'|addplaceholder:'Event Name Or Title'}}
+
+            <label for="id_venue" class="login-labels">Venue</label>
+            {{ form.venue.errors }}
+            {{ form.venue|addclass:'form-control'|addplaceholder:'Event Name Or Title'}}
+
+            <label for="id_capacity" class="login-labels">Event Capacity</label>
+            {{ form.capacity.errors }}
+            {{ form.capacity|addclass:'form-control'|addplaceholder:'Event Name Or Title'}}
+
+            <label for="id_image" class="login-labels">Event Image</label>
+            {{ form.image.errors }}
+            {{ form.image|addclass:'form-control'|addplaceholder:'Event Name Or Title'}}
+
+            <label for="id_price" class="login-labels">Ticket Price</label>
+            {{ form.price.errors }}
+            {{ form.price|addclass:'form-control'|addplaceholder:'Event Name Or Title'}}
+
+            <br>
+            <div class="form-buttons">
+                <input type="submit" value="Save" class="btn btn-primary"/>
+                <a href="{% url 'dashboard' %}" class="btn btn-outline">Cancel</a>
+            </div>
+            <br>
+            <br>
+            
+        </div>
+    </div>
+
 </form>
+
 {% endblock %}

@@ -3,10 +3,12 @@ from django.views.generic import TemplateView, FormView, CreateView
 from django.core.exceptions import ValidationError
 from main.forms import RegistrationForm, RegistrationFormSeller2, EventCreation
 from django.urls import reverse_lazy, reverse
-from main.models import OrganizerAdditional, CustomUser
+from main.models import OrganizerAdditional, CustomUser, Event
 from django.contrib.auth.views import LoginView, LogoutView
+from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.views import View
+from django.contrib import messages
 # Create your views here.
 
 def index(request):
@@ -14,7 +16,7 @@ def index(request):
 
 class LoginViewUser(LoginView):
     template_name = "organizer/login.html"
-    #success_url = reverse_lazy('index')
+    #success_url = reverse_lazy('dashboard')
 
 class RegisterViewSeller(LoginRequiredMixin, CreateView):
     template_name = 'organizer/register.html'
@@ -30,7 +32,7 @@ class RegisterViewSeller(LoginRequiredMixin, CreateView):
         
 
 class LogoutViewUser(LogoutView):
-    success_url = reverse_lazy('index')
+    success_url = reverse_lazy('login')
 
 class RegisterView(CreateView):
     template_name = 'organizer/registerbaseuser.html'
@@ -38,6 +40,7 @@ class RegisterView(CreateView):
     success_url = reverse_lazy('dashboard')
 
 
+@login_required
 def dashboard(request):
     return render(request, 'organizer/dashboard/dashboard.html')
 
@@ -47,16 +50,16 @@ def home(request):
 def events(request):
     return render(request, 'organizer/dashboard/events.html')
 
-def create_event(request):
-    if request.method == 'POST':
-        form = EventCreation(request.POST, request.FILES)
-        if form.is_valid():
-            form.save()
-            return redirect('organizer/dashboard/events')
-    else:
-        form = EventCreation()
+class EventCreate(CreateView):
+    model = Event
+    form_class = EventCreation
+    template_name = 'organizer/create_event.html'
+    success_url = reverse_lazy('dashboard')
 
-    return render(request, 'organizer/create_event.html', {'form': form})
+    def form_valid(self, form):
+        form.instance.user = self.request.user
+        messages.success(self.request, "The event was created successfully.")
+        return super(EventCreate, self).form_valid(form)
 
 
 
