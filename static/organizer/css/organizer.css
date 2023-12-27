@@ -4,13 +4,12 @@
 .navbar-brand {
     color: #006241 !important;
     font-family: Acme !important;
-    font-size: xx-large;
+
 }
 
 .nav-item{
     color: black !important;
     font-family: Rubik;
-    font-size: large;
     font-weight: bold;
 }
 

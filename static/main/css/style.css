@@ -10,14 +10,18 @@
     background-color: #ffdadf;
   }
 
+  .background-custom-4{
+    background-color: #ffb100;
+  }
+
   .icon-color{
     color: #7ea45e !important;
   }
   
   .navbar-brand {
-    color: #006241 !important;
+    color: #ffb100 !important;
     font-family: Acme !important;
-    font-size: xx-large;
+    
   }
   
   .custom-btn-1 {
