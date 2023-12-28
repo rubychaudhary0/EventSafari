@@ -56,7 +56,7 @@ class RegistrationFormSeller2(forms.ModelForm):
         model = OrganizerAdditional
         fields = [
             'phone',
-            'timezone'
+            'address',
         ]
 
 class EventCreation(forms.ModelForm):

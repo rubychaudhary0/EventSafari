@@ -16,8 +16,8 @@ from datetime import timedelta
 
 import zoneinfo
 
-from timezone_field import TimeZoneField
 
+from phonenumber_field.modelfields import PhoneNumberField
 
 from .manager import CustomUserManager
 
@@ -54,7 +54,7 @@ class CustomUser(AbstractBaseUser, PermissionsMixin):
 
     default_type = Types.AUDIENCE
 
-    type = MultiSelectField(choices=Types.choices, default=[], null=True, blank=True, max_length=9)
+    type = MultiSelectField(choices=Types.choices, default=[], null=True, blank=True, max_length=20)
     
 
     USERNAME_FIELD = 'email'
@@ -79,11 +79,12 @@ class AudienceAdditional(models.Model):
 
 class OrganizerAdditional(models.Model):
     user = models.OneToOneField(CustomUser, on_delete = models.CASCADE)
+    address = models.CharField(max_length=255)
     website_url = models.URLField(max_length=200, blank=True)
     profile_picture = models.ImageField(default='default.jpg', upload_to='profile_pics')
-    timezone = TimeZoneField(choices_display="WITH_GMT_OFFSET", default='Asia/Kathmandu')
-    phone_regex = RegexValidator( regex = r'^\d{10}$',message = "phone number should exactly be in 10 digits")
-    phone = models.CharField(max_length=255, validators=[phone_regex], blank = True, null=True) 
+    description = models.TextField(blank=True, null=True)
+    social_media_link = models.URLField(blank=True, null=True)
+    phone = PhoneNumberField()
 
     
 
@@ -108,12 +109,12 @@ class Organizer(CustomUser):
     class Meta:
         proxy = True
     
-    def sell(self):
-        print("I can sell")
+    def create(self):
+        print("I can create")
 
     @property
     def showAdditional(self):
-        return self.selleradditional
+        return self.organizeradditional
 
 class Audience(CustomUser):
     default_type = CustomUser.Types.AUDIENCE
@@ -121,12 +122,12 @@ class Audience(CustomUser):
     class Meta:
         proxy = True 
 
-    def buy(self):
-        print("I can buy")
+    def book(self):
+        print("I can book")
 
     @property
     def showAdditional(self):
-        return self.customeradditional
+        return self.audienceadditional
 
 class Category(models.Model):
     cat_id = models.AutoField(primary_key=True)
@@ -148,6 +149,7 @@ class Event(models.Model):
     capacity = models.IntegerField()
     image = models.ImageField(default="default_banner.png", upload_to="event_images")
     price = models.FloatField(default=0)
+    organizer = models.ForeignKey(Organizer, related_name='organizer', on_delete=models.CASCADE)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
     
@@ -169,6 +171,9 @@ class Cart(models.Model):
 
     objects = CartManager()
 
+    def __str__(self):
+	     return self.user
+
 class EventInCart(models.Model):
     class Meta:
         unique_together = (('cart', 'event'),)
@@ -176,7 +181,9 @@ class EventInCart(models.Model):
     cart = models.ForeignKey(Cart, on_delete = models.CASCADE)
     event = models.ForeignKey(Event, on_delete = models.CASCADE)
     quantity = models.PositiveIntegerField()
-
+     
+    def __str__(self):
+	     return self.event
 
 
 

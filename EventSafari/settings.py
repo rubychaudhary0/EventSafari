@@ -52,6 +52,7 @@ INSTALLED_APPS = [
     'six',
     'django_hosts',
     'channels',
+    'phonenumber_field',
     
 ]
 

@@ -19,9 +19,9 @@
   }
   
   .navbar-brand {
-    color: #ffb100 !important;
+    color: #006241 !important;
     font-family: Acme !important;
-    
+    font-size: x-large !important; 
   }
   
   .custom-btn-1 {
