@@ -53,7 +53,12 @@
 
 
 
-
+    .main-area {
+    padding-left: 20px;
+    padding-right: 20px;
+    padding-top: 0px;
+    background-color: #f8f9fa;
+  }
 
 
 
@@ -177,7 +182,7 @@
 
 
 <main>
-    <!--Categories-->
+    <!--Categories
     <div class="container-fluid mb-10">
         <div class="row g-5 ">
             <div class="col text-center d-flex flex-column justify-content-center align-items-center">
@@ -231,7 +236,7 @@
             </div>
         </div>
     </div>
-    <!--Categories-->
+    Categories-->
 
     <div class="container-fluid mb-5 background-custom-4">
         <div class="row g-5">
@@ -242,36 +247,38 @@
     </div>
 
 
-    <hr>
-    <!--Featured Events-->
-    <section class="">
-        <div class="container">
-            <h3 class="text-center custom-text-1"><b>Featured Events</b></h3>
-        </div>
+    
+    <!--Featured Events
+    
+        
 
-        <div class="row g-0">
-            {% for event in event_data %}
-            <div class="col m-5">
-                <div class="card" style="width: 18rem;">
-                    <img src='/media/{{event.image}}' class="card-img-top" alt="..."
-                        style="width: 18rem; height:15rem;">
-                    <div class="card-body" style="width: 18rem; height:15rem;">
-                        <h5 class="card-title">{{event.title}}</h5>
-                        <br>
-                        <p class="card-text">VENUE : {{event.venue}}</p>
-                        <a href="#" class="btn custom-btn-1">Book Ticket</a>
-                    </div>
-                </div>
+        <div class="main-area mx-5">
+    
+            <br>
+            <div class="container mb-5">
+              <h3 class="text-center custom-text-1"><b>Featured Events</b></h3>
             </div>
-            {% endfor %}
-        </div>
-    </section>
-    <!--Featured Events-->
+            <div class="row row-cols-1 row-cols-md-4 g-4">
+              {% for i in event_data %}
+              <div class="col">
+                <div class="card h-100">
+                  <img src="/media/{{i.image}}" class="card-img-top" alt="...">
+                  <div class="card-body">
+                    <h5 class="card-title"><a href="{% host_url 'eventdetail' pk=i.event_id host 'www' %}">{{i.title}}</a>
+                    </h5>
+                    <p class="card-text">{{i.venue}}</p>
+                  </div>
+                </div>
+              </div>
+              {% endfor %}
+            </div>
+          </div>
+    
+    Featured Events-->
 
 
 
-    <div id="search" class="search-div">
-
+   
 
     </div>
 </main>

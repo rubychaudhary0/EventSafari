@@ -9,14 +9,17 @@ from django.contrib.auth import views as auth_views
 from django.conf import settings
 from django.conf.urls.static import static
 
-
+from .views import SearchResultsList
 
 urlpatterns = [
-   # path('', views.home, name='home'),
+   
+   
     
     path('', views.Index, name="index"),
-    path('search/', views.search, name="search"),
+    #path('search/', views.search, name="search"),
     
+    path("search/", SearchResultsList.as_view(), name="search_results"),
+
     path('eventcategory/', views.eventcategory, name="eventcategory"),
     path('category/<int:id>', views.ReadCat, name="event-cat"),
 
@@ -57,6 +60,9 @@ urlpatterns = [
     path('reset_password_complete/',auth_views.PasswordResetCompleteView.as_view(template_name = "main/authentication/password_reset_done.html"), 
     name="password_reset_complete"),   # 4
     
+
+    #recommendation
+     path('notebook/', views.notebook_view, name='notebook'),
 
 
 ]

@@ -23,13 +23,14 @@ from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.views.decorators.csrf import csrf_exempt
 
-# Create your views here.
-'''
-#the landing page
-def home(request):
-    return render(request, 'home.html')
+from django.contrib.postgres.search import SearchVector,  SearchQuery, SearchRank
 
-'''    
+from nbconvert import HTMLExporter
+from nbformat import read
+import os
+
+# Create your views here.
+  
 def Index(request):
     event_data = Event.objects.all()
     print(event_data)
@@ -39,12 +40,39 @@ def Index(request):
     return render(request, 'main/index.html', context)
 
 
+#Recommendation
+def notebook_view(request):
+    notebook_path = os.path.join('main', 'notebook', 'Recommendation_system.ipynb')
 
+    with open(notebook_path, 'r') as f:
+        notebook_content = read(f, as_version=4)
+
+    last_cell_output = notebook_content['cells'][-1]['outputs'][0]['text']
+    recommendations = last_cell_output.split('\n')    
+
+    return render(request, 'main/notebook.html', {'recommendations': recommendations})
+
+
+#Search
 def search(request): 
      return render(request, 'main/search.html')  
 
+class SearchResultsList(ListView):
+    model = Event
+    context_object_name = "events"
+    template_name = "main/search.html"
 
-
+    def get_queryset(self):
+        query = self.request.GET.get("q")
+        search_vector = SearchVector("title", "event_description", "category", "venue")
+        search_query = SearchQuery(query)
+        return (
+            Event.objects.annotate(
+                search=search_vector, rank=SearchRank(search_vector, search_query)
+            )
+            .filter(search=search_query)
+            .order_by("-rank")
+        )
 
 def testsessions(request):
     if request.session.get('test', False):

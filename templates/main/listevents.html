@@ -61,6 +61,23 @@
   overflow-x: hidden;
   overflow-y: auto; /* Scrollable contents if viewport is shorter than content. */
   }
+
+  .form-control:focus {
+  box-shadow: none;
+}
+
+.form-control-underlined {
+  border-width: 0;
+  border-bottom-width: 5px;
+  border-radius: 0;
+  padding-left: 0;
+}
+
+.form-control::placeholder {
+  font-size: 1.5rem;
+  color: #aaa;
+  font-style: italic;
+}
 </style>
 {% endblock %}
 
@@ -106,14 +123,14 @@
       <!-- Right elements -->
       <div class="d-flex align-items-center">
         <!-- Icon -->
-
+<!---
         <a class="nav-link" href="/search">
           <form class="d-flex mt-0 mb-0">
             <input class="form-control me-2 rounded-9" type="search" placeholder="Search" aria-label="Search">
           </form>
         </a>
 
-
+      -->
 
         {% if user.is_authenticated %}
         <!-- Avatar -->
@@ -158,14 +175,23 @@ style="
 </header>
 
 <main>
-
+  <br>
+  <br>
+  <form action="{% url 'search_results' %}" method="get" class="d-flex mt-0 mb-0">
+    <input
+      type="search"
+      name="q"
+      placeholder="Search any keyword..."
+      class="form-control me-2 rounded-9"
+    />
+  </form>
   <div class="main-area mx-5">
     
     <br>
     <div class="container mb-5">
       <h3 class="text-center custom-text-1"><b>Featured Events</b></h3>
     </div>
-    <div class="row row-cols-1 row-cols-md-4 g-4">
+    <div class="row row-cols-1 row-cols-md-4 g-4" id="load">
       {% for i in event %}
       <div class="col">
         <div class="card h-100">
@@ -173,12 +199,22 @@ style="
           <div class="card-body">
             <h5 class="card-title"><a href="{% host_url 'eventdetail' pk=i.event_id host 'www' %}">{{i.title}}</a>
             </h5>
-            <p class="card-text">{{i.location}}</p>
+            <p class="card-text">{{i.venue}}</p>
+            <p class="card-text">{{i.start_date}}</p>
           </div>
         </div>
       </div>
       {% endfor %}
     </div>
+    <tr id="replaceMe">
+      <td colspan="3">
+        <button class='btn' hx-get="#load"
+                            hx-target="#replaceMe"
+                            hx-swap="outerHTML">
+             Load More Agents... <img class="htmx-indicator" src="/img/bars.svg">
+        </button>
+      </td>
+    </tr>
   </div>
 
 

@@ -1,5 +1,6 @@
 {% extends 'main/basic.html' %}
 {% load static %}
+{% load hosts %}
 {% block title %}
 Search
 {% endblock %}
@@ -26,13 +27,49 @@ Search
 {% endblock %}
 
 {% block body%}
-<!-- Section: Split screen -->
+
+
+<div class="container">
+    <br><br>
+
+    <h1 style="color: red;">Search Results</h1>
+
+    <br><br>
+    <div class="row row-cols-1 row-cols-md-4 g-4">
+    {% for event in events %}
+      <ul>
+        <!-- <li>{{ quote.headline | safe }} - <b>By <i>{{ quote.name }}</i></b></li> 
+        <li>{{ event.title | safe }} - <b>By <i>{{ event.category }}</i></b></li>
+        -->
+         
+        <div class="col">
+            <div class="card h-100">
+              <img src="/media/{{event.image}}" class="card-img-top" alt="...">
+              <div class="card-body">
+                <h5 class="card-title"><a href="{% host_url 'eventdetail' pk=event.event_id host 'www' %}">{{event.title}}</a>
+                </h5>
+                <p class="card-text">{{event.venue}}</p>
+              </div>
+            </div>
+          </div>
+      </ul>
+    {% empty %}
+      <p>No results found. Try again.</p>
+    {% endfor %}
+</div>
+    <br><br>
+
+    
+
+    <br><br>
+  </div>
+<!-- Section: Split screen 
 <section class="">
 
     <div class="container-fluid px-0">
         <div class="row g-0">
 
-            <!-- First column -->
+             First column 
             <div class="col-lg-7 vh-100">
                
                 <form>
@@ -54,14 +91,14 @@ Search
                     </div>
                 </form>
             </div>
-            <!-- First column -->
+             First column 
 
-            <!-- Second column -->
+             Second column 
             <div class="col-lg-5 vh-100">
-                <!-- Carousel wrapper -->
+                Carousel wrapper
                 <div id="carouselBasicExample" class="carousel slide carousel-fade" data-mdb-ride="carousel"
                     data-mdb-carousel-init>
-                    <!-- Indicators -->
+                    <
                     <div class="carousel-indicators">
                         <button type="button" data-mdb-target="#carouselBasicExample" data-mdb-slide-to="0"
                             class=" rounded-circle active" style="width: 7px; height: 7px" aria-current="true"
@@ -72,9 +109,9 @@ Search
                             class="rounded-circle" style="width: 7px; height: 7px" aria-label="Slide 3"></button>
                     </div>
 
-                    <!-- Inner -->
+                
                     <div class="carousel-inner">
-                        <!-- Single item -->
+                       
                         <div class="carousel-item active">
                             <img src="https://mdbcdn.b-cdn.net/img/Photos/Slides/img%20(15).webp"
                                 class="d-block vh-100 vw-100 object-cover" alt="Sunset Over the City" />
@@ -84,7 +121,7 @@ Search
                             </div>
                         </div>
 
-                        <!-- Single item -->
+                       
                         <div class="carousel-item">
                             <img src="https://mdbcdn.b-cdn.net/img/Photos/Slides/img%20(22).webp"
                                 class="d-block vh-100 vw-100 object-cover" alt="Canyon at Nigh" />
@@ -94,7 +131,7 @@ Search
                             </div>
                         </div>
 
-                        <!-- Single item -->
+                       
                         <div class="carousel-item">
                             <img src="https://mdbcdn.b-cdn.net/img/Photos/Slides/img%20(23).webp"
                                 class="d-block vh-100 vw-100 object-cover" alt="Cliff Above a Stormy Sea" />
@@ -104,9 +141,7 @@ Search
                             </div>
                         </div>
                     </div>
-                    <!-- Inner -->
-
-                    <!-- Controls -->
+                    
                     <button class="carousel-control-prev" type="button" data-mdb-target="#carouselBasicExample"
                         data-mdb-slide="prev">
                         <span class="carousel-control-prev-icon" aria-hidden="true"></span>
@@ -118,15 +153,16 @@ Search
                         <span class="visually-hidden">Next</span>
                     </button>
                 </div>
-                <!-- Carousel wrapper -->
+                
+                
             </div>
-            <!-- Second column -->
+            
 
         </div>
     </div>
 
 </section>
-<!-- Section: Split screen -->
+ -->
 {% endblock %}
 
 {% block js %}
