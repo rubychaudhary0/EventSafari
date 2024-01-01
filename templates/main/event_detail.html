@@ -24,16 +24,16 @@
 
     <div class="container-fluid bg-light">
         <div class="row">
-            <div class="col-9 text-success p-3">
-                <h4>{{event.event_name}}</h4>
+            <div class="col-9 custom-text-1 p-3">
+                <h4>{{event.title}}</h4>
             </div>
             <div class="col-3 text-success p-3">
-               <a href="{% url 'addtocart' id=event.event_id %}"> <button type="button" class="btn btn-success">Book Now</button></a>
+               <a href="{% url 'addtocart' id=event.event_id %}"> <button type="button" class="btn custom-btn-1">Book Now</button></a>
             </div>
         </div>
     </div>
     
-    
+    <div class="container m-5">
     <div class="container-fluid">
         <img src="/media/{{event.image}}" class="img-fluid mx-auto d-block" alt="...">
     </div> 
@@ -47,16 +47,24 @@
 
              <h6>DATE</h6>
         <p>
-            {{event.event_date}}
+            {{event.start_date}}
         </p>
 
         <br>
 
         <h6>LOCATION</h6>
         <p>
-            {{event.location}}
+            {{event.venue}}
         </p>
      </div>
+
      
- 
+     <h3>Recommended Events:</h3>
+     <ul>
+         {% for recommended_event in recommended_events %}
+             <li>{{ recommended_event.title }}</li>
+         {% endfor %}
+     </ul>
+
+</div>
 {% endblock %}

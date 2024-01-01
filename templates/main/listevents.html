@@ -33,63 +33,65 @@
 
   /* Sidebar */
   .sidebar {
-  position: fixed;
-  top: 0;
-  bottom: 0;
-  left: 0;
-  padding: 58px 0 0; /* Height of navbar */
-  box-shadow: 0 2px 5px 0 rgb(0 0 0 / 5%), 0 2px 10px 0 rgb(0 0 0 / 5%);
-  width: 240px;
-  z-index: 600;
+    position: fixed;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    padding: 58px 0 0;
+    /* Height of navbar */
+    box-shadow: 0 2px 5px 0 rgb(0 0 0 / 5%), 0 2px 10px 0 rgb(0 0 0 / 5%);
+    width: 240px;
+    z-index: 600;
   }
-  
+
   @media (max-width: 991.98px) {
-  .sidebar {
-  width: 100%;
+    .sidebar {
+      width: 100%;
+    }
   }
-  }
+
   .sidebar .active {
-  border-radius: 5px;
-  box-shadow: 0 2px 5px 0 rgb(0 0 0 / 16%), 0 2px 10px 0 rgb(0 0 0 / 12%);
+    border-radius: 5px;
+    box-shadow: 0 2px 5px 0 rgb(0 0 0 / 16%), 0 2px 10px 0 rgb(0 0 0 / 12%);
   }
-  
+
   .sidebar-sticky {
-  position: relative;
-  top: 0;
-  height: calc(100vh - 48px);
-  padding-top: 0.5rem;
-  overflow-x: hidden;
-  overflow-y: auto; /* Scrollable contents if viewport is shorter than content. */
+    position: relative;
+    top: 0;
+    height: calc(100vh - 48px);
+    padding-top: 0.5rem;
+    overflow-x: hidden;
+    overflow-y: auto;
+    /* Scrollable contents if viewport is shorter than content. */
   }
 
   .form-control:focus {
-  box-shadow: none;
-}
+    box-shadow: none;
+  }
 
-.form-control-underlined {
-  border-width: 0;
-  border-bottom-width: 5px;
-  border-radius: 0;
-  padding-left: 0;
-}
+  .form-control-underlined {
+    border-width: 0;
+    border-bottom-width: 5px;
+    border-radius: 0;
+    padding-left: 0;
+  }
 
-.form-control::placeholder {
-  font-size: 1.5rem;
-  color: #aaa;
-  font-style: italic;
-}
+  .form-control::placeholder {
+    font-size: 1.5rem;
+    color: #aaa;
+    font-style: italic;
+  }
 </style>
 {% endblock %}
 
 {% block body%}
 <header>
 
-  
+
   <!-- Navbar -->
   <nav style="z-index: 1;
   min-height: 58.59px;
-  " 
-  class="navbar navbar-expand-lg navbar-light bg-body-tertiary navbar-custom">
+  " class="navbar navbar-expand-lg navbar-light bg-body-tertiary navbar-custom">
     <!-- Container wrapper -->
     <div class="container">
       <!-- Toggle button -->
@@ -123,7 +125,7 @@
       <!-- Right elements -->
       <div class="d-flex align-items-center">
         <!-- Icon -->
-<!---
+        <!---
         <a class="nav-link" href="/search">
           <form class="d-flex mt-0 mb-0">
             <input class="form-control me-2 rounded-9" type="search" placeholder="Search" aria-label="Search">
@@ -164,13 +166,12 @@
   </nav>
   <!-- Navbar -->
 
-  
+
   <!-- Background image -->
-<div  class="bg-image vh-100"
-style="
+  <div class="bg-image vh-100" style="
       margin-top: -58.59px;
       background-image: url('https://mdbcdn.b-cdn.net/img/new/fluid/city/018.jpg');">
-</div>
+  </div>
 
 </header>
 
@@ -178,16 +179,17 @@ style="
   <br>
   <br>
   <form action="{% url 'search_results' %}" method="get" class="d-flex mt-0 mb-0">
-    <input
-      type="search"
-      name="q"
-      placeholder="Search any keyword..."
-      class="form-control me-2 rounded-9"
-    />
+    <input type="search" name="q" placeholder="Search any keyword..." class="form-control me-2 rounded-9" />
   </form>
   <div class="main-area mx-5">
-    
+
     <br>
+    <div class="container mb-5">
+      <h3 class="text-center custom-text-1"><b>Featured Events</b></h3>
+    </div>
+    {% include 'main/partials/list.html' %}
+
+    <!--
     <div class="container mb-5">
       <h3 class="text-center custom-text-1"><b>Featured Events</b></h3>
     </div>
@@ -206,111 +208,103 @@ style="
       </div>
       {% endfor %}
     </div>
-    <tr id="replaceMe">
-      <td colspan="3">
-        <button class='btn' hx-get="#load"
-                            hx-target="#replaceMe"
-                            hx-swap="outerHTML">
-             Load More Agents... <img class="htmx-indicator" src="/img/bars.svg">
-        </button>
-      </td>
-    </tr>
+  -->
   </div>
 
 
   <!-- Footer -->
-<footer class="text-center text-lg-start bg-light text-muted">
-  <div class="container-fluid text-white background-custom">
+  <footer class="text-center text-lg-start bg-light text-muted">
+    <div class="container-fluid text-white background-custom">
       <!-- Section: Links  -->
       <section class="">
-          <div class="container text-center text-md-start mt-5 pt-5">
-              <!-- Grid row -->
-              <div class="row mt-3">
-                  <!-- Grid column -->
-                  <div class="col-md-3 col-lg-4 col-xl-3 mx-auto mb-4">
-                      <!-- Content -->
-                      <h6 class="text-uppercase fw-bold mb-4">
-                          <i class="fas fa-gem me-3"></i>EventSafari
-                      </h6>
-                      <p>
+        <div class="container text-center text-md-start mt-5 pt-5">
+          <!-- Grid row -->
+          <div class="row mt-3">
+            <!-- Grid column -->
+            <div class="col-md-3 col-lg-4 col-xl-3 mx-auto mb-4">
+              <!-- Content -->
+              <h6 class="text-uppercase fw-bold mb-4">
+                <i class="fas fa-gem me-3"></i>EventSafari
+              </h6>
+              <p>
 
-                      </p>
-                  </div>
-                  <!-- Grid column -->
+              </p>
+            </div>
+            <!-- Grid column -->
 
-                  <!-- Grid column -->
-                  <div class="col-md-2 col-lg-2 col-xl-2 mx-auto mb-4">
-                      <!-- Links -->
-                      <h6 class="text-uppercase fw-bold mb-4">
-                          Features
-                      </h6>
-                      <p>
-                          <a href="#!" class="text-reset">Create Events</a>
-                      </p>
-                      <p>
-                          <a href="#!" class="text-reset">Sell Tickets</a>
-                      </p>
-                      <p>
-                          <a href="#!" class="text-reset">Book Events</a>
-                      </p>
-                      <p>
-                          <a href="#!" class="text-reset">Event Payment</a>
-                      </p>
-                  </div>
-                  <!-- Grid column -->
+            <!-- Grid column -->
+            <div class="col-md-2 col-lg-2 col-xl-2 mx-auto mb-4">
+              <!-- Links -->
+              <h6 class="text-uppercase fw-bold mb-4">
+                Features
+              </h6>
+              <p>
+                <a href="#!" class="text-reset">Create Events</a>
+              </p>
+              <p>
+                <a href="#!" class="text-reset">Sell Tickets</a>
+              </p>
+              <p>
+                <a href="#!" class="text-reset">Book Events</a>
+              </p>
+              <p>
+                <a href="#!" class="text-reset">Event Payment</a>
+              </p>
+            </div>
+            <!-- Grid column -->
 
-                  <!-- Grid column -->
-                  <div class="col-md-3 col-lg-2 col-xl-2 mx-auto mb-4">
-                      <!-- Links -->
-                      <h6 class="text-uppercase fw-bold mb-4">
-                          Useful links
-                      </h6>
-                      <p>
-                          <a href="#!" class="text-reset">Pricing</a>
-                      </p>
-                      <p>
-                          <a href="#!" class="text-reset">Settings</a>
-                      </p>
-                      <p>
-                          <a href="#!" class="text-reset">Orders</a>
-                      </p>
-                      <p>
-                          <a href="#!" class="text-reset">Help</a>
-                      </p>
-                  </div>
-                  <!-- Grid column -->
+            <!-- Grid column -->
+            <div class="col-md-3 col-lg-2 col-xl-2 mx-auto mb-4">
+              <!-- Links -->
+              <h6 class="text-uppercase fw-bold mb-4">
+                Useful links
+              </h6>
+              <p>
+                <a href="#!" class="text-reset">Pricing</a>
+              </p>
+              <p>
+                <a href="#!" class="text-reset">Settings</a>
+              </p>
+              <p>
+                <a href="#!" class="text-reset">Orders</a>
+              </p>
+              <p>
+                <a href="#!" class="text-reset">Help</a>
+              </p>
+            </div>
+            <!-- Grid column -->
 
-                  <!-- Grid column -->
-                  <div class="col-md-4 col-lg-3 col-xl-3 mx-auto mb-md-0 mb-4">
-                      <!-- Links -->
-                      <h6 class="text-uppercase fw-bold mb-4">Contact</h6>
-                      <p><i class="fas fa-home me-3"></i> Bharatpur, Nepal</p>
-                      <p>
-                          <i class="fas fa-envelope me-3"></i>
-                          eventsafari0@gmail.com
-                      </p>
-                      <p><i class="fas fa-phone me-3"></i> + 977 9864523523</p>
-                      <p><i class="fas fa-print me-3"></i> + 977 9862356325</p>
-                  </div>
-                  <!-- Grid column -->
-              </div>
-              <!-- Grid row -->
+            <!-- Grid column -->
+            <div class="col-md-4 col-lg-3 col-xl-3 mx-auto mb-md-0 mb-4">
+              <!-- Links -->
+              <h6 class="text-uppercase fw-bold mb-4">Contact</h6>
+              <p><i class="fas fa-home me-3"></i> Bharatpur, Nepal</p>
+              <p>
+                <i class="fas fa-envelope me-3"></i>
+                eventsafari0@gmail.com
+              </p>
+              <p><i class="fas fa-phone me-3"></i> + 977 9864523523</p>
+              <p><i class="fas fa-print me-3"></i> + 977 9862356325</p>
+            </div>
+            <!-- Grid column -->
           </div>
+          <!-- Grid row -->
+        </div>
       </section>
       <!-- Section: Links  -->
-  </div>
+    </div>
 
 
 
-  <!-- Copyright -->
-  <div class="text-center text-white p-4 background-custom">
+    <!-- Copyright -->
+    <div class="text-center text-white p-4 background-custom">
       © 2024 Copyright:
       <a class="text-reset fw-bold" href="#">eventsafari.com</a>
-  </div>
-  <!-- Copyright -->
-</footer>
-<!-- Footer -->
+    </div>
+    <!-- Copyright -->
+  </footer>
+  <!-- Footer -->
 
 
-  </main>
-  {% endblock %}
+</main>
+{% endblock %}

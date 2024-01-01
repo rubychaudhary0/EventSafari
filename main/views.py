@@ -2,12 +2,13 @@ from django.shortcuts import render, HttpResponse, redirect, get_object_or_404
 from django.http import JsonResponse
 from django.views.generic import TemplateView, FormView, CreateView, ListView, UpdateView, DeleteView, DetailView, View
 from django.core.exceptions import ValidationError
-from .forms import RegistrationFormSeller, RegistrationForm, RegistrationFormSeller2, CartForm
+from .forms import  RegistrationForm, CartForm
 from django.urls import reverse_lazy, reverse
 from .models import CustomUser, Event, Cart, EventInCart, Category
 from django.contrib.auth.views import LoginView, LogoutView
 from django.contrib.auth.mixins import LoginRequiredMixin
 
+from django.core.paginator import Paginator
 
 from EventSafari import settings
 from django.core.mail import EmailMessage
@@ -29,6 +30,11 @@ from nbconvert import HTMLExporter
 from nbformat import read
 import os
 
+from .utils import load_recommendation_model
+from .recommendation import recommend, load_event_data
+
+import pickle 
+import pandas as pd
 # Create your views here.
   
 def Index(request):
@@ -77,9 +83,6 @@ class SearchResultsList(ListView):
 def testsessions(request):
     if request.session.get('test', False):
         print(request.session["test"])
-    #request.session.set_expiry(1)
-    # if request.session['test']:
-    #     print(request.session['test'])
     request.session['test'] = "testing"
     request.session['test2'] = "testing2"
     return render(request, "main/sessiontesting.html")
@@ -144,7 +147,6 @@ def activate(request, uidb64, token):
         login(request, user)
         messages.success(request, "Successfully Logged In")
         return redirect(reverse_lazy('index'))
-        # return HttpResponse('Thank you for your email confirmation. Now you can login your account.')
     else:
         return HttpResponse('Activation link is invalid or your account is already Verified! Try To Login')
 
@@ -156,18 +158,65 @@ class LogoutViewUser(LogoutView):
 
 
 
+def event_list(request):
+    events = Event.objects.all()
+    paginator = Paginator(events, 4)
+    page_number = request.GET.get('page', 1)
+    page_obj = paginator.get_page(page_number)
 
-class ListEvents(ListView):
-    template_name = "main/listevents.html"
-    model = Event
-    context_object_name = "event"
-  
+    context = {'page_obj': page_obj}
 
+    if request.htmx:
+        return render(request, 'main/partials/list.html', context)
+    return render(request, 'main/listevents.html', context)
+
+
+
+#recommended=pickle.load(open(".pkl",'rb'))
+similarity=pickle.load(open("similarity.pkl",'rb'))
+event_lists=pickle.load(open("event_list.pkl",'rb'))
+df = pd.DataFrame(event_lists)
+
+print(event_lists)
+    
+def event_detail(request, event_id):
+    # Get the event details based on the event ID
+    event = get_object_or_404(Event, pk=event_id)
+    
+    filtered_df = df[df['title'] == event]
+    
+    if not filtered_df.empty:
+        index = filtered_df.index[0]
+        event_list = sorted(list(enumerate(similarity[index])), reverse=True, key=lambda x: x[1])[1:6]
+        
+        recommended_events = [df.iloc[i[0]].title for i in event_lists]
+    else:
+        # Handle the case where the event is not found in the DataFrame
+        index = None
+        recommended_events = []
+    
+    return render(request, 'main/event_detail.html', {'event': event, 'recommended_events':recommended_events})
+
+
+
+'''
 class EventDetail(DetailView):
     model = Event
     template_name = "main/event_detail.html"
     context_object_name = "event"
+    
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
 
+        # Get similar events using the recommendation function
+        similar_events = recommend(self.object)
+
+        # Add the result to the context
+        context['similar_events'] = similar_events
+
+        return context
+
+'''
 
 def eventcategory(request):
     cat = Category.objects.all()

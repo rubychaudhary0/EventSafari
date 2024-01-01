@@ -25,7 +25,7 @@
 
     .register-form {
         width: 100%;
-        max-width: 500px;
+        max-width: 400px;
         margin: auto;
         padding: 20px;
         border-radius: 5px;
@@ -66,18 +66,20 @@
 
                     <form method="POST">{% csrf_token %}
                         <div class="main-area">
-                            <div class="register-form">
+                            <div class="register-form text-center">
                                 {{ form.non_field_errors }}
                                 <h2 class="mainheading">Welcome Back!</h2>
-                                <h4 class="mainheading">Login</h4>
-                                
+                                <p class="mainheading">Enter your email and password to Login.</p>
+                                <br>
                                 {{ form.username.errors }}
                                 {{ form.username|addclass:'form-control'|addplaceholder:'Enter your email address'}}
                                 <br>
 
                                 {{ form.password.errors }}
                                 {{ form.password|addclass:'form-control'|addplaceholder:' Enter your password' }}
+                                <br>
                                 <a href="{% host_url 'reset_password' host 'www' %}"><b>Forgot Password</b></a>
+                                <br>
                                 <br>
                                 <button type="submit" class="btn custom-btn-1"><b>Log In</b></button>
                                 

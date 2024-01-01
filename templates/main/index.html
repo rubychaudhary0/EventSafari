@@ -59,6 +59,31 @@
     padding-top: 0px;
     background-color: #f8f9fa;
   }
+    .category-img{
+        max-width: 260px;
+        max-height: 250px;
+        border-radius: 10px;
+    }
+
+    .darken-image {
+    filter: brightness(0.5); /* Adjust the value as needed (0.7 is an example) */
+}
+    
+.text-overlay {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    color: white;
+    text-align: center;
+    opacity: 1; /* Initial opacity */
+    transition: opacity 0.3s ease; /* Add a transition for a smooth effect */
+}
+
+.hover-overlay:hover .text-overlay {
+    opacity: 1;
+}
+
 
 
 
@@ -182,6 +207,7 @@
 
 
 <main>
+   
     <!--Categories
     <div class="container-fluid mb-10">
         <div class="row g-5 ">
@@ -237,48 +263,76 @@
         </div>
     </div>
     Categories-->
-
-    <div class="container-fluid mb-5 background-custom-4">
-        <div class="row g-5">
-            <div class="col">
-                <img src="https://images.pexels.com/photos/2034851/pexels-photo-2034851.jpeg?auto=compress&cs=tinysrgb&w=600">
+    <div class="container mb-5">
+        <h2 class="text-center custom-text-1"><b>Browse by category</b></h2>
+        <p class="text-center">Search through all our events based on category.</p>
+      </div>
+    <div class="container mb-5 ms-9">
+        <div class="row gx-0 mb-4">
+            <div class="col bg-image hover-overlay hover-zoom text-center d-flex flex-column justify-content-center align-items-center">
+                <a href="#"><img src="media/images/music_cat.jpg" class="category-img darken-image"> 
+                    <div class="text-overlay">
+                        <h5>Music</h5>
+                    </div>
+                    <div class="mask" style="background-color: hsla(195, 83.3%, 57.6%, 0.5)"></div>
+                </a>
+            </div>
+            <div class="col bg-image hover-overlay hover-zoom text-center d-flex flex-column justify-content-center align-items-center">
+                <a href="#"><img src="media/images/arts_cat.jpg" class="category-img darken-image">
+                    <div class="text-overlay">
+                        <h5>Arts and Crafts</h5>
+                    </div>
+                    <div class="mask" style="background-color: hsla(88, 73%, 48%, 0.5)"></div>
+                </a>    
+            </div>
+            <div class="col bg-image hover-overlay hover-zoom text-center d-flex flex-column justify-content-center align-items-center">
+                <a href="#"><img src="media/images/sports_cat.jpg" class="category-img darken-image">
+                    <div class="text-overlay">
+                        <h5>Sports</h5>
+                    </div>
+                    <div class="mask" style="background-color: hsla(300, 68%, 49%, 0.5)"></div>
+                </a>
+                
+            </div>
+            <div class="col bg-image hover-overlay hover-zoom text-center d-flex flex-column justify-content-center align-items-center">
+                <a href="#"><img src="media/images/health_cat.jpg" class="category-img darken-image">
+                    <div class="text-overlay">
+                        <h5>Health and Fitness</h5>
+                    </div>
+                    <div class="mask" style="background-color: hsla(46, 89%, 56%, 0.5)"></div></a>
+            </div>
+        </div>
+        <div class="row gx-0">
+            <div class="col bg-image hover-overlay hover-zoom text-center d-flex flex-column justify-content-center align-items-center">
+                <a href="#"><img src="media/images/business_cat.jpg" class="category-img darken-image">
+                    <div class="text-overlay">
+                        <h5>Business</h5>
+                    </div>
+                    <div class="mask" style="background-color: hsla(268, 41%, 38%, 0.5)"></div></a>
+            </div>
+            <div class="col bg-image hover-overlay hover-zoom text-center d-flex flex-column justify-content-center align-items-center">
+                <a href="#"><img src="media/images/dance_cat.jpg" class="category-img darken-image">
+                    <div class="text-overlay">
+                        <h5>Performing Arts</h5>
+                    </div>
+                    <div class="mask" style="background-color: hsla(355, 89%, 58%, 0.5)"></div></a>
+            </div>
+            <div class="col bg-image hover-overlay hover-zoom text-center d-flex flex-column justify-content-center align-items-center">
+                <a href="#"><img src="media/images/food_cat.jpg" class="category-img darken-image">
+                    <div class="text-overlay">
+                        <h5>Food and Drinks</h5>
+                    </div>
+                    <div class="mask" style="background-color: hsla(167, 55%, 39%, 0.5)"></div></a>
+            </div>
+            <div class="col bg-image hover-overlay hover-zoom text-center d-flex flex-column justify-content-center align-items-center">
+                <a href="#"><img src="media/images/comedy_cat.jpg" class="category-img darken-image">
+                    <div class="text-overlay">
+                        <h5>Comedy</h5>
+                    </div>
+                    <div class="mask" style="background-color: hsla(24, 87%, 50%, 0.5)"></div></a>
             </div>
         </div>
     </div>
-
-
-    
-    <!--Featured Events
-    
-        
-
-        <div class="main-area mx-5">
-    
-            <br>
-            <div class="container mb-5">
-              <h3 class="text-center custom-text-1"><b>Featured Events</b></h3>
-            </div>
-            <div class="row row-cols-1 row-cols-md-4 g-4">
-              {% for i in event_data %}
-              <div class="col">
-                <div class="card h-100">
-                  <img src="/media/{{i.image}}" class="card-img-top" alt="...">
-                  <div class="card-body">
-                    <h5 class="card-title"><a href="{% host_url 'eventdetail' pk=i.event_id host 'www' %}">{{i.title}}</a>
-                    </h5>
-                    <p class="card-text">{{i.venue}}</p>
-                  </div>
-                </div>
-              </div>
-              {% endfor %}
-            </div>
-          </div>
-    
-    Featured Events-->
-
-
-
-   
 
     </div>
 </main>

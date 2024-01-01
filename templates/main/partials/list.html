@@ -1,0 +1,25 @@
+{% load hosts %}
+
+<div class="row row-cols-1 row-cols-md-4 g-4" id="load">
+    {% for i in page_obj %}
+    <div class="col">
+        <div class="card h-100">
+            <img src="/media/{{i.image}}" class="card-img-top" alt="...">
+            <div class="card-body">
+                <h5 class="card-title"><a href="{% host_url 'eventdetail' event_id=i.event_id host 'www' %}">{{i.title}}</a>
+                </h5>
+                <p class="card-text">{{i.venue}}</p>
+                <p class="card-text">{{i.start_date}}</p>
+            </div>
+        </div>
+    </div>
+    {% endfor %}
+</div>
+
+{% if page_obj.has_next %}
+
+<div class="row row-cols-1 row-cols-md-4 g-4" id="load-more">
+        <button class="btn btn-primary" hx-get="{% url 'listevents' %}?page={{page_obj.next_page_number}}"
+            hx-target="#load-more" hx-swap="outerHTML">See More</button>
+</div>
+{% endif %}

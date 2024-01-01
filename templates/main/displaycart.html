@@ -21,13 +21,22 @@
   .btn-primary {
     margin: 10px;
   }
+
+  .custom-btn-4{
+    border: 2px solid red;
+    border-radius: 10px;
+    font-family: Rubik !important;
+    color: red;
+    font-weight: 500;
+  }
+  
 </style>
 {% endblock %}
 
 {% block body%}
 <div class="main-area">
   <div class="product-cards">
-    <h1 style="text-align:center;">CART</h1>
+    <h1 style="text-align:center; font-family: Rubik; color: #006241;"> Your Cart</h1>
 
     {% for i in cart %}
     <div class="row featurette">
@@ -36,14 +45,18 @@
       </div>
       <div class="col-md-7">
         <h2 class="featurette-heading">{{i.event.event_name}}</h2>
+        <p class="lead">{{i.event.title}}</p>
         <p class="lead">Rs. {{i.event.price}}</p>
-        <p class="lead">Quantity- {{i.quantity}}</p>
+        <p class="lead">Ticket Quantity- {{i.quantity}}</p>
         <form method="POST" action="{% url 'updatecart' pk=i.event_in_cart_id %}">{% csrf_token %}
           <input type="text" id="id_quantity" name="quantity">
-          <button class="btn btn-primary" type="submit">Update Quantity</button>
+          <br>
+          <br>
+          <button class="btn custom-btn-1" type="submit">Update Quantity</button>
         </form>
+        <br>
         <form method="POST" action="{% url 'deletefromcart' pk=i.event_in_cart_id %}">{% csrf_token %}
-          <button class="btn btn-primary" type="submit">Delete</button>
+          <button class="btn custom-btn-4" type="submit">Delete</button>
         </form>
       </div>
 

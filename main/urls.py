@@ -23,8 +23,9 @@ urlpatterns = [
     path('eventcategory/', views.eventcategory, name="eventcategory"),
     path('category/<int:id>', views.ReadCat, name="event-cat"),
 
-    path('listevents/', views.ListEvents.as_view(), name="listevents"),
-    path('eventdetail/<int:pk>/', views.EventDetail.as_view(), name="eventdetail"),
+    #path('listevents/', views.ListEvents.as_view(), name="listevents"),
+    path('listevents/', views.event_list, name="listevents"),
+    path('eventdetail/<int:event_id>/', views.event_detail, name="eventdetail"),
     path('addtocart/<int:id>/', views.addToCart, name="addtocart"),
     path('displaycart/', views.DisplayCart.as_view(), name="displaycart"),
     path('updatecart/<int:pk>/', views.UpdateCart.as_view(), name="updatecart"),
@@ -61,8 +62,7 @@ urlpatterns = [
     name="password_reset_complete"),   # 4
     
 
-    #recommendation
-     path('notebook/', views.notebook_view, name='notebook'),
+    
 
 
 ]

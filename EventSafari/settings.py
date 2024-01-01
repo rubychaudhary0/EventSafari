@@ -54,6 +54,7 @@ INSTALLED_APPS = [
     'channels',
     'phonenumber_field',
     'django.contrib.postgres',
+    'django_htmx',
 ]
 
 MIDDLEWARE = [
@@ -65,6 +66,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    "django_htmx.middleware.HtmxMiddleware",
     'django_hosts.middleware.HostsResponseMiddleware'
 ]
 
