@@ -55,6 +55,7 @@ INSTALLED_APPS = [
     'phonenumber_field',
     'django.contrib.postgres',
     'django_htmx',
+    'tinymce',
 ]
 
 MIDDLEWARE = [
@@ -193,3 +194,10 @@ EMAIL_HOST_USER ='eventsafari0@gmail.com'
 EMAIL_HOST_PASSWORD = 'yqweqwifbnrmfxcw'
 DEFAULT_FROM_EMAIL = 'Testing <eventsafari@gmail.com>'
 
+TINYMCE_DEFAULT_CONFIG = {
+    'height': 300,
+    'width': 757,
+    'cleanup_on_startup': True,
+    'custom_undo_redo_levels': 20,
+    # Add more options as needed
+}

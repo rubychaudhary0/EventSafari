@@ -33,7 +33,7 @@
 
 {% block body%}
 
-<form method="POST">{% csrf_token %}
+<form method="POST" enctype="multipart/form-data">{% csrf_token %}
     <div class="main-area">
         <div class="event-form">
             {{ form.non_field_errors }}
@@ -45,7 +45,7 @@
 
             <label for="id_event_description" class="login-labels">Description</label>
             {{ form.event_description.errors }}
-            {{ form.event_description|addclass:'form-control'|addplaceholder:'Your Password' }}
+            {{ form.event_description|addclass:'form-control'|addplaceholder:'Description' }}
            
             <label for="id_start_date" class="login-labels">Start Date</label>
             {{ form.start_date.errors }}
@@ -81,7 +81,7 @@
 
             <br>
             <div class="form-buttons">
-                <input type="submit" value="Save" class="btn btn-primary"/>
+                <input type="submit" value="Save" class="btn custom-btn-1"/>
                 <a href="{% url 'dashboard' %}" class="btn btn-outline">Cancel</a>
             </div>
             <br>
@@ -91,5 +91,6 @@
     </div>
 
 </form>
+{{ form.media }}
 
 {% endblock %}

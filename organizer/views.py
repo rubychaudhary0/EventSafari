@@ -9,6 +9,7 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.views import View
 from django.contrib import messages
+from django.contrib.auth.mixins import UserPassesTestMixin
 # Create your views here.
 
 def index(request):
@@ -50,17 +51,26 @@ def home(request):
 def events(request):
     return render(request, 'organizer/dashboard/events.html')
 
-class EventCreate(CreateView):
-    model = Event
-    form_class = EventCreation
+
+class OrganizerRequiredMixin(UserPassesTestMixin):
+    def test_func(self):
+        return self.request.user.type and CustomUser.Types.ORGANIZER in self.request.user.type
+
+    def handle_no_permission(self):
+        return redirect('signuporganizer')
+
+class EventCreationView(OrganizerRequiredMixin, CreateView):
+    model = Event  # Replace with your actual event model
+    form_class = EventCreation  # Replace with your actual event creation form
     template_name = 'organizer/create_event.html'
-    success_url = reverse_lazy('dashboard')
+    success_url = reverse_lazy('dashboard')  # Replace with your success URL
 
     def form_valid(self, form):
-        form.instance.user = self.request.user
+        # Customize any additional logic when the form is valid
+        # For example, set the organizer field of the event to the current user
+        form.instance.organizer = self.request.user
         messages.success(self.request, "The event was created successfully.")
-        return super(EventCreate, self).form_valid(form)
-
+        return super().form_valid(form)
 
 
 

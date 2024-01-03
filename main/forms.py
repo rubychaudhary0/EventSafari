@@ -1,12 +1,12 @@
 from django import forms
 from django.contrib.auth.forms import UserCreationForm, UserChangeForm, ReadOnlyPasswordHashField
-from .models import CustomUser, Organizer, OrganizerAdditional, Event, EventInCart
+from .models import CustomUser, Organizer, OrganizerAdditional, Event, EventInCart, AudienceAdditional
 from django.core.exceptions import ValidationError 
 from django.core.validators import RegexValidator
 import zoneinfo
 
 from timezone_field import TimeZoneFormField
-
+from tinymce.widgets import TinyMCE
 
 class CustomUserCreationForm(UserCreationForm):
 
@@ -21,7 +21,10 @@ class CustomUserChangeForm(UserChangeForm):
         model = CustomUser
         fields = ('email',)
 
-
+class AudienceProfileForm(forms.ModelForm):
+    class Meta:
+        model = AudienceAdditional
+        fields = ['profile_picture']
 
         
 class RegistrationForm(UserCreationForm):
@@ -34,7 +37,7 @@ class RegistrationForm(UserCreationForm):
             'password2',
         ]
 
-
+'''
 class RegistrationFormSeller(UserCreationForm):
     
     phone_regex = RegexValidator( regex = r'^\d{10}$',message = "phone number should exactly be in 10 digits")
@@ -50,6 +53,7 @@ class RegistrationFormSeller(UserCreationForm):
             'phone',
             'timezone'
         ]        
+'''
 
 class RegistrationFormSeller2(forms.ModelForm):
     class Meta:
@@ -62,6 +66,7 @@ class RegistrationFormSeller2(forms.ModelForm):
 class EventCreation(forms.ModelForm):
     class Meta:
         model = Event
+        widgets = {'content': TinyMCE(attrs={'cols': 40, 'rows': 20})}
         fields = [
             'title',
             'event_description',

@@ -62,6 +62,8 @@ urlpatterns = [
     name="password_reset_complete"),   # 4
     
 
+    path('profile/', views.profile, name='profile'),
+
     
 
 

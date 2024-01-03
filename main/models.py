@@ -12,6 +12,7 @@ from django.urls import reverse
 
 
 from django.db.models import Q
+from tinymce import models as tinymce_models
 from datetime import timedelta
 
 import zoneinfo
@@ -38,7 +39,6 @@ class LowercaseEmailField(models.EmailField):
 
 class CustomUser(AbstractBaseUser, PermissionsMixin):
     email = LowercaseEmailField(_('email address'), unique=True)
-    #username = models.CharField(max_length=50, unique=True)
     name = models.CharField(null=True, blank=True, max_length=255)
     is_active = models.BooleanField(default=True)
     is_admin = models.BooleanField(default=True)
@@ -76,7 +76,22 @@ class AudienceAdditional(models.Model):
     user = models.OneToOneField(CustomUser, on_delete = models.CASCADE)
     profile_picture = models.ImageField(default='default.jpg', upload_to='profile_pics')
 
+    def __str__(self):
+        return f'{self.user.name} Profile'
 
+    # Override the save method of the model
+    def save(self):
+        super().save()
+
+        img = Image.open(self.image.path) # Open image
+
+        # resize image
+        if img.height > 300 or img.width > 300:
+            output_size = (300, 300)
+            img.thumbnail(output_size) # Resize image
+            img.save(self.image.path) # Save it again and override the larger image 
+
+            
 class OrganizerAdditional(models.Model):
     user = models.OneToOneField(CustomUser, on_delete = models.CASCADE)
     address = models.CharField(max_length=255)
@@ -140,7 +155,7 @@ class Category(models.Model):
 class Event(models.Model):
     event_id = models.AutoField(primary_key=True)
     title = models.CharField(max_length=150)
-    event_description = models.TextField(max_length=500, blank=True)  
+    event_description = tinymce_models.HTMLField() 
     start_date = models.DateField(default=timezone.now)
     end_date = models.DateField(default=timezone.now)
     start_time = models.TimeField(default=timezone.now)
@@ -172,7 +187,7 @@ class Cart(models.Model):
     objects = CartManager()
 
     def __str__(self):
-	     return self.user
+	    return f"Cart for {self.user.name}"
 
 class EventInCart(models.Model):
     class Meta:
@@ -183,8 +198,7 @@ class EventInCart(models.Model):
     quantity = models.PositiveIntegerField()
      
     def __str__(self):
-	     return self.event
-
+	     return f"Event: {self.event.title}"
 
 
 '''

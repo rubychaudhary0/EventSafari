@@ -23,4 +23,5 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('', include('main.urls')),
     path('services/', include('organizer.urls')),
+    path('tinymce/', include('tinymce.urls')),
 ] 

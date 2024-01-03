@@ -2,7 +2,7 @@ from django.shortcuts import render, HttpResponse, redirect, get_object_or_404
 from django.http import JsonResponse
 from django.views.generic import TemplateView, FormView, CreateView, ListView, UpdateView, DeleteView, DetailView, View
 from django.core.exceptions import ValidationError
-from .forms import  RegistrationForm, CartForm
+from .forms import  RegistrationForm, CartForm, CustomUserChangeForm, AudienceProfileForm
 from django.urls import reverse_lazy, reverse
 from .models import CustomUser, Event, Cart, EventInCart, Category
 from django.contrib.auth.views import LoginView, LogoutView
@@ -39,24 +39,11 @@ import pandas as pd
   
 def Index(request):
     event_data = Event.objects.all()
-    print(event_data)
     context = {
         'event_data':event_data
     }
     return render(request, 'main/index.html', context)
 
-
-#Recommendation
-def notebook_view(request):
-    notebook_path = os.path.join('main', 'notebook', 'Recommendation_system.ipynb')
-
-    with open(notebook_path, 'r') as f:
-        notebook_content = read(f, as_version=4)
-
-    last_cell_output = notebook_content['cells'][-1]['outputs'][0]['text']
-    recommendations = last_cell_output.split('\n')    
-
-    return render(request, 'main/notebook.html', {'recommendations': recommendations})
 
 
 #Search
@@ -156,7 +143,29 @@ class LoginViewUser(LoginView):
 class LogoutViewUser(LogoutView):
     success_url = reverse_lazy('login')
 
+@login_required
+def profile(request):
+    if request.method == 'POST':
+        #u_form = CustomUserChangeForm(request.POST, instance=request.user)
+        p_form = AudienceProfileForm(request.POST,
+                                   request.FILES,
+                                   instance=request.user.profile)
+        if p_form.is_valid():
+            #u_form.save()
+            p_form.save()
+            messages.success(request, f'Your account has been updated!')
+            return redirect('profile') # Redirect back to profile page
 
+    else:
+        #u_form = CustomUserChangeForm(instance=request.user)
+        p_form = AudienceProfileForm(instance=request.user.profile)
+
+    context = {
+        #'u_form': u_form,
+        'p_form': p_form
+    }
+
+    return render(request, 'main/profile.html', context)
 
 def event_list(request):
     events = Event.objects.all()
@@ -177,7 +186,7 @@ similarity=pickle.load(open("similarity.pkl",'rb'))
 event_lists=pickle.load(open("event_list.pkl",'rb'))
 df = pd.DataFrame(event_lists)
 
-print(event_lists)
+#print(event_lists)
     
 def event_detail(request, event_id):
     # Get the event details based on the event ID
@@ -199,24 +208,6 @@ def event_detail(request, event_id):
 
 
 
-'''
-class EventDetail(DetailView):
-    model = Event
-    template_name = "main/event_detail.html"
-    context_object_name = "event"
-    
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-
-        # Get similar events using the recommendation function
-        similar_events = recommend(self.object)
-
-        # Add the result to the context
-        context['similar_events'] = similar_events
-
-        return context
-
-'''
 
 def eventcategory(request):
     cat = Category.objects.all()
