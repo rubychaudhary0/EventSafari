@@ -60,14 +60,12 @@ class OrganizerRequiredMixin(UserPassesTestMixin):
         return redirect('signuporganizer')
 
 class EventCreationView(OrganizerRequiredMixin, CreateView):
-    model = Event  # Replace with your actual event model
-    form_class = EventCreation  # Replace with your actual event creation form
+    model = Event  
+    form_class = EventCreation  
     template_name = 'organizer/create_event.html'
-    success_url = reverse_lazy('dashboard')  # Replace with your success URL
+    success_url = reverse_lazy('dashboard')  
 
     def form_valid(self, form):
-        # Customize any additional logic when the form is valid
-        # For example, set the organizer field of the event to the current user
         form.instance.organizer = self.request.user
         messages.success(self.request, "The event was created successfully.")
         return super().form_valid(form)

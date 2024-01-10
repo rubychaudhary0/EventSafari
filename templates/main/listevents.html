@@ -65,6 +65,16 @@
     /* Scrollable contents if viewport is shorter than content. */
   }
 
+  .darken-image {
+    filter: brightness(0.5);
+    /* Adjust the value as needed (0.7 is an example) */
+  }
+
+  .form-control {
+    max-width: 1200px;
+
+  }
+
   .form-control:focus {
     box-shadow: none;
   }
@@ -77,9 +87,12 @@
   }
 
   .form-control::placeholder {
-    font-size: 1.5rem;
+
     color: #aaa;
     font-style: italic;
+  }
+  .search-btn{
+    margin-left: -5px;
   }
 </style>
 {% endblock %}
@@ -168,28 +181,51 @@
 
 
   <!-- Background image -->
-  <div class="bg-image vh-100" style="
-      margin-top: -58.59px;
-      background-image: url('https://mdbcdn.b-cdn.net/img/new/fluid/city/018.jpg');">
+  <div class="bg-image" style="height:450px; margin-top: -58.59px;
+            background-image: url('/media/images/signup-bg.jpg');">
+    <div class="mask" style="background-color: hsla(0, 0%, 0%, 0.6)">
+    <div class="container-fluid d-flex justify-content-center align-items-center h-100 text-white">
+      <div class="text-center">
+        <h1 class="custom-text-4"><b>Find Your Perfect Event.</b></h1>
+        <p class="custom-text-4">Search for Events, Clubs, gig guide, Club Nights, Theatre and more. Buy your
+          tickets or get on the guestlist for free</p>
+        <br>
+        <form action="{% url 'search_results' %}" method="get">
+
+          <div class="input-group w-auto">
+            <input type="search" name="q" placeholder="Search any keyword..." class="form-control me-2 rounded-5"
+              aria-describedby="button-addon1" />
+               <button class="btn custom-btn-1 search-btn" type="button" id="button-addon1">Search</button>
+
+          </div>
+
+        </form>
+      </div>
+    </div>
+  </div>
   </div>
 
 </header>
 
+
 <main class="custom-text-4">
+
+
+
   <br>
   <br>
-  <form action="{% url 'search_results' %}" method="get" class="d-flex mt-0 mb-0">
-    <input type="search" name="q" placeholder="Search any keyword..." class="form-control me-2 rounded-9" />
-  </form>
+
   <div class="main-area mx-5">
 
     <br>
     <div class="container mb-5">
       <h2 class="text-center custom-text-2"><b>Featured Events</b></h2>
+
+
     </div>
     {% include 'main/partials/list.html' %}
 
-    
+
   </div>
 
 

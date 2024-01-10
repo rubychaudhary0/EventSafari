@@ -1,6 +1,18 @@
 {% load hosts %}
+{% block css %}
+<style>
+    .card-img-top{
+  height: 180px;
+}
+.a{
+    color: #006241 !important;
+    font-family: Quicksand !important;
+}
 
-<div class="row row-cols-1 row-cols-md-4 g-4 custom-text-4" id="load">
+</style>
+{% endblock %}
+
+<div class="row row-cols-1 row-cols-md-4 g-4 custom-text-4 mb-5" id="load">
     {% for i in page_obj %}
     <div class="col">
         <div class="card h-100">
@@ -15,11 +27,11 @@
     </div>
     {% endfor %}
 </div>
-
+<br>
 {% if page_obj.has_next %}
 
 <div class="row row-cols-1 row-cols-md-4 g-4" id="load-more">
-        <button class="btn btn-primary" hx-get="{% url 'listevents' %}?page={{page_obj.next_page_number}}"
-            hx-target="#load-more" hx-swap="outerHTML">See More</button>
+        <div  hx-get="{% url 'listevents' %}?page={{page_obj.next_page_number}}"
+            hx-target="#load-more" hx-swap="outerHTML"><button class="btn custom-btn-2">See More</button></div>
 </div>
 {% endif %}

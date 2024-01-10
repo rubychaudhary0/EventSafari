@@ -78,3 +78,6 @@
   margin-right: -15px;
 }
   
+.card-img-top{
+  max-height: 50px;
+}

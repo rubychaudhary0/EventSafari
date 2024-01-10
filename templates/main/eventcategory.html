@@ -1,5 +1,6 @@
 {% extends 'main/basic.html' %}
 {% load static %}
+{% load hosts %}
 {% block title %}
 {% endblock %}
 {% block css %}
@@ -7,7 +8,98 @@
 {% endblock %}
 
 {% block body%}
+
+<header>
+   
+    <!-- Navbar -->
+    <nav class="navbar navbar-expand-lg bg-body-tertiary custom-text-4">
+        <!-- Container wrapper -->
+        <div class="container">
+            <!-- Toggle button -->
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
+                data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false"
+                aria-label="Toggle navigation">
+                <span class="fas fa-bars"></span>
+            </button>
+
+
+            <!-- Collapsible wrapper -->
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                <!-- Navbar brand -->
+                <a class="navbar-brand mt-2 mt-lg-0" href="#">
+                    <b>EventSafari</b>
+                </a>
+                <!-- Left links -->
+                <ul class="navbar-nav ms-3 me-auto mb-2 mb-lg-0">
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'listevents' %}">Find Events</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="http://services.eventsafari.com:8000/">Create Events</a>
+                    </li>
+
+                    
+                </ul>
+
+                <!-- Left links -->
+            </div>
+            <!-- Collapsible wrapper -->
+
+            <!-- Right elements -->
+            <div class="d-flex align-items-center">
+                <!-- Icon -->
+               
+                <a class="nav-link" href="/search">
+                    <form class="d-flex mt-0 mb-0">
+                        <input class="form-control me-2 rounded-9" type="search" placeholder="Search"
+                            aria-label="Search">
+                    </form>
+                </a>
+            
+
+
+                {% if user.is_authenticated %}
+                <!-- Avatar -->
+                <div class="dropdown ms-5">
+                    <a data-mdb-dropdown-init class="dropdown-toggle d-flex align-items-center hidden-arrow" href="#"
+                        id="navbarDropdownMenuAvatar" role="button" aria-expanded="false">
+                        <img src="https://mdbcdn.b-cdn.net/img/new/avatars/2.webp" class="rounded-circle" height="25"
+                            alt="Black and White Portrait of a Man" loading="lazy" />
+                    </a>
+                    <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdownMenuAvatar">
+                        <li>
+                            <a class="dropdown-item" href="#">My profile</a>
+                        </li>
+                        <li>
+                            <a class="dropdown-item" href="#">Settings</a>
+                        </li>
+                        <li>
+                            <a class="dropdown-item" href="{% host_url 'logout' host 'www' %}">Logout</a>
+                        </li>
+                    </ul>
+                </div>
+                {% else %}
+                <a class="nav-link mx-5 text-dark" text-dark href="{% host_url 'login' host 'www' %}"><b>Log In</b></a>
+
+                <a class="btn custom-btn-1" href="{% host_url 'signup' host 'www' %}" role="button"><b>Register</b></a>
+                {% endif %}
+            </div>
+            <!-- Right elements -->
+        </div>
+        <!-- Container wrapper -->
+    </nav>
+    <!-- Navbar -->
+    </header>
+
+
+<div class="container">
+    <div class="row">
  {% for i in cat %}
- <a href="{% url 'event-cat' i.cat_id %}">{{i.name}}</a><br>
+ <div class="col">
+ <a href="{% url 'event-cat' i.cat_id %}" hx-get="{% url 'event-cat' i.cat_id %}" hx-target="#main-content">{{i.name}}</a><br>
+ </div>
  {% endfor %}
+ </div>
+ </div>
+ <div id="main-content" class="container pt-4"></div>
 {% endblock %}

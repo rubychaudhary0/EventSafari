@@ -30,8 +30,7 @@ from nbconvert import HTMLExporter
 from nbformat import read
 import os
 
-from .utils import load_recommendation_model
-from .recommendation import recommend, load_event_data
+
 
 import pickle 
 import pandas as pd
@@ -49,6 +48,7 @@ def Index(request):
 #Search
 def search(request): 
      return render(request, 'main/search.html')  
+
 
 class SearchResultsList(ListView):
     model = Event
@@ -110,7 +110,7 @@ class RegisterView(CreateView):
                     message=message,
                     from_email=settings.EMAIL_HOST_USER,
                     recipient_list= [to_email],
-                    fail_silently=False,    # if it fails due to some error or email id then it get silenced without affecting others
+                    fail_silently=False,    
                 )
                 messages.success(request, "Link has been sent to your email id. please check your inbox and if its not there check your spam as well.")
                 return self.render_to_response({'form':form})
@@ -172,7 +172,6 @@ def event_list(request):
     paginator = Paginator(events, 4)
     page_number = request.GET.get('page', 1)
     page_obj = paginator.get_page(page_number)
-
     context = {'page_obj': page_obj}
 
     if request.htmx:
@@ -192,6 +191,7 @@ def event_detail(request, event_id):
     # Get the event details based on the event ID
     event = get_object_or_404(Event, pk=event_id)
     
+
     filtered_df = df[df['title'] == event]
     
     if not filtered_df.empty:
@@ -204,7 +204,7 @@ def event_detail(request, event_id):
         index = None
         recommended_events = []
     
-    return render(request, 'main/event_detail.html', {'event': event, 'recommended_events':recommended_events})
+    return render(request, 'main/event_detail.html',  {'event': event, 'recommended_events': recommended_events})
 
 
 

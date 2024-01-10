@@ -1,5 +1,6 @@
 {% extends 'main/basic.html' %}
 {% load static %}
+{% load hosts %}
 {% block title %}
 {% endblock %}
 {% block css %}
@@ -7,7 +8,25 @@
 {% endblock %}
 
 {% block body%}
- {% for i in events %}
- <a href="">{{i.title}}</a><br>
- {% endfor %}
+
+{% for i in cats %}
+Events In {{i.name}}
+{%  endfor %}
+<div class="row row-cols-1 row-cols-md-4 g-4">
+    {% for i in events %}
+    <ul>
+        <div class="col">
+            <div class="card h-100">
+                <img src="/media/{{i.image}}" class="card-img-top" alt="...">
+                <div class="card-body">
+                    <h5 class="card-title">
+                    <a href="{% host_url 'eventdetail' event_id=i.event_id host 'www' %}">{{i.title}}</a>
+                    </h5>
+                    <p class="card-text">{{i.venue}}</p>
+                </div>
+            </div>
+        </div>
+    </ul>
+    {% endfor %}
+</div>
 {% endblock %}
