@@ -1,25 +1,23 @@
  .background-custom {
-    background-color: #006241;
+    background-color: #00472f;
   }
 
   .background-custom-2{
-    background-color: #7ea45e;
+    background-color: #e0ebe7;
   }
 
   .background-custom-3{
-    background-color: #ffdadf;
+    background-color: whitesmoke;
   }
 
   .background-custom-4{
     background-color: #ffb100;
   }
 
-  .icon-color{
-    color: #7ea45e !important;
-  }
+  
   
   .navbar-brand {
-    color: #006241 !important;
+    color: #00472f !important;
     font-family: Quicksand !important;
     font-size: x-large !important; 
   }
@@ -28,20 +26,20 @@
     background-color: #ffb100;
     border-radius: 10px;
     font-family: Quicksand !important;
-    color: #000000;
+    color: #00291b;
     font-weight: 500;
   }
   
   .custom-btn-2 {
-    border: 2px solid #006241;
+    border: 2px solid #00472f;
     border-radius: 10px;
     font-family: Quicksand !important;
-    color: #006241;
+    color: #00472f;
     font-weight: 500;
   }
   
   .custom-btn-3 {
-    background-color: #006241;
+    background-color: #00472f;
     border-radius: 30px;
     font-family: Quicksand !important;
     color: #ffffff;
@@ -54,12 +52,12 @@
   }
 
   .custom-text-2 {
-    color: #000000 !important;
+    color: #00291b !important;
     font-family: Quicksand !important;
   }
 
   .custom-text-3 {
-    color: #ffc0c0 !important;
+    color: #c6ecdf !important;
     font-family: Quicksand !important;
   }
 
@@ -68,16 +66,5 @@
   }
 
 
-  .icon-background{
-    background: #ffc0c0;
-    
-}
-
-.event-row{
-  margin-left: -15px;
-  margin-right: -15px;
-}
   
-.card-img-top{
-  max-height: 50px;
-}
+  

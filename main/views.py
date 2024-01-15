@@ -143,6 +143,7 @@ class LoginViewUser(LoginView):
 class LogoutViewUser(LogoutView):
     success_url = reverse_lazy('login')
 
+
 @login_required
 def profile(request):
     if request.method == 'POST':
@@ -281,3 +282,5 @@ class DeleteFromCart(LoginRequiredMixin, DeleteView):
     model = EventInCart
     success_url = reverse_lazy("displaycart")  
 
+def checkout(request):
+    return render(request, 'main/checkout.html')

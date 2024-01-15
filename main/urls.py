@@ -30,7 +30,7 @@ urlpatterns = [
     path('displaycart/', views.DisplayCart.as_view(), name="displaycart"),
     path('updatecart/<int:pk>/', views.UpdateCart.as_view(), name="updatecart"),
     path('deletefromcart/<int:pk>/', views.DeleteFromCart.as_view(), name="deletefromcart"),
-
+    path('checkout', views.checkout, name='checkout'),
 
     #path('api/listeventsapi/', views.listEventsApi, name="listeventsapi"),
    # path('api/suggestionapi/', views.suggestionApi, name="suggestionapi"),

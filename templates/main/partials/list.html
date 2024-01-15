@@ -4,11 +4,16 @@
     .card-img-top{
   height: 180px;
 }
-.a{
-    color: #006241 !important;
+.card-title{
+    color: #00472f !important;
     font-family: Quicksand !important;
 }
-
+.icon-color{
+    color: #00472f !important;
+}
+.see{
+    margin-left: 525px;
+}
 </style>
 {% endblock %}
 
@@ -18,10 +23,10 @@
         <div class="card h-100">
             <img src="/media/{{i.image}}" class="card-img-top" alt="...">
             <div class="card-body">
-                <h5 class="card-title"><a href="{% host_url 'eventdetail' event_id=i.event_id host 'www' %}">{{i.title}}</a>
+                <h5 class="card-title"><a href="{% host_url 'eventdetail' event_id=i.event_id host 'www' %}"><b>{{i.title}}</b></a>
                 </h5>
-                <p class="card-text">{{i.venue}}</p>
-                <p class="card-text">{{i.start_date}}</p>
+               
+                <p class="card-text"> <i class="fas fa-location-dot me-2 icon-color"></i>{{i.venue}}</p>
             </div>
         </div>
     </div>
@@ -31,7 +36,7 @@
 {% if page_obj.has_next %}
 
 <div class="row row-cols-1 row-cols-md-4 g-4" id="load-more">
-        <div  hx-get="{% url 'listevents' %}?page={{page_obj.next_page_number}}"
-            hx-target="#load-more" hx-swap="outerHTML"><button class="btn custom-btn-2">See More</button></div>
+        <div class="see" hx-get="{% url 'listevents' %}?page={{page_obj.next_page_number}}"
+            hx-target="#load-more" hx-swap="outerHTML"><button class="btn custom-btn-2 mb-5">See More</button></div>
 </div>
 {% endif %}

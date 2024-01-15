@@ -1,0 +1,47 @@
+{% extends 'main/basic.html' %}
+{% load hosts %}
+{% load static %}
+{% load myfilters %}
+{% block title %}
+{% endblock %}
+{% block css %}
+{% endblock %}
+
+{% block body%}
+<div class="container p-5 m-5 text-success border">
+    <h3>Checkout</h3>
+    <hr>
+    <h5>How would you like to pay?</h5>
+    <a class="btn btn-outline-success my-5" href="#" role="button">Card</a>
+    <a class="btn btn-outline-success my-10" href="#" role="button">Esewa</a>
+    <hr>
+    <h5>Card Details</h5>
+
+    <form>
+        <div class="row mb-3">
+          <label for="exampleInputEmail1" class="col-sm-2 col-form-label">Card Number</label>
+          <div class="col-sm-10">
+            <input type="text" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp">
+          </div>
+        </div>
+        <div class="row mb-3">
+            <label for="exampleInputEmail1" class="col-sm-2 col-form-label">Expiry Date</label>
+            <div class="col-sm-10">
+              <input type="text" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp">
+            </div>
+          </div>
+          <div class="row mb-3">
+            <label for="exampleInputEmail1" class="col-sm-2 col-form-label">Security Code</label>
+            <div class="col-sm-10">
+              <input type="text" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp">
+            </div>
+          </div>
+        
+          <a class="btn btn-success my-10 text-light" href="#" role="button">Purchase</a>
+      </form>
+
+</div> 
+<div class="container-fluid p-5 bg-success text-white">
+  <center><h4>FOOTER</h4></center>
+</div>
+{% endblock %}

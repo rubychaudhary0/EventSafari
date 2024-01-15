@@ -14,10 +14,12 @@
     }
 
     .background-custom {
-        background-color: #006241;
+        background-color: #00472f;
     }
 
-    
+    .navbar{
+        background-color: #e0ebe7 !important;
+    }
   
 
     @media (min-width: 768px) {
@@ -41,7 +43,7 @@
     /* Padding below the footer and lighter body text */
 
     body {
-        color: #5a5a5a;
+        background-color: #e0ebe7;
     }
 
 
@@ -125,6 +127,9 @@
                 <!-- Left links -->
                 <ul class="navbar-nav ms-3 me-auto mb-2 mb-lg-0">
                     <li class="nav-item">
+                        <a class="nav-link" href="{% url 'index' %}">Home</a>
+                    </li>
+                    <li class="nav-item">
                         <a class="nav-link" href="{% url 'listevents' %}">Find Events</a>
                     </li>
                     <li class="nav-item">
@@ -190,9 +195,10 @@
         <div class="row gx-0">
             <div class="col-md-7 p-lg-5 p-md-10 d-flex flex-column justify-content-center align-items-center">
                 <h1 class="display-3 fw-bold custom-text-3">Discover Events With EventSafari</h1>
-                <p class="lead fw-normal text-start text-white custom-text-4">For all your event ticketing needs, from small
+                <p class="text-start text-white custom-text-4">For all your event ticketing needs, from small
                     gatherings to the large festivals, our event booking system has you covered.</p>
-                <a class="btn custom-btn-1 btn-lg" href="#">Find Events</a>
+                <br>
+                    <a class="btn custom-btn-1 btn-lg" href="#">Find Events</a>
             </div>
             <div class="col-md-5 p-lg-5 text-center bg-image hover-zoom">
                 <img src="media/images/colors.jpg" class="img-fluid rounded-9 rotate-lg" alt="Author image">

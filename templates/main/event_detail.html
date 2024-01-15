@@ -16,57 +16,92 @@
         background-color: white;
         padding: 10px;
     }
+    body{
+        background-color: #e0ebe7;
+    }
+    h4{
+        margin-left: 70px;
+    }
+    .book{
+        margin-left: 100px;
+    }
+    .contact{
+        margin-left: 15px;
+    }
+    .title{
+        background-color: #f0f4f3;
+    }
 </style>
 {% endblock %}
 
 {% block body%}
 
 
-    <div class="container bg-light custom-text-4">
+<div class="container-fluid bg-light custom-text-4 shadow-5-strong title">
+    <div class="row">
+        <div class="col-9 custom-text-1 p-3">
+            <h4><b>{{event.title}}</b></h4>
+        </div>
+        <div class="col-3 text-success p-3">
+            <a href="{% url 'addtocart' id=event.event_id %}"> <button type="button" class="btn custom-btn-1 book">Book
+                    Now</button></a>
+        </div>
+    </div>
+</div>
+
+<!-- Section: Split screen -->
+<section class="">
+
+    <div class="container-fluid">
         <div class="row">
-            <div class="col-9 custom-text-1 p-3">
-                <h4>{{event.title}}</h4>
+            <div class="col-lg-8">
+
+
+                <div class="container m-5 custom-text-4">
+                    <div class="container-fluid">
+                        <img src="/media/{{event.image}}" class="img-fluid mx-auto d-block" alt="...">
+                    </div>
+                    <div class="container-fluid p-3">
+                        <h6>ABOUT</h6>
+                        <p>
+                            {{event.event_description}}
+                        </p>
+
+                        <br>
+
+                        <h6>DATE</h6>
+                        <p>
+                            {{event.start_date}}
+                        </p>
+
+                        <br>
+
+                        <h6>LOCATION</h6>
+                        <p>
+                            {{event.venue}}
+                        </p>
+                    </div>
+
+                    <a class="btn custom-btn-2 contact" href="#" role="button">Contact Organizer</a>
+                </div>
             </div>
-            <div class="col-3 text-success p-3">
-               <a href="{% url 'addtocart' id=event.event_id %}"> <button type="button" class="btn custom-btn-1">Book Now</button></a>
+
+
+
+            <div class="col-lg-3 vh-100 m-5">
+
+                <h5 class="text-center custom-text-1"><b>Similar Events</b></h5>
+                <ul>
+                    {% for recommended_event in recommended_events %}
+                    <li>{{ recommended_event.title }}</li>
+                    {% endfor %}
+                </ul>
             </div>
         </div>
     </div>
-    
-    <div class="container m-5 custom-text-4">
-    <div class="container-fluid">
-        <img src="/media/{{event.image}}" class="img-fluid mx-auto d-block" alt="...">
-    </div> 
-        <div class="container-fluid p-3">
-        <h6>ABOUT</h6>
-        <p>
-            {{event.event_description}}
-        </p>
 
-             <br>
+</section>
+<!-- Section: Split screen -->
 
-             <h6>DATE</h6>
-        <p>
-            {{event.start_date}}
-        </p>
 
-        <br>
-
-        <h6>LOCATION</h6>
-        <p>
-            {{event.venue}}
-        </p>
-     </div>
-
-     <a class="btn custom-btn-2" href="#" role="button">Contact Organizer</a>
-     <br>
-     <br>
-     <h3>Recommended Events:</h3>
-     <ul>
-         {% for recommended_event in recommended_events %}
-             <li>{{ recommended_event.title }}</li>
-         {% endfor %}
-     </ul>
-
-</div>
 {% endblock %}
