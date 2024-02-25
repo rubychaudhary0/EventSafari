@@ -24,13 +24,7 @@ from .manager import CustomUserManager
 
 
 class LowercaseEmailField(models.EmailField):
-    """
-    Override EmailField to convert emails to lowercase before saving.
-    """
     def to_python(self, value):
-        """
-        Convert email to lowercase.
-        """
         value = super(LowercaseEmailField, self).to_python(value)
         # Value can be None so check that it's a string before lowercasing.
         if isinstance(value, str):
@@ -186,6 +180,13 @@ class Cart(models.Model):
 
     objects = CartManager()
 
+    def subtotal(self):
+        events_in_cart = EventInCart.objects.filter(cart=self)
+        total = 0
+        for event_in_cart in events_in_cart:
+            total += event_in_cart.event.price * event_in_cart.quantity
+        return total
+
     def __str__(self):
 	    return f"Cart for {self.user.name}"
 
@@ -196,10 +197,20 @@ class EventInCart(models.Model):
     cart = models.ForeignKey(Cart, on_delete = models.CASCADE)
     event = models.ForeignKey(Event, on_delete = models.CASCADE)
     quantity = models.PositiveIntegerField()
-     
+
+
     def __str__(self):
 	     return f"Event: {self.event.title}"
 
+
+class Payment(models.Model):
+    pidx = models.CharField(max_length=100)
+    transaction_id = models.CharField(max_length=100)
+    amount = models.DecimalField(max_digits=10, decimal_places=2)
+    mobile = models.CharField(max_length=20)
+    purchase_order_id = models.CharField(max_length=100)
+    purchase_order_name = models.CharField(max_length=100)
+    status = models.CharField(max_length=20)
 
 '''
 

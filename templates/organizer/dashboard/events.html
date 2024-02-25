@@ -1,1 +1,61 @@
-<h1>Your Events</h1>
+
+{% extends 'organizer/basic.html' %}
+{% load static %}
+{% load hosts %}
+{% block title %}
+{% endblock %}
+
+
+{% block body%}
+<div class="container">
+    <h1 class="custom-text-2">Your Events</h1>
+    <br>
+   {% block css %}
+<style>
+    .card-img-top{
+  height: 180px;
+}
+.lead{
+    color: #00472f !important;
+    font-family: Quicksand !important;
+} 
+.icon-color{
+    color: #00472f !important;
+}
+.see{
+    margin-left: 525px;
+}
+
+.custom-btn-4 {
+    border: 0.5px solid red;
+    border-radius: 10px;
+    font-family: Rubik !important;
+    color: red;
+    font-weight: 500;
+}
+</style>
+{% endblock %}
+
+<div class="row row-cols-1 row-cols-md-3 g-4 custom-text-4 mb-5" id="load">
+    {% for event in event %}
+    <div class="col">
+        <div class="card h-100 shadow-5-strong">
+            <img src="/media/{{event.image}}" class="card-img-top" alt="...">
+            <div class="card-body">
+                
+                <p class="lead">{{event.title}}</p>
+               
+                <a class="btn custom-btn-1" href="{% url 'edit_event' event_id=event.event_id %}" role="button"><b>Edit</b></a>
+                <a class="btn custom-btn-4" href="{% url 'delete_event' event_id=event.event_id %}" role="button">Delete</a>
+                
+            </div>
+            
+        </div>
+    </div>
+   
+    {% endfor %}
+</div>
+    
+</div>
+
+{% endblock %}

@@ -1,6 +1,6 @@
 from django.urls import path
 from . import views
-from .views import EventCreationView
+from .views import EventCreationView, update_view, delete_view
 
 from django.conf import settings
 from django.conf.urls.static import static
@@ -16,6 +16,8 @@ urlpatterns = [
     path('home/', views.home, name="home"),
     path('events/', views.events, name="events"),
     path('create/', EventCreationView.as_view(),name='event-create'),
+    path('<event_id>/edit/', update_view, name='edit_event'),
+    path('<event_id>/delete/', delete_view, name='delete_event'),
     
 ]
 

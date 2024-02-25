@@ -101,7 +101,19 @@
 
 <!--Main layout-->
 <main style="margin-top: 58px;">
-  <div id="main-content" class="container pt-4"></div>
+  <div id="main-content" class="container pt-5">
+    <div class="container">
+      <h1 class="custom-text-2 mx-5">Welcome,   {{ user.name }}!
+          {% if user.is_staff %}
+             (Admin)
+          {% endif %}
+        </h1>
+        <div class="container image">
+        <img src="/media/images/illustration.jpeg" class="rounded mx-auto d-block" alt="...">
+        </div>
+  </div>
+    
+  </div>
 </main>
 <!--Main layout-->
 

@@ -20,7 +20,7 @@
 <div class="row row-cols-1 row-cols-md-4 g-4 custom-text-4 mb-5" id="load">
     {% for i in page_obj %}
     <div class="col">
-        <div class="card h-100">
+        <div class="card h-100 shadow-5-strong">
             <img src="/media/{{i.image}}" class="card-img-top" alt="...">
             <div class="card-body">
                 <h5 class="card-title"><a href="{% host_url 'eventdetail' event_id=i.event_id host 'www' %}"><b>{{i.title}}</b></a>

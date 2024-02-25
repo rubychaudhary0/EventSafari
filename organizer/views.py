@@ -1,4 +1,4 @@
-from django.shortcuts import render, HttpResponse, redirect
+from django.shortcuts import render, HttpResponseRedirect, redirect, get_object_or_404
 from django.views.generic import TemplateView, FormView, CreateView
 from django.core.exceptions import ValidationError
 from main.forms import RegistrationForm, RegistrationFormSeller2, EventCreation
@@ -10,6 +10,7 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from django.views import View
 from django.contrib import messages
 from django.contrib.auth.mixins import UserPassesTestMixin
+from bootstrap_datepicker_plus.widgets import DateTimePickerInput
 # Create your views here.
 
 def index(request):
@@ -17,7 +18,7 @@ def index(request):
 
 class LoginViewUser(LoginView):
     template_name = "organizer/login.html"
-    #success_url = reverse_lazy('dashboard')
+    success_url = reverse_lazy('dashboard')
 
 class RegisterViewSeller(LoginRequiredMixin, CreateView):
     template_name = 'organizer/register.html'
@@ -43,13 +44,18 @@ class RegisterView(CreateView):
 
 @login_required
 def dashboard(request):
-    return render(request, 'organizer/dashboard/dashboard.html')
+    user_data = CustomUser.objects.all()
+    context = {
+        'user_data':user_data
+    }
+    return render(request, 'organizer/dashboard/dashboard.html', context)
 
 def home(request):
     return render(request, 'organizer/dashboard/home.html')
 
 def events(request):
-    return render(request, 'organizer/dashboard/events.html')
+    event = Event.objects.filter(organizer=request.user)
+    return render(request, 'organizer/dashboard/events.html', {'event': event})
 
 
 class OrganizerRequiredMixin(UserPassesTestMixin):
@@ -67,8 +73,39 @@ class EventCreationView(OrganizerRequiredMixin, CreateView):
 
     def form_valid(self, form):
         form.instance.organizer = self.request.user
+        form.fields["pub_date"].widget = DateTimePickerInput()
         messages.success(self.request, "The event was created successfully.")
         return super().form_valid(form)
 
 
+def update_view(request, event_id): 
+    
+    context ={}
+ 
+    obj = get_object_or_404(Event, event_id = event_id)
 
+    form = EventCreation(request.POST or None, instance = obj)
+ 
+    if form.is_valid():
+        form.save()
+        return redirect(reverse_lazy('dashboard'))
+ 
+    context["form"] = form
+ 
+    return render(request, "organizer/update_view.html", context)
+
+
+def delete_view(request, event_id):
+    
+    context ={}
+ 
+    obj = get_object_or_404(Event, event_id = event_id)
+ 
+ 
+    if request.method =="POST":
+       
+        obj.delete()
+        
+        return redirect(reverse_lazy('dashboard'))
+ 
+    return render(request, "organizer/delete_view.html", context)

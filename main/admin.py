@@ -1,7 +1,7 @@
 from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin, UserAdmin as BaseUserAdmin
 from .forms import CustomUserChangeForm, CustomUserCreationForm
-from .models import CustomUser, OrganizerAdditional,  AudienceAdditional, Audience, Organizer, Event, Cart, EventInCart, Category
+from .models import CustomUser, OrganizerAdditional,  AudienceAdditional, Audience, Organizer, Event, Cart, EventInCart, Category, Payment
 
 class OrganizerAdditionalInline(admin.TabularInline):
     model = OrganizerAdditional
@@ -45,3 +45,4 @@ admin.site.register(Audience)
 admin.site.register(Organizer, OrganizerAdmin)
 admin.site.register(OrganizerAdditional)
 admin.site.register(AudienceAdditional)
+admin.site.register(Payment)

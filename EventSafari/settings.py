@@ -56,6 +56,9 @@ INSTALLED_APPS = [
     'django.contrib.postgres',
     'django_htmx',
     'tinymce',
+    'bootstrap_datepicker_plus',
+    'rest_framework',
+    'khalti',
 ]
 
 MIDDLEWARE = [
@@ -177,7 +180,7 @@ AUTH_USER_MODEL = 'main.CustomUser'
 
 
 LOGIN_URL = 'login'
-LOGIN_REDIRECT_URL = 'index'
+LOGIN_REDIRECT_URL = 'dashboard'
 LOGOUT_REDIRECT_URL = 'login'
 
 from django.contrib.messages import constants as messages
@@ -201,3 +204,6 @@ TINYMCE_DEFAULT_CONFIG = {
     'custom_undo_redo_levels': 20,
     # Add more options as needed
 }
+
+KHALTI_SECRET_KEY = '2b42c82c0d0a4398a0d75c91b5db17b6' 
+KHALTI_VERIFY_URL = 'https://khalti.com/api/v2/payment/verify/'

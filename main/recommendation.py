@@ -68,7 +68,8 @@ def load_event_data():
 
 # Read the result into a pandas DataFrame
 #data = pd.DataFrame(cursor.fetchall(), columns=[col.name for col in cursor.description])
-df = load_event_data()  
+df = load_event_data() 
+df_original = df 
 
 # In[129]:
 
@@ -144,7 +145,7 @@ df
 # In[138]:
 
 
-df = df[["event_id","title","tag"]]
+df = df[["event_id","title","image","venue","tag"]]
 df
 
 
@@ -350,8 +351,8 @@ with open('recommendation_model.pkl', 'wb') as model_file:
         'df': df
     }, model_file)
 '''
-pickle.dump(df,open('recommended_events.pkl','wb'))
-pickle.dump(similarity,open('similarity.pkl','wb')) 
+pickle.dump(df_original,open('event_list.pkl','wb'))
+#pickle.dump(similarity,open('similarity.pkl','wb')) 
 
 
 # %%

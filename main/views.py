@@ -2,9 +2,9 @@ from django.shortcuts import render, HttpResponse, redirect, get_object_or_404
 from django.http import JsonResponse
 from django.views.generic import TemplateView, FormView, CreateView, ListView, UpdateView, DeleteView, DetailView, View
 from django.core.exceptions import ValidationError
-from .forms import  RegistrationForm, CartForm, CustomUserChangeForm, AudienceProfileForm
+from .forms import  RegistrationForm, CartForm, CustomUserChangeForm, AudienceProfileForm, PaymentForm
 from django.urls import reverse_lazy, reverse
-from .models import CustomUser, Event, Cart, EventInCart, Category
+from .models import CustomUser, Event, Cart, EventInCart, Category, Payment
 from django.contrib.auth.views import LoginView, LogoutView
 from django.contrib.auth.mixins import LoginRequiredMixin
 
@@ -29,7 +29,8 @@ from django.contrib.postgres.search import SearchVector,  SearchQuery, SearchRan
 from nbconvert import HTMLExporter
 from nbformat import read
 import os
-
+import requests
+import json
 
 
 import pickle 
@@ -45,7 +46,7 @@ def Index(request):
 
 
 
-#Search
+
 def search(request): 
      return render(request, 'main/search.html')  
 
@@ -147,22 +148,18 @@ class LogoutViewUser(LogoutView):
 @login_required
 def profile(request):
     if request.method == 'POST':
-        #u_form = CustomUserChangeForm(request.POST, instance=request.user)
         p_form = AudienceProfileForm(request.POST,
                                    request.FILES,
                                    instance=request.user.profile)
         if p_form.is_valid():
-            #u_form.save()
             p_form.save()
             messages.success(request, f'Your account has been updated!')
-            return redirect('profile') # Redirect back to profile page
+            return redirect('profile') 
 
     else:
-        #u_form = CustomUserChangeForm(instance=request.user)
         p_form = AudienceProfileForm(instance=request.user.profile)
 
     context = {
-        #'u_form': u_form,
         'p_form': p_form
     }
 
@@ -179,41 +176,48 @@ def event_list(request):
         return render(request, 'main/partials/list.html', context)
     return render(request, 'main/listevents.html', context)
 
+# Get the base directory of the Django project
+BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
+# Construct the path to the pickled files
+similarity_path = os.path.join(BASE_DIR, 'main', 'similarity.pkl')
+event_list_path = os.path.join(BASE_DIR, 'main', 'event_list.pkl')
 
-#recommended=pickle.load(open(".pkl",'rb'))
-similarity=pickle.load(open("similarity.pkl",'rb'))
-event_lists=pickle.load(open("event_list.pkl",'rb'))
+# Load the pickled data and recommendation model
+similarity = pickle.load(open(similarity_path, 'rb'))
+event_lists = pickle.load(open(event_list_path, 'rb'))
 df = pd.DataFrame(event_lists)
 
-#print(event_lists)
-    
+
 def event_detail(request, event_id):
     # Get the event details based on the event ID
     event = get_object_or_404(Event, pk=event_id)
     
 
-    filtered_df = df[df['title'] == event]
-    
+    filtered_df = df[df['title'] == event.title]
+
     if not filtered_df.empty:
         index = filtered_df.index[0]
         event_list = sorted(list(enumerate(similarity[index])), reverse=True, key=lambda x: x[1])[1:6]
-        
-        recommended_events = [df.iloc[i[0]].title for i in event_lists]
+
+        recommended_events = [{
+            'title': df.iloc[i[0]].title,
+            'image': df.iloc[i[0]].image,  
+            'venue': df.iloc[i[0]].venue,
+            
+        } for i in event_list]
     else:
-        # Handle the case where the event is not found in the DataFrame
+        
         index = None
         recommended_events = []
-    
-    return render(request, 'main/event_detail.html',  {'event': event, 'recommended_events': recommended_events})
 
-
+    return render(request, 'main/event_detail.html', {'event': event, 'recommended_events': recommended_events})
 
 
 def eventcategory(request):
     cat = Category.objects.all()
-    context = {'cat': cat}
-    return render(request, 'main/eventcategory.html', context)
+    content = render_to_string('main/eventcategory.html', {'cat': cat})
+    return HttpResponse(content)
 
 def ReadCat(request, id):
     cats = Category.objects.get(cat_id = id)
@@ -260,6 +264,13 @@ class DisplayCart(LoginRequiredMixin, ListView):
     def get_queryset(self):
         queryset = EventInCart.objects.filter(cart = self.request.user.cart)
         return queryset
+    
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        cart = self.request.user.cart
+        subtotal = cart.subtotal()
+        context['subtotal'] = subtotal
+        return context
 
 
 class UpdateCart(LoginRequiredMixin, UpdateView):
@@ -284,3 +295,167 @@ class DeleteFromCart(LoginRequiredMixin, DeleteView):
 
 def checkout(request):
     return render(request, 'main/checkout.html')
+
+
+def initiate_payment(request):
+    # Define the API endpoint
+    url = "https://a.khalti.com/api/v2/epayment/initiate/"
+
+    # Define the payload with the required details
+    payload = {
+        "return_url": "https://example.com/payment/",
+        "website_url": "https://example.com/",
+        "amount": 1300,
+        "purchase_order_id": "test12",
+        "purchase_order_name": "test",
+        "customer_info": {
+            "name": "Ashim Upadhaya",
+            "email": "example@gmail.com",
+            "phone": "9811496763"
+        },
+        "amount_breakdown": [
+            {
+                "label": "Mark Price",
+                "amount": 1000
+            },
+            {
+                "label": "VAT",
+                "amount": 300
+            }
+        ],
+        "product_details": [
+            {
+                "identity": "1234567890",
+                "name": "Khalti logo",
+                "total_price": 1300,
+                "quantity": 1,
+                "unit_price": 1300
+            }
+        ]
+    }
+
+    # Convert the payload to JSON
+    payload_json = json.dumps(payload)
+
+    # Define the headers with the authorization key
+    headers = {
+        'Authorization': 'Key <LIVE_SECRET_KEY>',
+        'Content-Type': 'application/json',
+    }
+def initiate_payment(request):
+    # Define the API endpoint
+    url = "https://a.khalti.com/api/v2/epayment/initiate/"
+
+    # Define the payload with the required details
+    payload = {
+        "return_url": "www.eventsafari.com:8000/payment/",
+        "website_url": "www.eventsafari.com:8000",
+        "amount": 1300,
+        "purchase_order_id": "test12",
+        "purchase_order_name": "test",
+        "customer_info": {
+            "name": "Ashim Upadhaya",
+            "email": "example@gmail.com",
+            "phone": "9811496763"
+        },
+        "amount_breakdown": [
+            {
+                "label": "Mark Price",
+                "amount": 1000
+            },
+            {
+                "label": "VAT",
+                "amount": 300
+            }
+        ],
+        "product_details": [
+            {
+                "identity": "1234567890",
+                "name": "Khalti logo",
+                "total_price": 1300,
+                "quantity": 1,
+                "unit_price": 1300
+            }
+        ]
+    }
+
+    # Convert the payload to JSON
+    payload_json = json.dumps(payload)
+
+    # Define the headers with the authorization key
+    headers = {
+        'Authorization': 'Key <2b42c82c0d0a4398a0d75c91b5db17b6>',
+        'Content-Type': 'application/json',
+    }
+
+    # Make the POST request
+    response = requests.post(url, headers=headers, data=payload_json)
+
+    # Extract the response data
+    response_data = response.json()
+
+     # Print the response data for debugging
+    print(response_data)
+
+    # Extract the pidx and payment_url from the response
+    pidx = response_data.get('pidx')
+    payment_url = response_data.get('payment_url')
+
+    # Redirect the user to the payment_url
+    return redirect(payment_url)
+
+def payment_callback(request):
+    # Extract the callback parameters from the request
+    pidx = request.GET.get('pidx')
+    transaction_id = request.GET.get('transaction_id')
+    amount = request.GET.get('amount')
+    mobile = request.GET.get('mobile')
+    purchase_order_id = request.GET.get('purchase_order_id')
+    purchase_order_name = request.GET.get('purchase_order_name')
+
+    # Process the callback parameters as required
+    # For example, update the payment status in your database
+
+    # Return a response to acknowledge the callback
+    return HttpResponse(status=200)
+
+def payment_failure_callback(request):
+    # Extract the failure message from the request
+    message = request.GET.get('message')
+
+    # Display the failure message to the user
+    return HttpResponse(message)
+    # Make the POST request
+    response = requests.post(url, headers=headers, data=payload_json)
+
+    # Extract the response data
+    response_data = response.json()
+
+    # Extract the pidx and payment_url from the response
+    pidx = response_data.get('pidx')
+    payment_url = response_data.get('payment_url')
+
+    # Redirect the user to the payment_url
+    return redirect(payment_url)
+
+def payment_callback(request):
+    # Extract the callback parameters from the request
+    pidx = request.GET.get('pidx')
+    transaction_id = request.GET.get('transaction_id')
+    amount = request.GET.get('amount')
+    mobile = request.GET.get('mobile')
+    purchase_order_id = request.GET.get('purchase_order_id')
+    purchase_order_name = request.GET.get('purchase_order_name')
+
+    # Process the callback parameters as required
+    # For example, update the payment status in your database
+
+    # Return a response to acknowledge the callback
+    return HttpResponse(status=200)
+
+def payment_failure_callback(request):
+    # Extract the failure message from the request
+    message = request.GET.get('message')
+
+    # Display the failure message to the user
+    return HttpResponse(message)

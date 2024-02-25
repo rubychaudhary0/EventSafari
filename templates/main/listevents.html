@@ -14,7 +14,7 @@
     padding-left: 20px;
     padding-right: 20px;
     padding-top: 0px;
-    background-color: #F0F4F3;
+    background-color: #e0ebe7;
     border-radius: 10px;
   }
   .navbar{
@@ -217,7 +217,7 @@
     <div class="input-group w-auto background-custom-3 p-4 mt-n5 shadow-5-strong">
       <input type="search" name="q" placeholder="Search any keyword..." class="form-control me-2 rounded-5 background-custom-2"
         aria-describedby="button-addon1" />
-         <button class="btn custom-btn-1 search-btn" type="button" id="button-addon1">Search</button>
+        
 
     </div>
 
@@ -233,7 +233,14 @@
   <br>
   <br>
 
-  <div class="main-area mx-5 shadow-5-strong">
+  
+
+  <div class="main-area mx-5">
+
+    <div hx-include="{% url 'eventcategory' %}" hx-target="#main-content"></div>
+   
+   
+   <div id="main-content" class="container pt-4"></div>
 
     <br>
     <div class="container mb-5">

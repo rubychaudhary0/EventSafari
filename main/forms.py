@@ -5,6 +5,8 @@ from django.core.exceptions import ValidationError
 from django.core.validators import RegexValidator
 import zoneinfo
 
+from bootstrap_datepicker_plus.widgets import DatePickerInput, TimePickerInput
+
 from timezone_field import TimeZoneFormField
 from tinymce.widgets import TinyMCE
 
@@ -66,7 +68,11 @@ class RegistrationFormSeller2(forms.ModelForm):
 class EventCreation(forms.ModelForm):
     class Meta:
         model = Event
-        widgets = {'content': TinyMCE(attrs={'cols': 40, 'rows': 20})}
+        widgets = {'content': TinyMCE(attrs={'cols': 40, 'rows': 20}),
+                   "start_date": DatePickerInput(),
+                   "end_date": DatePickerInput(range_from="start_date"),
+                   "start_time": TimePickerInput(),
+                   }
         fields = [
             'title',
             'event_description',
@@ -88,7 +94,11 @@ class CartForm(forms.ModelForm):
             'quantity'
         ]
 
-
+class PaymentForm(forms.Form):
+    name = forms.CharField(max_length=100)
+    email = forms.EmailField()
+    phone = forms.CharField(max_length=20)
+    amount = forms.DecimalField(max_digits=10, decimal_places=2)
 '''
 class SendOtpBasicForm(forms.Form):
     phone_regex = RegexValidator( regex = r'^\d{10}$',message = "phone number should exactly be in 10 digits")

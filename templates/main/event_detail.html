@@ -16,19 +16,24 @@
         background-color: white;
         padding: 10px;
     }
-    body{
+
+    body {
         background-color: #e0ebe7;
     }
-    h4{
+
+    h4 {
         margin-left: 70px;
     }
-    .book{
+
+    .book {
         margin-left: 100px;
     }
-    .contact{
+
+    .contact {
         margin-left: 15px;
     }
-    .title{
+
+    .title {
         background-color: #f0f4f3;
     }
 </style>
@@ -91,14 +96,33 @@
             <div class="col-lg-3 vh-100 m-5">
 
                 <h5 class="text-center custom-text-1"><b>Similar Events</b></h5>
-                <ul>
-                    {% for recommended_event in recommended_events %}
-                    <li>{{ recommended_event.title }}</li>
+
+
+
+                <div class="row p-4 mb-5">
+
+                    {% for rec_event in recommended_events %}
+
+                    <div class="col mb-3">
+                        <div class="card h-100 shadow-5-strong">
+                            {% if rec_event.image %}
+                            <img src="/media/{{ rec_event.image }}" alt="{{ rec_event.title }} Image">
+                            {% endif %}
+                            <div class="card-body">
+                                <strong>{{ rec_event.title }}</strong>
+
+                                {% if rec_event.venue %}
+                                <p class="card-text"> <i class="fas fa-location-dot me-2 icon-color"></i>{{ rec_event.venue|join:" " }}</p>
+                                {% endif %}
+                            </div>
+                        </div>
+                    </div>
                     {% endfor %}
-                </ul>
+
+
+                </div>
             </div>
         </div>
-    </div>
 
 </section>
 <!-- Section: Split screen -->

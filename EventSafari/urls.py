@@ -24,4 +24,5 @@ urlpatterns = [
     path('', include('main.urls')),
     path('services/', include('organizer.urls')),
     path('tinymce/', include('tinymce.urls')),
+    path('khalti/', include('khalti.urls')),
 ] 

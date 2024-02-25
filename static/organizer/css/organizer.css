@@ -3,13 +3,13 @@
 }
 .navbar-brand {
     color: #006241 !important;
-    font-family: Acme !important;
+    font-family:Quicksand !important;
 
 }
 
 .nav-item{
     color: black !important;
-    font-family: Rubik;
+    font-family: Quicksand;
     font-weight: bold;
 }
 
@@ -18,7 +18,7 @@
 .custom-btn-1 {
     background-color: #ffb100;
     border-radius: 10px;
-    font-family: Rubik !important;
+    font-family: Quicksand !important;
     color: #000000;
     font-weight: 500;
 }
@@ -26,28 +26,36 @@
 .custom-btn-2 {
     border: 2px solid #006241;
     border-radius: 30px;
-    font-family: Rubik !important;
+    font-family: Quicksand !important;
     color: #006241;
+    font-weight: 500;
+}
+
+.custom-btn-4 {
+    border: 2px solid red;
+    border-radius: 10px;
+    font-family: Quicksand !important;
+    color: red;
     font-weight: 500;
 }
 
 .custom-btn-3 {
     background-color: #006241;
     border-radius: 30px;
-    font-family: Rubik !important;
+    font-family: Quicksand!important;
     color: white;
     font-weight: 500;
 }
 .custom-text{
     color: #006241 !important;
-    font-family: Rubik !important;
+    font-family: Quicksand !important;
 }
 .custom-text-2{
     color: black !important;
-    font-family: Rubik !important;
+    font-family: Quicksand !important;
 }
 .custom-text-3{
-    font-family: Rubik !important;
+    font-family: Quicksand !important;
 }
 
 .banner{

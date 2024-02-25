@@ -4,12 +4,28 @@
 {% block title %}
 {% endblock %}
 {% block css %}
-
+<style>
+.image{
+    width: 100%;
+    max-width: 400px;
+    margin: auto;
+    padding: 20px;
+    border-radius: 5px;
+    color: white;
+}
+</style>
 {% endblock %}
 
 {% block body%}
 <div class="container">
-    <h1>Welcome!!</h1>
+    <h1 class="custom-text-2 mx-5">Welcome,   {{ user.name }}!
+        {% if user.is_staff %}
+           (Admin)
+        {% endif %}
+      </h1>
+      <div class="container image">
+      <img src="/media/images/illustration.jpeg" class="rounded mx-auto d-block" alt="...">
+      </div>
 </div>
 
 {% endblock %}

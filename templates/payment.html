@@ -1,0 +1,13 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Payment</title>
+</head>
+<body>
+    <h1>Make a Payment</h1>
+    <form action="{% url 'initiate_payment' %}" method="post">
+        {% csrf_token %}
+        <input type="submit" value="Pay with Khalti">
+    </form>
+</body>
+</html>
